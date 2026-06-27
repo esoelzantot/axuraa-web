@@ -1,0 +1,25 @@
+.hexagonContainer {
+  position: relative; /* Required for Next.js Image with fill */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.hexagon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+/* Direction and Position Classes */
+.hexagonleftdown {
+  width: 100%;
+  height: 100%;
+}
+
+.hexagonrightup {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,479 @@
+
+/* Horizontal Scroll Container */
+.horizontalScroll {
+  width: 100%;
+  height: auto;
+  /* background-color: red; */
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  user-select: none;
+  flex-wrap: nowrap !important;
+  padding-right: 20px;
+  scroll-padding-right: 10px;
+  cursor: grab;
+  scroll-behavior: smooth;
+}
+
+.horizontalScroll:active {
+  cursor: grabbing;
+}
+
+/* Vertical Scroll Container */
+.verticalScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  user-select: none;
+  flex-wrap: nowrap !important;
+  padding-bottom: 40px;
+  scroll-padding-bottom: 40px;
+  cursor: grab;
+  scroll-behavior: smooth;
+}
+
+.verticalScroll:active {
+  cursor: grabbing;
+}
+
+/* Hide scrollbars */
+.horizontalScroll::-webkit-scrollbar,
+.verticalScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontalScroll,
+.verticalScroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollItem {
+  flex-shrink: 0;
+}
+
+/* Disable text selection during drag */
+.horizontalScroll *,
+.verticalScroll * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Base Styles - Desktop */
+
+/* Horizontal Scroll Container */
+/* .horizontalScroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  user-select: none;
+  flex-wrap: nowrap !important;
+  padding-right: 40px;
+  scroll-padding-right: 40px;
+  cursor: grab;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+} */
+
+.horizontalScroll:active {
+  cursor: grabbing;
+}
+
+/* Vertical Scroll Container */
+/* .verticalScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  user-select: none;
+  flex-wrap: nowrap !important;
+  padding-bottom: 40px;
+  scroll-padding-bottom: 40px;
+  cursor: grab;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+} */
+
+/* .verticalScroll:active {
+  cursor: grabbing;
+} */
+
+/* Hide scrollbars */
+.horizontalScroll::-webkit-scrollbar,
+.verticalScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontalScroll,
+.verticalScroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollItem {
+  flex-shrink: 0;
+}
+
+/* Disable text selection during drag */
+.horizontalScroll *,
+.verticalScroll * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Large Desktop: 1440px+ */
+@media (min-width: 1440px) {
+  .horizontalScroll {
+    gap: 24px;
+    padding-right: 48px;
+    scroll-padding-right: 48px;
+  }
+
+  .verticalScroll {
+    gap: 26px;
+    padding-bottom: 48px;
+    scroll-padding-bottom: 48px;
+  }
+}
+
+/* Desktop: 1200px - 1439px */
+@media (min-width: 1200px) and (max-width: 1439px) {
+ 
+  .horizontalScroll {
+     /* min-width: 100%; */
+    gap: 20px;
+    padding-right: 40px;
+    scroll-padding-right: 40px;
+  }
+
+  .verticalScroll {
+    gap: 22px;
+    padding-bottom: 40px;
+    scroll-padding-bottom: 40px;
+  }
+}
+
+/* Tablet Landscape: 992px - 1199px */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .horizontalScroll {
+    /* width: 100%; */
+    /* background-color: red; */
+    margin: 0 auto;
+    gap: 17px;
+    /* padding-right: 36px; */
+    /* scroll-padding-right: 36px; */
+  }
+
+  .verticalScroll {
+    gap: 20px;
+    padding-bottom: 36px;
+    scroll-padding-bottom: 36px;
+  }
+}
+
+/* Tablet: 768px - 991px */
+@media (min-width: 768px) and (max-width: 991px) {
+  .horizontalScroll {
+    margin: 0 auto;
+    height: auto;
+    /* background-color: green; */
+    gap: 200px;
+    padding-right: 50px;
+    scroll-padding-right: 20px;
+    scroll-snap-type: x proximity;
+  }
+
+  .verticalScroll {
+    gap: 18px;
+    padding-bottom: 32px;
+    scroll-padding-bottom: 32px;
+    scroll-snap-type: y proximity;
+  }
+
+  .scrollItem {
+    scroll-snap-align: start;
+  }
+}
+
+/* Mobile Landscape: 576px - 767px */
+@media (min-width: 576px) and (max-width: 767px) {
+  .horizontalScroll {
+    gap: 14px;
+    padding-right: 28px;
+    scroll-padding-right: 28px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .verticalScroll {
+    gap: 16px;
+    padding-bottom: 28px;
+    scroll-padding-bottom: 28px;
+    scroll-snap-type: y mandatory;
+  }
+
+  .scrollItem {
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+  }
+}
+
+/* Mobile Portrait: 480px - 575px */
+@media (min-width: 480px) and (max-width: 575px) {
+  .horizontalScroll {
+    gap: 12px;
+    padding-right: 24px;
+    scroll-padding-right: 24px;
+    scroll-snap-type: x mandatory;
+    /* background-color: blue; */
+  }
+
+  .verticalScroll {
+    gap: 14px;
+    padding-bottom: 24px;
+    scroll-padding-bottom: 24px;
+    scroll-snap-type: y mandatory;
+  }
+
+  .scrollItem {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+}
+
+/* Mobile Small: 320px - 479px */
+@media (min-width: 320px) and (max-width: 479px) {
+  .horizontalScroll {
+    height: auto;
+   /* gap: 20px;
+     padding-right: 5px;
+    scroll-padding-right: 15px;
+    scroll-snap-type: x mandatory;  */
+        display: flex;
+        padding: 4.764px 40px;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+      /* background-color: #D04A1D; */
+  }
+
+  .verticalScroll {
+    gap: 12px;
+    padding-bottom: 20px;
+    scroll-padding-bottom: 20px;
+    scroll-snap-type: y mandatory;
+  }
+
+  .scrollItem {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+}
+
+/* Extra Small Mobile: Below 320px */
+@media (max-width: 319px) {
+  .horizontalScroll {
+    gap: 8px;
+    padding-right: 16px;
+    scroll-padding-right: 16px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .verticalScroll {
+    gap: 10px;
+    padding-bottom: 16px;
+    scroll-padding-bottom: 16px;
+    scroll-snap-type: y mandatory;
+  }
+
+  .scrollItem {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+
+/* Touch devices - Remove cursor grab styles */
+@media (hover: none) and (pointer: coarse) {
+  .horizontalScroll,
+  .verticalScroll {
+    cursor: default;
+  }
+
+  .horizontalScroll:active,
+  .verticalScroll:active {
+    cursor: default;
+  }
+
+  /* Enhanced momentum scrolling for iOS */
+  .horizontalScroll,
+  .verticalScroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .verticalScroll {
+    scroll-snap-type: y mandatory;
+  }
+}
+
+/* Desktop/Mouse devices - Keep grab cursor */
+@media (hover: hover) and (pointer: fine) {
+  .horizontalScroll,
+  .verticalScroll {
+    cursor: grab;
+  }
+
+  .horizontalScroll:active,
+  .verticalScroll:active {
+    cursor: grabbing;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .horizontalScroll,
+  .verticalScroll {
+    scroll-behavior: auto;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.horizontalScroll:focus-visible,
+.verticalScroll:focus-visible {
+  outline: 2px solid #D04A1D;
+  outline-offset: 4px;
+}
+
+.scrollItem:focus-visible {
+  outline: 2px solid #D04A1D;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   ORIENTATION-SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+/* Landscape orientation on mobile */
+@media (max-width: 991px) and (orientation: landscape) {
+  .horizontalScroll {
+    gap: 12px;
+    padding-right: 24px;
+    scroll-padding-right: 24px;
+  }
+
+  .verticalScroll {
+    gap: 14px;
+    padding-bottom: 24px;
+    scroll-padding-bottom: 24px;
+  }
+}
+
+/* Portrait orientation on mobile */
+@media (max-width: 991px) and (orientation: portrait) {
+  .horizontalScroll {
+    gap: 10px;
+    padding-right: 20px;
+    scroll-padding-right: 20px;
+  }
+
+  .verticalScroll {
+    gap: 12px;
+    padding-bottom: 20px;
+    scroll-padding-bottom: 20px;
+  }
+}
+
+/* ============================================
+   SCROLL INDICATORS (OPTIONAL)
+   ============================================ */
+
+/* Fade effect at scroll edges - Desktop only */
+@media (min-width: 768px) {
+  .horizontalScroll {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 40px),
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 40px),
+      transparent
+    );
+  }
+
+  .verticalScroll {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 20px,
+      black calc(100% - 40px),
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 20px,
+      black calc(100% - 40px),
+      transparent
+    );
+  }
+}
+
+/* Remove fade effect on mobile for better UX */
+@media (max-width: 767px) {
+  .horizontalScroll,
+  .verticalScroll {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU acceleration for smooth scrolling */
+.horizontalScroll,
+.verticalScroll {
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+.scrollItem {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Prevent overscroll bounce on iOS in containers */
+@supports (-webkit-touch-callout: none) {
+  .horizontalScroll,
+  .verticalScroll {
+    overscroll-behavior: contain;
+  }
+}

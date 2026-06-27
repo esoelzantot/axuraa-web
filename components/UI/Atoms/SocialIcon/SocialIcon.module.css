@@ -1,0 +1,101 @@
+/* SocialIcon.module.css */
+.socialIconWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8.436px;
+  width: 71px;
+  height: 71.707px;
+  padding: 12.654px;
+  flex-shrink: 0;
+  border-radius: 44.087px;
+  background: #2e2625;
+  transition: all 0.3s ease;
+}
+
+.socialIcon {
+  width: 35px;
+  height: 34.913px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0; /* Removed circular radius to fit icon shape */
+  background: transparent;
+}
+
+/* Base styles for the icon wrapper layout */
+.iconCircle {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Use masking to colorize the icon to #D04A1D */
+.iconImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Apply orange color using mask */
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  background-color: #d04a1d;
+}
+
+/* Since we are using mask on the image class, we need to hide the original img tag visual 
+   Wait, we can't mask an img tag with itself easily in all browsers without quirks. 
+   Better approach: The TSX needs to render a div with the mask if we want solid color.
+   However, let's try a filter first which is safer for img tags if the source is black/white.
+*/
+
+/* Alternative: If we change SocialIcon.tsx to use div for mask, we use this. 
+   But assuming we stick to img/Image for now, let's use a filter to get close to #D04A1D.
+   Actually, CSS mask on an img element IS supported where it uses the src image as mask.
+   But standard way: -webkit-mask-image: url(...)
+   We need the URL. The img tag has src.
+*/
+.label {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+/* Hover effects */
+.socialIconWrapper:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #d04a1d;
+  color: #fff;
+}
+
+.socialIconWrapper:hover .iconImage {
+  background-color: #ffffff;
+}
+
+.socialIconWrapper:hover .label {
+  opacity: 1;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .socialIconWrapper {
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+}

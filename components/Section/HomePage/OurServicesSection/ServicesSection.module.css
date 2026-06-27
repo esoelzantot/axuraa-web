@@ -1,0 +1,189 @@
+.servicesSection {
+    width: 1200px;
+    height: 39.7rem;           /* 635px ≈ 39.6875 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;              /* 20px */
+    align-self: stretch;
+    background: #191B1F;
+    margin: 0 auto;
+    /* background-color: rgb(241, 138, 11); */
+}
+
+.heroDots {
+  /* height: 2409.793px; 
+  width: 1588.4px;;
+  background: #040352f6; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.servicesGrid {
+    /* background-color: yellow; */
+    display: flex;
+    width: 70rem;              /* 1120px */
+    height: 20.9rem;           /* 334px ≈ 20.875 */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    margin: 0 auto;
+}
+
+/* Mobile Responsive Styles */
+/* @media (max-width: 768px) {
+    .servicesSection {
+        width: 100%;
+        min-height: auto;
+        padding: 16px;
+    }
+    .servicesGrid {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 16px;
+        min-height: auto;
+    }
+    /* If you have specific card components inside servicesGrid, add their responsive styles here */
+    /* .servicesGrid > * {
+        width: 100%;
+        max-width: 343px;
+    }
+} */ 
+
+/* Tablet Responsive Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .servicesSection {
+        padding: 1.25rem 2rem;   /* 20px 32px */
+    }
+    .servicesGrid {
+        justify-content: center;
+        gap: 1rem;               /* 16px */
+    }
+    .servicesGrid > * {
+        /* flex: 1 1 calc(50% - 1rem);  16px */
+        max-width: calc(50% - 1rem);
+    }
+}
+
+/* Mobile styles */
+/* @media (max-width: 768px) {
+  .desktopView {
+    display: none;
+  }
+  
+  .mobileView {
+    display: flex;
+    width: 100%;
+    max-width: 343px;
+    margin: 0 auto;
+  }
+  
+  .servicesGrid.mobileView {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .servicesGrid.mobileView > * {
+    width: calc(50% - 8px);
+    max-width: 100%;
+  }
+} */
+
+/* Tablet - 1024px */
+@media (max-width: 1024px) {
+    .servicesSection {
+        padding: 2.5rem 1.875rem;    /* 40px 30px */
+        gap: 1.125rem;               /* 18px */
+    }
+    
+    .servicesGrid {
+        height: auto;
+        margin: 0 auto;
+        width: 100%;
+        padding-left: 0.99rem;      /* 30px */
+        /* background-color: blueviolet; */
+        gap: 1.125rem;               /* 18px */
+        justify-content: center;
+        margin-left: 3px;
+    }
+}
+
+/* Tablet - 768px */
+@media (max-width: 768px) {
+    .servicesSection {
+        height: auto;
+        padding: 1.875rem 0;         /* 30px 0 */
+        min-height: auto;
+        gap: 1rem;                   /* 16px */
+        /* background-color: bisque; */
+    }
+    
+    .servicesGrid {
+      margin: 0 auto;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;                   /* 16px */
+        /* background-color: aqua; */
+        /* margin-right: 30px; */
+    }
+}
+
+/* Mobile - 425px */
+@media (max-width: 440px) {
+    .servicesSection {
+        width: 100%;
+        padding: 1.5rem 1rem;        /* 24px 16px */
+        gap: 0.875rem;               /* 14px */
+        height: auto;
+    }
+    
+    /* .servicesGrid {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        
+        gap: 14px;
+        width: 100%;
+        max-width: 343px;
+        background-color: red;
+    } */
+    .servicesGrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.875rem;               /* 14px */
+        width: 100%;
+        max-width: 21.4rem;          /* 343px ≈ 21.4375 */
+        margin: 0 auto;
+        padding: 0 0.5rem;           /* 8px */
+        box-sizing: border-box;
+        /* background-color: red; */
+    }
+    /* Adjust card styles for the grid */
+    .servicesGrid > * {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Mobile - 375px */
+@media (max-width: 375px) {
+    .servicesSection {
+        padding: 1.25rem 0.75rem;    /* 20px 12px */
+        gap: 0.75rem;                /* 12px */
+    }
+    
+    .servicesGrid {
+        gap: 0.75rem;                /* 12px */
+    }
+}

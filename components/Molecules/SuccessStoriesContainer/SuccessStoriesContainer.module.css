@@ -1,0 +1,85 @@
+.container {
+  width: 1120px;
+  /* height: 291.0956px; */
+  height: auto;
+  /* background: yellow; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border: 0 solid #e5e7eb;
+  /* margin: 0 auto; */
+}
+
+/* Large Desktop (1200px and above) */
+@media (min-width: 1201px) {
+  .container {
+    max-width: 1120px;
+  }
+}
+
+/* Desktop to Tablet (1024px - 1200px) */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .container {
+    width: 95%;
+    max-width: 1000px;
+    height: auto;
+    padding: 0 24px;
+  }
+}
+
+/* Tablet Landscape (1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .container {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    /* padding: 0 32px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* background-color: blue; */
+  }
+}
+
+/* Tablet Portrait (768px) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    /* max-width: 700px; */
+    height: auto;
+    flex-direction: row;
+    gap: 5px;
+    /* padding: 0 24px; */
+    /* background-color: red; */
+    /* margin-left: -50px; */
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+    padding: 0 24px;
+  }
+}
+/* @media (width: 768px) {
+    .container {
+        gap: 20px;
+        padding: 0 16px;
+    }
+} */
+@media (max-width: 480px) {
+  .container {
+    width: 343px;
+    display: flex;
+    flex-direction: column;
+    height: 750px;
+    gap: 16px;
+    padding: 0 12px;
+    /* background-color: bisque; */
+  }
+}

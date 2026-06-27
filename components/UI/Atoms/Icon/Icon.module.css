@@ -1,0 +1,105 @@
+.iconContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background-color: var(--icon-bg-color, transparent);
+  opacity: var(--icon-opacity, 1);
+}
+
+.iconContainer.noPadding {
+  padding: 0;
+}
+
+/* Border radius variations */
+.circle {
+  border-radius: 50%;
+}
+
+.rounded {
+  border-radius: 12px;
+}
+
+.squareRounded {
+  border-radius: 8px;
+}
+
+.squareCorners {
+  border-radius: 0;
+}
+
+/* Icon wrapper for React nodes */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--icon-width, 24px);
+  height: var(--icon-height, 24px);
+  position: relative;
+}
+
+.iconWrapper svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: all 0.3s ease;
+  /* Default white color */
+  fill: currentColor;
+}
+
+/* Image styling */
+.iconImage {
+  display: block;
+  object-fit: contain;
+  /* filter: current; */
+  transition: all 0.3s ease;
+  }
+
+/* Hover effect - only apply when not disabled */
+.iconContainer:not(.noHover):not(.parentHover):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--color-primary-solid, #d04a1d);
+}
+
+.iconContainer:not(.noHover):not(.parentHover):hover .iconWrapper {
+  color: var(--color-white-solid, #FFF);
+}
+
+.iconContainer:not(.noHover):not(.parentHover):hover .iconWrapper svg {
+  filter: brightness(0) invert(1);
+}
+
+.iconContainer:not(.noHover):not(.parentHover):hover .iconImage {
+  filter: brightness(0) invert(1);
+}
+
+/* Animation */
+.animated {
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .iconContainer:not(.noPadding) {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconContainer:not(.noPadding) {
+    padding: 8px;
+  }
+}

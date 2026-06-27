@@ -1,0 +1,93 @@
+{
+  "hero": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive solutions tailored to your business needs"
+  },
+  "webDevelopment": {
+    "title": "Web Development",
+    "subtitle": "Custom web applications that drive results",
+    "description": "We create powerful, scalable web applications using cutting-edge technologies. Our solutions are designed to provide exceptional user experiences while meeting your business objectives.",
+    "features": [
+      "Custom Web Applications",
+      "E-commerce Solutions",
+      "Content Management Systems",
+      "API Development",
+      "Progressive Web Apps",
+      "Web Application Maintenance"
+    ]
+  },
+  "mobileDevelopment": {
+    "title": "Mobile Development",
+    "subtitle": "Native and cross-platform mobile solutions",
+    "description": "Our mobile development team creates engaging, high-performance applications for iOS and Android. We ensure your app delivers a seamless experience across all devices.",
+    "features": [
+      "iOS App Development",
+      "Android App Development",
+      "Cross-Platform Solutions",
+      "App UI/UX Design",
+      "App Testing & QA",
+      "App Store Optimization"
+    ]
+  },
+  "uiuxDesign": {
+    "title": "UI/UX Design",
+    "subtitle": "User-centered design that converts",
+    "description": "We design beautiful, intuitive interfaces that users love. Our design process focuses on understanding your users and creating experiences that drive engagement and conversions.",
+    "features": [
+      "User Research & Analysis",
+      "Wireframing & Prototyping",
+      "Visual Design",
+      "Interaction Design",
+      "Usability Testing",
+      "Design Systems"
+    ]
+  },
+  "consulting": {
+    "title": "Business Consulting",
+    "subtitle": "Strategic guidance for growth",
+    "description": "Our consulting services help businesses navigate complex challenges and seize opportunities. We provide data-driven insights and strategic recommendations to accelerate your growth.",
+    "features": [
+      "Strategic Planning",
+      "Digital Transformation",
+      "Process Optimization",
+      "Technology Consulting",
+      "Project Management",
+      "Business Analysis"
+    ]
+  },
+  "process": {
+    "title": "Our Process",
+    "subtitle": "How we deliver exceptional results",
+    "steps": [
+      {
+        "title": "Discovery",
+        "description": "We understand your needs, goals, and challenges through comprehensive research and analysis."
+      },
+      {
+        "title": "Strategy",
+        "description": "We develop a tailored strategy that aligns with your business objectives and technical requirements."
+      },
+      {
+        "title": "Design",
+        "description": "We create detailed designs and prototypes that bring your vision to life."
+      },
+      {
+        "title": "Development",
+        "description": "Our expert team builds your solution using industry best practices and cutting-edge technologies."
+      },
+      {
+        "title": "Testing",
+        "description": "We rigorously test your solution to ensure it meets the highest quality standards."
+      },
+      {
+        "title": "Launch",
+        "description": "We deploy your solution and provide ongoing support to ensure continued success."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Get Started?",
+    "subtitle": "Let's discuss how we can help transform your business.",
+    "button": "Contact Us"
+  }
+}

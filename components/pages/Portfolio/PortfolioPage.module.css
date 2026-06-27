@@ -1,0 +1,139 @@
+/* Base Layout */
+.portfolioPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: #191B1F;
+    position: relative;
+}
+
+.projectsSection{
+    /* background-color:red; */
+    padding:30px 0px;
+}
+
+/* Loading and Error States */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    color: #ff6b6b;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .portfolioPage {
+        /* width: 450px; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 16px;
+        align-self: stretch;
+        flex-wrap: wrap;
+        /* background-color: blue; */
+        /* margin-left: 10%; */
+    }
+
+    .container {
+        /* width: 343px;
+        height: auto;
+        margin-top: 20px;
+        flex-direction: column; */
+        /* background-color: red; */
+        display: flex;
+        width: 345px;
+        margin: 0 auto;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .portfolioPage {
+        /* width: 100%; */
+        /* max-width: 343px; */
+        gap: 32px;
+        padding: 0 16px;
+    }
+
+    .container {
+        width: 100%;
+        /* max-width: 343px; */
+        height: auto;
+        margin-top: 16px;
+        flex-direction: column;
+        /* background-color: red; */
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+}
+
+/* Tablet Responsive - 1024px */
+@media (max-width: 1024px) and (min-width: 961px) {
+    .container {
+        width: 95%;
+        max-width: 1000px;
+        height: auto;
+        padding: 0 10px;
+        margin: 0 auto;
+        /* background-color: bisque; */
+    }
+}
+
+/* Tablet Responsive - 768px-960px */
+@media (max-width: 960px) and (min-width: 769px) {
+    .container {
+        width: 90%;
+        max-width: 768px;
+        height: auto;
+        padding: 0 20px;
+    }
+    
+    .portfolioPage {
+        padding: 0 20px;
+    }
+}
+
+/* Small Tablet Responsive - 600px-768px */
+@media (max-width: 768px) and (min-width: 601px) {
+    .container {
+        width: 90%;
+        /* max-width: 600px; */
+        height: auto;
+        padding: 0 15px;
+        /* background-color: red; */
+    }
+}

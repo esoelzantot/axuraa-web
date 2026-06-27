@@ -1,0 +1,136 @@
+/* components/Sections/HistoryJourney/HistoryJourney.module.css - UPDATED */
+.history_journey {
+  width: 100%;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  margin-left: 0; /* Changed from 11% */
+}
+
+/* Only apply background when used standalone (not inside HistorySection) */
+.history_journey.standalone {
+  padding-top: 6rem;
+  margin-left: 6%; /* Only add margin when standalone */
+}
+
+.history_journey.standalone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(249, 115, 22, 0.03) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.history_journey.standalone::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(59, 130, 246, 0.02) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.badge {
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 43.75rem;
+  background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Timeline */
+.timeline {
+  margin-top: 3rem;
+  position: relative;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 64rem) {
+  .title {
+    font-size: 2.25rem;
+  }
+  
+  .header {
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .history_journey {
+    /* padding-top: 4rem; */
+    max-width: 25rem;
+    justify-self: center;
+    align-self: center;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .header {
+    margin-bottom: 2.5rem;
+  }
+  
+  .timeline {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .title {
+    font-size: 1.75rem;
+  }
+}

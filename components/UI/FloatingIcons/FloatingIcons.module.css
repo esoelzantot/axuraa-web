@@ -1,0 +1,48 @@
+.floatingIcons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.iconContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  animation: float 8s infinite ease-in-out;
+  animation-fill-mode: both;
+  opacity: 0.7;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+}
+
+.icon {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Add slight delay to each icon for a more natural effect */
+.iconContainer:nth-child(1) { animation-delay: 0s; }
+.iconContainer:nth-child(2) { animation-delay: -1s; }
+.iconContainer:nth-child(3) { animation-delay: -2s; }
+.iconContainer:nth-child(4) { animation-delay: -3s; }
+.iconContainer:nth-child(5) { animation-delay: -1.5s; }
+.iconContainer:nth-child(6) { animation-delay: -2.5s; }
+.iconContainer:nth-child(7) { animation-delay: -0.5s; }
+.iconContainer:nth-child(8) { animation-delay: -3.5s; }

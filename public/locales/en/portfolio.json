@@ -1,0 +1,15 @@
+{
+  "title": "Portfolio",
+  "subtitle": "Our Work",
+  "description": "Explore our portfolio of successful projects",
+  "filters": {
+    "all": "All",
+    "web": "Web Development",
+    "mobile": "Mobile Apps",
+    "design": "UI/UX Design"
+  },
+  "projects": {
+    "viewProject": "View Project",
+    "viewDetails": "View Details"
+  }
+}

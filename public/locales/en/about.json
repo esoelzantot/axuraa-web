@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "About Axuraa",
+    "subtitle": "Leading the way in project management excellence"
+  },
+  "story": {
+    "title": "Our Story",
+    "description": "Founded with a vision to transform how businesses approach project management, Axuraa has grown into a trusted partner for organizations worldwide. Our journey began with a simple mission: to deliver exceptional results through innovative solutions and unwavering commitment to excellence."
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "To empower businesses with cutting-edge project management solutions that drive growth, efficiency, and success in an ever-evolving digital landscape."
+  },
+  "vision": {
+    "title": "Our Vision",
+    "description": "To be the global leader in project management innovation, setting new standards for excellence and helping businesses achieve their full potential."
+  },
+  "values": {
+    "title": "Our Values",
+    "items": [
+      {
+        "title": "Excellence",
+        "description": "We strive for perfection in everything we do, delivering outstanding results that exceed expectations."
+      },
+      {
+        "title": "Innovation",
+        "description": "We embrace creativity and cutting-edge technology to solve complex challenges."
+      },
+      {
+        "title": "Integrity",
+        "description": "We conduct business with honesty, transparency, and ethical principles."
+      },
+      {
+        "title": "Collaboration",
+        "description": "We believe in the power of teamwork and partnership to achieve extraordinary results."
+      }
+    ]
+  },
+  "team": {
+    "title": "Leadership Team",
+    "subtitle": "Meet the experts behind our success"
+  }
+}

@@ -1,0 +1,17 @@
+﻿{
+    "title":  "Our Partners",
+    "partners":  [
+                     {
+                         "id":  1,
+                         "name":  "SkyTech",
+                         "icon":  "skytech.svg",
+                         "website":  "https://skytech.com"
+                     },
+                     {
+                         "id":  2,
+                         "name":  "ChainBlock",
+                         "icon":  "chainblock.svg",
+                         "website":  "https://chainblock.com"
+                     }
+                 ]
+}

@@ -1,0 +1,171 @@
+.card {
+  position: relative;
+  padding: 3rem 2.5rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1.7231rem;
+  border: var(--stroke-weight-1, 0.0718rem) solid var(--color-azure-17, #1F2937);
+  background: var(--color-white-5, rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(0.1436rem);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 
+    0 0.625rem 1.25rem rgba(0, 0, 0, 0.3),
+    0 0 3.125rem rgba(255, 107, 53, 0.1);
+  border-color: rgba(255, 107, 53, 0.2);
+}
+
+/* Animated Circle Background */
+.circleWrapper {
+  position: absolute;
+  top: -40%;
+  right: -40%;
+  width: 80%;
+  height: 80%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.circle {
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: blur(0.0625rem);
+}
+
+/* Scale circle on card hover */
+.card:hover .circle {
+  transform: scale(1.5);
+}
+
+/* Target Icon component on hover - FIXED */
+.card:hover :global(.iconContainer) {
+  transform: translateY(-0.125rem) scale(1.05);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+  background-color: var(--color-primary-solid, #d04a1d) !important;
+}
+
+.card:hover :global(.iconContainer) :global(.iconWrapper) {
+  color: var(--color-white-solid, #FFF);
+}
+
+.card:hover :global(.iconContainer) svg {
+  filter: brightness(0) invert(1);
+}
+
+.card:hover :global(.iconContainer) img {
+  filter: brightness(0) invert(1);
+}
+
+.iconWrapper {
+  margin-bottom: 2rem;
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  /* background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%); */
+  /* background-clip: text; */
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  font-weight: 600 !important;
+  margin-bottom: 1.5rem !important;
+  line-height: 1.3 !important;
+  position: relative;
+  z-index: 2;
+  color:white;
+}
+
+.description {
+  line-height: 1.8 !important;
+  font-size: 1.0625rem !important;
+  max-width: 90%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Animation */
+.animated {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.875rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 64rem) {
+  .card {
+    padding: 2.5rem 2rem;
+  }
+  
+  .description {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 48rem) {
+  .card {
+    padding: 2rem 1.5rem;
+    border-radius: 1.25rem;
+    max-width: 25rem;
+  }
+  
+  .iconWrapper {
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.75rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+  
+  .description {
+    font-size: 0.9375rem !important;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 30rem) {
+  .card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 1rem;
+    min-width: 16.875rem;
+  }
+  
+  .iconWrapper {
+    margin-bottom: 1.25rem;
+  }
+  
+  .title {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .description {
+    font-size: 0.875rem !important;
+    line-height: 1.7 !important;
+  }
+}

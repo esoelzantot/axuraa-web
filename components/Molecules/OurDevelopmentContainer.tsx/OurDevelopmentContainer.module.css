@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  width: 932px;
+  /* height: 184.2px; */
+  flex-wrap: wrap;
+  justify-content: space-between;    
+  align-items: flex-start;
+  border: 0 solid #E5E7EB;
+  /* margin: 0 auto;  */
+  /* background: red; */
+}
+
+
+
+/* Tablet Landscape (1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .container {
+    width: 75%;
+    /* max-width: 850px; */
+    padding: 0 32px;
+    gap: 10px;
+    /* background-color: red; */
+  }
+}
+
+/* Tablet Portrait (768px) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .container {
+    /* width: 100%; */
+    /* max-width: 700px; */
+    padding: 10px 0px;
+    gap: 10px;
+    justify-content: center;
+    /* background-color: red; */
+  }
+}
+/* For mobile devices */
+@media (max-width: 480px) {
+  .container {
+    /* flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; */
+    /* padding: 40px 16px; */
+    /* width: 100%; */
+
+    /* display: inline-grid;
+    width: 341.933px;
+    row-gap: 51.444px;
+    column-gap: 51.444px;
+    height: 703.4889px;
+    grid-template-rows: repeat(3, fit-content(100%));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 0 solid #E5E7EB;*/
+
+    width: 341.933px;
+    /* background-color: blueviolet; */
+    /* height: 1000px;  */
+    display: flex;
+    flex-direction: row;
+    /* align-items: stretch; */
+    justify-content:  space-between;
+    row-gap: 20px;
+    /* column-gap: 10px; */
+    /* background-color: antiquewhite; */
+
+    /* display: grid;
+    grid-template-columns: 2fr 2fr; 
+    gap: 16px; 
+    width: 100%;
+    max-width: 341.933px;
+    margin: 0 auto;
+    padding: 0 16px; */
+    /* background-color: blueviolet; */
+  
+    
+  }
+}

@@ -1,0 +1,161 @@
+.contactCard {
+  display: flex;
+  width: fit-content; /* 546px / 16 = 34.125rem */
+  height: 7.3339rem; /* 117.3421px / 16 = 7.3339rem */
+  padding: 1.4967rem; /* 23.947px / 16 = 1.4967rem */
+  align-items: center;
+  gap: 1.4967rem; /* 23.947px / 16 = 1.4967rem */
+  border-radius: 1.1974rem; /* 19.158px / 16 = 1.1974rem */
+  border: 0.0748rem solid rgba(144, 37, 1, 0.25); /* 1.197px / 16 = 0.0748rem */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(0.1497rem); /* 2.3947367668151855px / 16 = 0.1497rem */
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer; /* Added cursor pointer to indicate clickable */
+}
+
+.iconContainer {
+  display: flex;
+  width: 4.1908rem; /* 67.053px / 16 = 4.1908rem */
+  height: 4.1908rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgba(144, 37, 1, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for the icon container */
+.contactCard:hover .iconContainer {
+  background: #d04a1d;
+}
+
+/* Make icon white on hover */
+.contactCard:hover .iconImage {
+  filter: brightness(0) invert(1);
+}
+
+.iconImage {
+  width: 2rem; /* 32px / 16 = 2rem */
+  height: 2rem;
+  transition: all 0.3s ease;
+}
+
+.textContainer {
+  display: flex;
+  width: 15.8125rem; /* 253px / 16 = 15.8125rem */
+  height: 3.9243rem; /* 62.7895px / 16 = 3.9243rem */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2993rem; /* 4.7895px / 16 = 0.2993rem */
+}
+
+.label {
+  color: #9ca3af;
+  font-size: 1.0477rem; /* 16.763px / 16 = 1.0477rem */
+  font-weight: 500;
+  line-height: 1.4967rem; /* 23.947px / 16 = 1.4967rem */
+  margin: 0;
+}
+
+.value {
+  color: #fff;
+  font-size: 1.4967rem; /* 23.947px / 16 = 1.4967rem */
+  font-weight: 700;
+  line-height: 2.0954rem; /* 33.526px / 16 = 2.0954rem */
+  margin: 0;
+}
+
+/* Make the card slightly interactive on hover */
+.contactCard:hover {
+  cursor: pointer;
+  transform: translateY(-0.125rem); /* -2px / 16 = -0.125rem */
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1); /* 0 4px 12px */
+}
+
+/* Remove any outline on focus for better aesthetics */
+.contactCard:focus {
+  outline: none;
+}
+
+@media (max-width: 64rem) {
+  /* 1024px / 16 = 64rem */
+  .contactCard {
+    width: 25rem; /* 400px / 16 = 25rem */
+    padding: 1rem; /* 16px / 16 = 1rem */
+    gap: 1rem;
+    min-height: auto;
+  }
+}
+@media (max-width: 62rem) {
+  /* 1024px / 16 = 64rem */
+  .contactCard {
+    width: 35rem; /* 400px / 16 = 25rem */
+    padding: 1rem; /* 16px / 16 = 1rem */
+    gap: 1rem;
+    min-height: auto;
+  }
+}
+/* Responsive adjustments */
+@media (max-width: 48rem) {
+  /* 768px / 16 = 48rem */
+  .contactCard {
+    padding: 1.25rem; /* 20px / 16 = 1.25rem */
+    min-height: 5rem;
+    align-self: center;
+  }
+
+  .iconContainer {
+    width: 3.5rem; /* 56px / 16 = 3.5rem */
+    height: 3.5rem;
+    min-width: 3.5rem;
+    min-height: 3.5rem;
+  }
+
+  .iconImage {
+    width: 1.75rem; /* 28px / 16 = 1.75rem */
+    height: 1.75rem;
+  }
+
+  .label {
+    font-size: 0.875rem; /* 14px / 16 = 0.875rem */
+    line-height: 1.25rem; /* 20px / 16 = 1.25rem */
+  }
+
+  .value {
+    font-size: 1.125rem; /* 18px / 16 = 1.125rem */
+    line-height: 1.625rem; /* 26px / 16 = 1.625rem */
+  }
+}
+
+@media (max-width: 30rem) {
+  /* 480px / 16 = 30rem */
+  .contactCard {
+    padding: 0.5rem 1rem; /* 8px 16px */
+    gap: 1rem; /* 16px / 16 = 1rem */
+    min-height: 5rem;
+    max-width: 18.75rem; /* 300px / 16 = 18.75rem */
+  }
+
+  .iconContainer {
+    width: 3rem; /* 48px / 16 = 3rem */
+    height: 3rem;
+    min-width: 3rem;
+    min-height: 3rem;
+  }
+
+  .iconImage {
+    width: 1.5rem; /* 24px / 16 = 1.5rem */
+    height: 1.5rem;
+  }
+
+  .label {
+    font-size: 0.75rem; /* 12px / 16 = 0.75rem */
+    line-height: 1.125rem; /* 18px / 16 = 1.125rem */
+  }
+
+  .value {
+    font-size: 1rem; /* 16px / 16 = 1rem */
+    line-height: 1.375rem; /* 22px / 16 = 1.375rem */
+  }
+}

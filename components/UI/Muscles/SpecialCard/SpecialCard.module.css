@@ -1,0 +1,222 @@
+/* components/UI/SpecialCard/SpecialCard.module.css */
+
+.specialCard {
+  position: relative;
+  width: 80%;
+  /* max-width: 1000px; */
+  margin: 0 auto;
+  padding: 5rem 3.75rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #d04a1d 50%, #b84328 100%);
+  overflow: hidden;
+  box-shadow: 0.125rem 0.625rem 1.875rem #d04a1d89;
+}
+
+/* Blur circles container */
+.blurContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blurCircle {
+  position: absolute;
+  opacity: 0.4;
+  /* filter: blur(80px); */
+  pointer-events: none;
+}
+
+.blurCircle1 {
+  top: -20%;
+  left: -10%;
+  width: 18.75rem;
+  height: 18.75rem;
+  /* animation: float1 8s ease-in-out infinite; */
+  opacity: 0.8;
+  border-radius: 712.019rem;
+  background: var(--color-white-20, rgba(255, 255, 255, 0.20));
+  filter: blur(2.286rem);
+}
+
+.blurCircle2 {
+  bottom: -30%;
+  right: -15%;
+  width: 31.25rem;
+  height: 31.25rem;
+  border-radius: 712.019rem;
+  background: var(--color-violet-6530, rgba(168, 85, 247, 0.30));
+  mix-blend-mode: overlay;
+  filter: blur(2.286rem);
+  opacity: 0.3;
+  /* animation: float2 10s ease-in-out infinite; */
+}
+
+/* Animations for blur circles */
+/* @keyframes float1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes float2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, 50%) scale(1.15);
+  }
+} */
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  /* background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+   */
+   background: #fffdfd;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700 !important;
+  font-size: 3.5rem !important;
+  margin-bottom: 1.5rem !important;
+  text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 300 !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+  max-width: 43.75rem;
+  margin: 0 auto 3rem !important;
+}
+
+/* Button group */
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.primaryButton {
+  background-color: white;
+  color: #c75437;
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.15);
+}
+
+.primaryButton:hover {
+  /* transform: translateY(3%); */
+  box-shadow: 0 0.375rem 1.5625rem rgba(0, 0, 0, 0.2);
+  background-color: #dddddd;
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.secondaryButton {
+  border-radius: 0.8545rem;
+  border: var(--stroke-weight-1, 0.0712rem) solid rgba(255, 255, 255, 0.20);
+  background: rgba(144, 37, 1, 0.50);
+  backdrop-filter: blur(0.1424rem);
+  color: #ffffff; /* Ensure text is white */
+}
+
+.secondaryButton:hover {
+  background-color: rgba(130, 33, 1, 0.5);
+  border-color:rgba(144, 37, 1, 0.50);;
+  transform: translateY(3%);
+}
+
+.secondaryButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 90rem) and (min-width: 64rem) {
+  .specialCard {
+    padding: 3.75rem 2.5rem;
+    min-width: 90%;
+  }
+}
+@media (max-width: 48rem) {
+  .specialCard {
+    padding: 3.75rem 2.5rem;
+    border-radius: 1.25rem;
+    max-width: 25rem;
+  }
+
+  .title {
+    font-size: 2.5rem !important;
+  }
+
+  .subtitle {
+    font-size: 1.1rem !important;
+    margin-bottom: 2.25rem !important;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .button {
+    width: 100%;
+    max-width: 18.75rem;
+  }
+
+  .blurCircle1 {
+    width: 18.75rem;
+    height: 18.75rem;
+  }
+
+  .blurCircle2 {
+    width: 21.875rem;
+    height: 21.875rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .specialCard {
+    padding: 2.5rem 1.5rem;
+    border-radius: 1rem;
+    min-width: 16.25rem;
+  }
+
+  .title {
+    font-size: 2rem !important;
+  }
+
+  .subtitle {
+    font-size: 1rem !important;
+  }
+
+  .button {
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+  }
+}

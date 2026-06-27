@@ -1,0 +1,42 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "businessSolutions": "Business Solutions",
+    "caseStudy": "Case Study"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "learnMore": "Learn More",
+    "viewMore": "View More",
+    "readMore": "Read More",
+    "contactUs": "Contact Us",
+    "getStarted": "Get Started",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "menu": "Menu",
+    "search": "Search",
+    "language": "Language"
+  },
+  "footer": {
+    "description": "We are a leading project management agency dedicated to delivering exceptional results for our clients.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "contact": "Contact",
+    "followUs": "Follow Us",
+    "allRightsReserved": "All rights reserved",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "meta": {
+    "title": "Axuraa - Project Management Agency",
+    "description": "Leading project management agency delivering exceptional results for businesses worldwide.",
+    "keywords": "project management, agency, business solutions, consulting"
+  }
+}

@@ -1,0 +1,20 @@
+<svg width="92" height="99" viewBox="0 0 92 99" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_f_2028_4823)">
+<path d="M70 45C70 58.8071 58.8071 70 45 70C31.1929 70 20 58.8071 20 45C20 31.1929 31.1929 20 45 20C58.8071 20 70 31.1929 70 45ZM23 45C23 57.1503 32.8497 67 45 67C57.1503 67 67 57.1503 67 45C67 32.8497 57.1503 23 45 23C32.8497 23 23 32.8497 23 45Z" fill="#D04A1D"/>
+</g>
+<g filter="url(#filter1_f_2028_4823)">
+<line x1="70.5" y1="77.5" x2="70.5" y2="60.5" stroke="#D04A1D" stroke-width="3" stroke-linecap="round"/>
+</g>
+<defs>
+<filter id="filter0_f_2028_4823" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_2028_4823"/>
+</filter>
+<filter id="filter1_f_2028_4823" x="49" y="39" width="43" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_2028_4823"/>
+</filter>
+</defs>
+</svg>

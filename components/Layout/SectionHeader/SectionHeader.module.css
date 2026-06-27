@@ -1,0 +1,124 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  /* background-color: brown; */
+  height: fit-content;
+
+  /* width: 1120px; */
+  gap: 2px;
+  /* align-self: stretch; */
+  /* margin-top: -30px; */
+  padding: 0.25rem;
+}
+.titleGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+  row-gap: 0;
+  justify-content: center;
+}
+.unifiedTitle {
+  margin: 0;
+  font-size: var(--font-size-60, 60px);
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: var(--letter-spacing--1_8, -1.8px);
+  display: inline-block;
+}
+.titlePart {
+  display: block;
+  margin-right: 0;
+}
+.titlePartWhite {
+  display: block;
+  margin-right: 0;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+.titlePartGradient {
+  display: block;
+  margin-right: 0;
+  background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subtitle {
+  /* background: green; */
+  width: 100%;
+  max-width: 800px;
+  min-height: 25px;
+  flex-shrink: 0;
+  color: #6b7280;
+  text-align: inherit;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.778px;
+  text-transform: capitalize;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .header {
+    /* width: 343px;
+    height: 239.1185px; */
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.45px;
+    align-self: center;
+    /* background-color: #D04A1D; */
+  }
+  .unifiedTitle {
+    font-size: 32px;
+    letter-spacing: -0.978px;
+    text-align: center;
+  }
+  .subtitle {
+    width: 100%;
+    max-width: 343px;
+    font-size: 11px;
+    letter-spacing: 0.423px;
+    height: auto;
+    padding: 0 12px;
+    margin-top: 10px;
+    color: #9ca3af;
+  }
+}
+/* Tablet Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .unifiedTitle {
+    font-size: 48px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 14px;
+    letter-spacing: 0.778px;
+    width: 631px;
+    height: 25px;
+    padding: 0;
+  }
+}
+/* Desktop Styles */
+@media (min-width: 1025px) {
+  .unifiedTitle {
+    font-size: 60px;
+    line-height: 72px;
+    letter-spacing: -1.8px;
+  }
+  .subtitle {
+    font-size: 14px;
+    letter-spacing: 0.778px;
+    height: 25px;
+    padding: 0;
+  }
+}

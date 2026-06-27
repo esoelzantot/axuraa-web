@@ -1,0 +1,183 @@
+
+.container {
+  width: 1120px;
+  /* margin: 0 auto; */
+  /* padding: 0 20px; */
+  display: flex;
+  justify-content: center;
+  /* margin-bottom: 60px; */
+  background: #191B1F;
+  /* gap: 40px; */
+  /* margin-top: -100%; */
+}
+
+.buttonsWrapper {
+  /* background: #000; */
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.buttonsWrapper::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.filterButton {
+  padding: 7px 17px;
+  border-radius: 9999px;
+  border: 1px solid #6A260F;
+  color: #BFBFBF;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.14px;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* Prevent text wrapping */
+  flex-shrink: 0; /* Prevent button from shrinking */
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Hover state */
+.filterButton:hover {
+  color: white;
+  border-color: #D04A1D;
+  background-color: rgba(208, 74, 29, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(208, 74, 29, 0.3);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* Active/Selected state */
+.filterButton.active {
+  background: linear-gradient(135deg, #D04A1D, #902501);
+  color: white;
+  border-color: #902501;
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Add focus state for better accessibility */
+.filterButton:focus {
+  outline: 2px solid rgba(208, 74, 29, 0.5);
+  outline-offset: 2px;
+}
+
+/* Add transition for smooth state changes */
+.filterButton {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    width: 100%;
+    /* background-color: #D04A1D; */
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .buttonsWrapper {
+    justify-content: center;
+    padding: 12px 0;
+    gap: 12px;
+  }
+  
+  .filterButton {
+    padding: 7px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1023px) and (min-width: 901px) {
+  .container {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  
+  .buttonsWrapper {
+    justify-content: flex-start;
+    padding: 10px 0;
+    gap: 10px;
+  }
+  
+  .filterButton {
+    padding: 6px 15px;
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 30px;
+  }
+  
+  .buttonsWrapper {
+    justify-content: flex-start;
+    padding: 8px 0 10px;
+    gap: 8px;
+  }
+  
+  .filterButton {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 767px) and (min-width: 481px) {
+  .container {
+    padding: 0 15px;
+    margin-bottom: 25px;
+  }
+  
+  .buttonsWrapper {
+    justify-content: flex-start;
+    padding: 6px 0 8px;
+    gap: 6px;
+  }
+  
+  .filterButton {
+    padding: 5px 12px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterButton {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+    margin-bottom: 40px;
+  }
+  
+  .buttonsWrapper {
+    justify-content: center;
+    padding-bottom: 5px;
+  }
+  
+  .filterButton {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+}

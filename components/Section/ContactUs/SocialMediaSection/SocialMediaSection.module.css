@@ -1,0 +1,112 @@
+.section {
+  width: 100%;
+  padding: 3rem 1.25rem; 
+}
+
+.container {
+  max-width: 75rem; /* 1200px / 16 = 75rem */
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2.5rem; 
+}
+
+.title {
+  font-size: 2.25rem; /* 36px / 16 = 2.25rem */
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 1rem; /* 16px / 16 = 1rem */
+  letter-spacing: -0.03125rem; /* -0.5px / 16 = -0.03125rem */
+  justify-self: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.25rem; /* 20px / 16 = 1.25rem */
+  color: #b0b0b0;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(7.5rem, 1fr); /* 120px / 16 = 7.5rem */
+  gap: 1.5rem; /* 24px / 16 = 1.5rem */
+  max-width: 62.5rem; /* 1000px / 16 = 62.5rem */
+  margin: 0 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (max-width: 64rem) { /* 1024px / 16 = 64rem */
+  .section {
+    margin-top: -8%;
+  }
+}
+
+@media (max-width: 62rem) { /* 1024px / 16 = 64rem */
+  
+   .cardsGrid {
+    gap: 1rem; /* 16px / 16 = 1rem */
+    grid-auto-columns: minmax(6.25rem, 1fr); /* 100px / 16 = 6.25rem */
+  }
+}
+
+/* Tablet */
+@media (max-width: 48rem) { /* 768px / 16 = 48rem */
+  .section {
+    padding: 3.75rem 1.25rem; /* 60px 20px */
+  }
+  
+  .title {
+    font-size: 2rem; /* 32px / 16 = 2rem */
+    font-weight: 400;
+  }
+  
+  .subtitle {
+    font-size: 1rem; /* 16px / 16 = 1rem */
+    font-weight: 300;
+  }
+  
+  .header {
+    margin-bottom: 3rem; /* 48px / 16 = 3rem */
+  }
+  
+  .cardsGrid {
+    gap: 1rem; /* 16px / 16 = 1rem */
+    grid-auto-columns: minmax(6.25rem, 1fr); /* 100px / 16 = 6.25rem */
+  }
+}
+
+/* Mobile */
+@media (max-width: 30rem) { /* 480px / 16 = 30rem */
+  .section {
+    padding: 2rem 0.625rem; /* 32px 10px (2rem = 32px) */
+  }
+  
+  .title {
+    font-size: 1.75rem; /* 28px / 16 = 1.75rem */
+  }
+  
+  .subtitle {
+    font-size: 0.938rem; /* 15px / 16 = 0.9375rem (rounded to 0.938rem) */
+  }
+  
+  .header {
+    margin-bottom: 2.5rem; /* 40px / 16 = 2.5rem */
+  }
+  
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 icons in a row */
+    grid-auto-flow: row;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 22rem; /* Ensure it stays centered and doesn't stretch too wide */
+    margin: 0 auto;
+    overflow: visible;
+  }
+}

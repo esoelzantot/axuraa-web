@@ -1,0 +1,158 @@
+/* ===== OurTeam Section Styles ===== */
+
+.teamSection {
+  width: 100%;
+  padding: 5rem;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1rem;
+  max-width: 56.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex-direction: column;
+}
+
+.badge {
+  /* margin-bottom: 2rem; */
+  display: inline-flex;
+  justify-self: center; 
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.teamGrid {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+/* Responsive adjustments */
+
+/* Large Desktop (1440px and above) - Single row */
+@media (min-width: 90rem) {
+  .teamSection {
+    padding: 1rem 0px 5rem;
+  }
+
+  .teamGrid {
+    gap: 1.75rem;
+    flex-wrap: nowrap;
+  }
+
+}
+
+/* Desktop (1025px - 1439px) - Single row */
+@media (min-width: 64.0625rem) and (max-width: 89.9375rem) {
+  .teamSection {
+    padding: 4.375rem 6%;
+  }
+
+  .teamGrid {
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+  }
+
+}
+
+/* Tablets (769px - 1024px) - Single row with smaller cards */
+@media (min-width: 48.0625rem) and (max-width: 64rem) {
+  .teamSection {
+    padding: 2rem 6%;
+  }
+
+  .teamGrid {
+    gap: 1.25rem;
+    flex-wrap: nowrap;
+  }
+
+  /* .header {
+    margin-bottom: -5%;
+  } */
+}
+
+/* Tablets and Mobile (below 768px) - 2 columns grid */
+@media (max-width: 48rem) {
+  .teamSection {
+    padding: 1rem 6%;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+  
+  .teamGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    max-width: 25rem;
+    margin: 35px auto;
+  }
+  .teamGrid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 11.25rem; /* Adjust based on your TeamCard width */
+  }
+  /* .badge{ */
+    /* margin-bottom: -8%; */
+  /* } */
+  /* .header{ */
+    /* margin-bottom: 0; */
+  /* } */
+}
+
+/* Small mobile (below 480px) - 2 columns grid, smaller */
+@media (max-width: 30rem) {
+  .teamSection {
+    padding: 0.25rem 6%;
+    justify-self: center;
+    align-self: center;
+    /* margin-left: 5%;
+    margin-right: auto; */
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+    /* margin-left: -5%; */
+    /* margin-right: -5%; */
+    max-width: 100%;
+    text-align: center;
+  }
+  .badge{
+    /* margin-bottom: 0rem; */
+    display: inline-flex;
+    justify-self: center; 
+    align-items: center;
+    /* gap: 0.5rem; */
+  }
+
+  .teamGrid {
+    gap: 1.25rem;
+    max-width: 100%;
+    /* margin-left: 6%; */
+    /* display: flex;
+    flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+  }
+  .teamGrid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 10rem; /* Adjust for smaller screens */
+  }
+}

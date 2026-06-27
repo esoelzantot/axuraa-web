@@ -1,0 +1,263 @@
+.animatedBackground {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* background-color: aliceblue; */
+}
+
+.HexagonContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  top: -15%;
+}
+
+.Hexa_1,
+.Hexa_2 {
+  width: clamp(15rem, 40vw, 30rem);
+  aspect-ratio: 1 / 1;
+}
+
+/* Hexagon 1 - Top Left (closer to corner) */
+.Hexa_1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(35%, -120%) rotate(-180deg);
+  transition:
+    transform 2s ease-in-out,
+    opacity 2s ease-in-out;
+  opacity: 0.6;
+}
+
+/* Hexagon 2 - Top Left (offset from first) */
+.Hexa_2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-160%, -90%) rotate(-180deg);
+  transition:
+    transform 2s ease-in-out,
+    opacity 2s ease-in-out;
+  opacity: 0.7;
+}
+
+/* Hover Effects - Smooth rotation changes */
+.animatedBackground.hovered .Hexa_1 {
+  transform: translate(35%, -120%) rotate(90deg) scale(1.05);
+  opacity: 0.5;
+}
+
+.animatedBackground.hovered .Hexa_2 {
+  transform: translate(-160%, -90%) rotate(-80deg) scale(1.08);
+  opacity: 0.6;
+}
+
+/* Circle Container */
+.circleContainer {
+  position: relative;   
+  width: 100%;
+  height: 100%;
+}
+
+.Circle_1,
+.Circle_2 {
+  width: clamp(14rem, 30vw, 25rem);
+  aspect-ratio: 1 / 1;
+}
+
+
+
+/* Circle 1 - Bottom Left */
+.Circle_1 {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(70%, -15%);
+  transition:
+    transform 2.5s ease-in-out,
+    opacity 2.5s ease-in-out;
+}
+
+/* Circle 2 - Top Right (Double size) */
+.Circle_2 {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-160%, -5%);
+  transition:
+    transform 2.5s ease-in-out,
+    opacity 2.5s ease-in-out;
+}
+
+
+
+/* Hover Effects - Vertical movement */
+.animatedBackground.hovered .Circle_1 {
+  transform: translate(70%,100%) scale(1.5);
+  opacity: 0.5;
+}
+
+.animatedBackground.hovered .Circle_2 {
+  transform: translate(-160%,-150%) scale(1.5);
+  opacity: 0.6;
+}
+
+@media (max-width: 64rem) {
+  .Hexa_1 {
+    top: 50%;
+    left: 50%;
+    transform: translate(55%, -125%) rotate(-180deg);
+  }
+  .Hexa_2 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-150%, -80%) rotate(-180deg);
+  }
+
+  .animatedBackground.hovered .Hexa_1 {
+    transform: translate(55%, -125%) rotate(90deg) scale(1.05);
+    opacity: 0.5;
+  }
+
+  .animatedBackground.hovered .Hexa_2 {
+    transform: translate(-150%, -80%) rotate(-80deg) scale(1.08);
+    opacity: 0.6;
+  }
+  /* .Circle_1 {
+    top:50%;
+    left: 50%;
+    transform: translate(120%, -40%);
+  } */
+   .Circle_2 {
+    top:50%;
+    left: 50%;
+    transform: translate(-160% , 50%);
+  }
+  .animatedBackground.hovered .Circle_1 {
+    transform: translate(70%,170%) scale(1.5);
+  }
+  .animatedBackground.hovered .Circle_2 {
+    transform: translate(-160% , -130%) scale(1.5);
+  }
+}
+
+@media (max-width: 62rem) {
+  .Hexa_1 {
+    top: 50%;
+    left: 50%;
+    transform: translate(50%, -100%) rotate(-180deg);
+  }
+  .Hexa_2 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-150%, -60%) rotate(-180deg);
+  }
+
+  .animatedBackground.hovered .Hexa_1 {
+    transform: translate(50%, -100%) rotate(90deg) scale(1.05);
+    opacity: 0.5;
+  }
+
+  .animatedBackground.hovered .Hexa_2 {
+    transform: translate(-150%, -60%) rotate(-80deg) scale(1.08);
+    opacity: 0.6;
+  }
+  .Circle_1 {
+    left: 50%;
+    top: 50%;
+    transform: translate(80% ,36%);
+  }
+  .Circle_2 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-150% , 250%);
+  }
+  .animatedBackground.hovered .Circle_1 {
+    transform: translate(80%,350%) scale(1.5);
+  }
+  .animatedBackground.hovered .Circle_2 {
+    transform: translate(-150%, -30%) scale(1.5);
+  }
+}
+
+@media (max-width: 48rem) {
+  .Hexa_1 {
+    top: 50%;
+    left: 50%;
+    transform: translate(40%, -100%) rotate(-180deg);
+  }
+  .Hexa_2 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-150%, -40%) rotate(-180deg);
+  }
+
+  .animatedBackground.hovered .Hexa_1 {
+    transform: translate(40%, -160%) rotate(90deg) scale(1.05);
+    opacity: 0.5;
+  }
+
+  .animatedBackground.hovered .Hexa_2 {
+    transform: translate(-150%, -40%) rotate(-80deg) scale(1.08);
+    opacity: 0.6;
+  }
+  .Circle_1 {
+    left: 50%;
+    top: 50%;
+    transform: translate(75% ,-10%);
+  }
+  .Circle_2 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-150% , 130%);
+  }
+  .animatedBackground.hovered .Circle_1 {
+    transform: translate(75%, 250%) scale(1.5);
+  }
+  .animatedBackground.hovered .Circle_2 {
+    transform: translate(-150%, -130%) scale(1.5);
+  }
+}
+
+@media (max-width: 30rem) {
+  .Hexa_1 {
+    top: 50%;
+    left: 50%;
+    transform: translate(28%, -140%) rotate(-180deg);
+  }
+  .Hexa_2 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-127%, -40%) rotate(-180deg);
+  }
+
+  .animatedBackground.hovered .Hexa_1 {
+    transform: translate(28%, -140%) rotate(90deg) scale(1.05);
+    opacity: 0.5;
+  }
+
+  .animatedBackground.hovered .Hexa_2 {
+    transform: translate(-127%, -40%) rotate(-80deg) scale(1.08);
+    opacity: 0.6;
+  }
+  .Circle_1 {
+    left: 50%;
+    top: 50%;
+    transform: translate(25% ,-20%);
+  }
+  .Circle_2 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-125% , 130%);
+  }
+  .animatedBackground.hovered .Circle_1 {
+    transform: translate(25%, 250%) scale(1.5);
+  }
+  .animatedBackground.hovered .Circle_2 {
+    transform: translate(-125%, -130%) scale(1.5);
+  }
+}

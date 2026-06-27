@@ -1,0 +1,36 @@
+.container {
+    /* background: rgb(121, 116, 116); */
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    align-self: stretch;
+    border: 0 solid #E5E7EB;
+    gap: 24px;
+    flex-wrap: wrap;
+
+}
+
+/* Responsive adjustments */
+@media (min-width: 769px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    /* background-color: violet; */
+  }
+}
+@media (max-width: 1200px) {
+  .container {
+    justify-content: center;
+    gap: 20px;
+  }
+}
+@media (width: 768px) {
+  .container {
+    /* background-color: red; */
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+  }
+}

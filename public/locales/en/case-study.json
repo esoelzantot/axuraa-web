@@ -1,0 +1,25 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "currentPage": "Custom E-commerce Platform"
+  },
+  "overview": {
+    "title": "OVERVIEW",
+    "description": "This custom e-commerce platform delivers an intuitive user experience while integrating advanced functionalities to meet complex business requirements. We've created a solution that not only powers your online sales but transforms how you engage with customers and manage your operations."
+  },
+  "features": {
+    "title": "Key Features",
+    "description": "A comprehensive suite of features designed to optimize the e-commerce experience for merchants and customers alike."
+  },
+  "testimonials": {
+    "title": "What Our Clients Say"
+  },
+  "projectDetails": {
+    "client": "Client",
+    "projectManager": "Project Manager",
+    "timeframe": "Timeframe",
+    "team": "Team",
+    "location": "Location"
+  }
+}

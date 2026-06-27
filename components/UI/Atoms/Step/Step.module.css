@@ -1,0 +1,187 @@
+/* components/UI/Step/Step.module.css */
+.step_container {
+  display: flex;
+  gap: 2rem;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.step_container.last {
+  padding-bottom: 0;
+}
+
+/* Timeline Indicator */
+.step_indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.step_circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #6B7280;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.step_circle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background-color: rgba(249, 115, 22, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step_container:hover .step_circle {
+  background-color: #F97316;
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+}
+
+.step_container:hover::before  {
+  width: 32px;
+  height: 32px;
+}
+
+.step_container.active .step_circle {
+  background-color: #F97316;
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+}
+
+.step_circle_inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.step_circle:hover .step_circle_inner {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 6px;
+  height: 6px;
+}
+
+.step_circle.active .step_circle_inner {
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 6px;
+  height: 6px;
+}
+
+.step_line {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(
+    to bottom,
+    #6B7280 0%,
+    #4B5563 50%,
+    #374151 100%
+  );
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.step_line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #F97316 50%,
+    transparent 100%
+  );
+  animation: shimmer 3s infinite;
+}
+
+/* Content */
+.step_content {
+  flex: 1;
+  padding-top: 0;
+}
+
+.step_title {
+  color: #F3F4F6;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.step_container:hover .step_title {
+  background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.step_description {
+  color: #9CA3AF;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    top: -100%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .step_container {
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .step_circle {
+    width: 14px;
+    height: 14px;
+  }
+
+  .step_title {
+    font-size: 1rem;
+  }
+
+  .step_description {
+    font-size: 0.875rem;
+  }
+}

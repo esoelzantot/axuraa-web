@@ -1,0 +1,113 @@
+.featuresContainer {
+  display: flex;
+  /* width: 100%; */
+  width: 1120px;
+  padding: 40px 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin: 0 auto;
+  height: auto;
+  min-height: 330.6656px;
+  /* background-color: antiquewhite; */
+}
+
+.cardsGrid {
+    /* background: red; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+
+/* Desktop to Large Tablet (1200px) */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .featuresContainer {
+    width: 95%;
+    max-width: 1000px;
+    padding: 36px 24px;
+    gap: 36px;
+  }
+  
+  .cardsGrid {
+    gap: 20px;
+  }
+}
+
+/* Tablet Landscape (1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .featuresContainer {
+    width: 90%;
+    max-width: 900px;
+    padding: 32px 24px;
+    gap: 32px;
+  }
+  
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Tablet Portrait (768px) */
+@media (max-width: 768px) and (min-width: 641px) {
+  .featuresContainer {
+    width: 100%;
+    max-width: 700px;
+    /* padding: 32px 20px; */
+    gap: 20px;
+    /* background-color: blue; */
+  }
+  
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .title {
+    font-size: 28px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .featuresContainer {
+    padding: 32px 16px;
+    gap: 32px;
+    max-width: 100%;
+  }
+  
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .featuresContainer {
+    width: 343px;
+    height: 1241.9968px;
+    padding: 40px 0;
+    gap: 40px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .title {
+    font-size: 28px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+}

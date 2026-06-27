@@ -1,0 +1,348 @@
+/* ===== Card Component Styles ===== */
+.card {
+  display: flex;
+  width: 261px;
+  height: 304.122px;
+  padding: 26.781px 14.525px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;  
+  /* border-radius: 0 0 68.087px 0; */
+   border-radius: var(--card-border-radius, 0 0 68.087px 0);
+  background: #222429;
+  box-shadow: 2.27px 1.816px 22.696px 0 rgba(0, 0, 0, 0.50);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden; /* This will clip any content that overflows the card */
+}
+
+.card:hover {
+  width: 278.5px;
+  height: 330.122px;
+  /* border-radius: 0 0 83.087px 0; */
+     border-radius: var(--card-border-radius, 0 0 68.087px 0);
+  border: 5.5px solid var(--Primary, #D04A1D);
+  box-shadow: 2px 4.4px 28px rgba(0, 0, 0, 0.50);
+  /* background: #daed0b; */
+ transform: translateY(-5px);
+   transition: all 0.3s ease-in-out;
+
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); */
+  /* border-radius: 0 0 0 0; */
+}
+
+/* Background Dots Layers */
+.dotsLayer1,
+.dotsLayer2,
+.dotsLayer3 {
+  position: absolute;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  z-index: 1;
+}
+
+.card:hover .dotsLayer1,
+.card:hover .dotsLayer2,
+.card:hover .dotsLayer3 {
+  opacity: 0.7;
+}
+
+.dotsLayer1 {
+  /* width: 1487.948px;
+  height: 1588.4px; */
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  top: -50%;
+  left: -50%;
+  background-image: url('/assets/CardDots1.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: opacity 0.5s ease-out;
+  z-index: 1;
+  pointer-events: none;
+   transform: scale(2);
+}
+
+.dotsLayer2 {
+  width: 100%;
+  height: 100%;
+  top: 90%;
+  left: -15%;
+  background-image: url('/assets/CardDots1.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: opacity 0.5s ease-out;
+  z-index: 1;
+  pointer-events: none;
+  transform: scale(2);
+}
+
+.dotsLayer3 {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 75%;
+  background-image: url('/assets/CardDots1.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: opacity 0.5s ease-out;
+  z-index: 1;
+  pointer-events: none;
+  transform: scale(2);
+}
+
+/* Content Styles */
+.content {
+  /* background: rgb(30, 91, 206); */
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconWrapper {
+  width: 120.287px;
+  height: 113.932px;
+  flex-shrink: 0;
+  fill: var(--Primary, #D04A1D);
+  /* background: #000; */
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+.cardIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .cardIcon {
+  transform: scale(1.1);
+}
+
+.title {
+  min-width: 125px;
+  min-height: 24px;
+  /* background: green; */
+  color: #FFF;
+  font-size: 20.426px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  padding: 4px 8px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* background: rgb(239, 11, 182); */
+  /* width: 231.95px;
+  height: 57px; */
+  color: #FFF;
+  font-size: 15.887px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.159px;
+  text-align: start;
+  /* align-self: stretch; */
+  /* margin-bottom: 10px; */
+  margin-top: 10px;
+}
+
+/* Link styles */
+.link {
+  /* background-color: aquamarine; */
+  width: 50%;
+  margin-left: -50%;
+  height: 30px;
+  margin-top: 20px;
+  color: #999;
+  font-size: 15.887px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.385px;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+  font-style: normal;
+  font-weight: 400;
+  display: block;
+   transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  /* transform: translateY(10px); */
+ 
+}
+
+ .card:hover .link {
+  opacity: 1;
+  /* transform: translateY(0); */
+}
+
+/* .link:hover {
+  color: #fff;
+  text-decoration: underline;
+}  */
+
+/* ===== Mobile Responsive Styles ===== */
+@media (max-width: 768px) {
+  .card {
+    display: flex;
+    width: 164px;
+    height: 199.096px;
+    /* padding: 16.828px 9.127px; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 42.783px 0;
+    background: #222429;
+    box-shadow: 1.426px 1.141px 14.261px 0 rgba(0, 0, 0, 0.50);
+  }
+
+.card:hover {
+  width: 180px; /* Match the base width */
+  height: 200px; /* Match the base height */
+  border: 2px solid var(--Primary, #D04A1D);
+  transform: translateY(-5px) scale(1.02);
+  border-radius: 0 0 45px 0;
+  box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease-in-out; 
+}
+
+  .iconWrapper {
+    width: 75.583px;
+    height: 71.59px;
+    flex-shrink: 0;
+    fill: var(--Primary, #D04A1D);
+  }
+
+  .title {
+    width: 79px;
+    height: 15px;
+    color: #FFF;
+    font-size: 12.835px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.128px;
+  }
+
+  .description {
+    width: 145.7461px;
+    height: 36px;
+   align-self: stretch;
+   color: #FFF;
+    font-size: 9.983px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.1px;
+  }
+
+  .link {
+  font-size: 9.983px;
+  margin-top: 12px;
+  margin-left: 0; /* Remove negative margin */
+  height: 24px;
+  text-align: center;
+  width: 100%;
+  transition: opacity 0.2s ease;
+}
+/* Optimize hover/active states for touch devices */
+.card:active {
+  transform: scale(0.98); /* Slight press-in effect */
+  transition: transform 0.1s ease;
+  border: 2px solid var(--Primary, #D04A1D);
+}
+.card:active .cardIcon {
+  transform: scale(0.98);
+}
+/* Keep link visible on mobile */
+.card:active .link {
+  opacity: 1; /* Keep link visible on press */
+  text-decoration: underline;
+}
+/* Adjust dots layers for mobile */
+.dotsLayer1,
+.dotsLayer2,
+.dotsLayer3 {
+  transform: scale(1.1);
+  opacity: 0.6;
+}
+}
+
+/* Tablet Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .card {
+    width: 100%;
+    max-width: 220px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #D04A1D; */
+    /* padding: 20px 12px; */
+    /* padding-left: 0%; */
+    border-radius: 0 0 45px 0;
+  }
+
+  .card:hover {
+    /* width: 100%;
+    max-width: 240px;
+    height: 280px; */
+    width: 400px; /* Match the base width */
+    height: 270px; /* Match the base height */
+    border: 3px solid var(--Primary, #D04A1D);
+    transform: translateY(-5px) scale(1.02);
+    border-radius: 0 0 45px 0;
+    box-shadow: 3px 3px 18px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease-in-out; 
+  }
+
+  .iconWrapper {
+    width: 100px;
+    height: 95px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .description {
+    width: 100%;
+    text-align: start;
+    font-size: 14px;
+    /* background-color: blue; */
+    height: auto;
+    box-sizing: border-box;
+    /* padding: 12px; */
+    color: #fff;
+    border-radius: 8px;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+}

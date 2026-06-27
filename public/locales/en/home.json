@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "title": "We Build Digital Solutions That Drive Success",
+    "subtitle": "Transform your business with our expert project management and innovative solutions",
+    "cta": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive solutions tailored to your business needs",
+    "items": {
+      "webDevelopment": {
+        "title": "Web Development",
+        "description": "Custom web applications built with modern technologies"
+      },
+      "mobileDevelopment": {
+        "title": "Mobile Development",
+        "description": "Native and cross-platform mobile solutions"
+      },
+      "uiuxDesign": {
+        "title": "UI/UX Design",
+        "description": "User-centered design that delights and converts"
+      },
+      "consulting": {
+        "title": "Business Consulting",
+        "description": "Strategic guidance to accelerate your growth"
+      }
+    }
+  },
+  "business": {
+    "title": "How We Help Businesses Grow",
+    "subtitle": "Partner with us to unlock your full potential",
+    "features": [
+      {
+        "title": "Strategic Planning",
+        "description": "Comprehensive business strategies for sustainable growth"
+      },
+      {
+        "title": "Digital Transformation",
+        "description": "Modernize your operations with cutting-edge technology"
+      },
+      {
+        "title": "Process Optimization",
+        "description": "Streamline workflows and increase efficiency"
+      }
+    ]
+  },
+  "achievements": {
+    "title": "Our Achievements",
+    "subtitle": "Numbers that speak for themselves",
+    "projectsCompleted": "Projects Completed",
+    "happyClients": "Happy Clients",
+    "teamMembers": "Team Members",
+    "successRate": "Success Rate"
+  },
+  "projects": {
+    "title": "Recent Projects",
+    "subtitle": "Explore our latest work and success stories",
+    "viewAll": "View All Projects"
+  },
+  "team": {
+    "title": "Meet Our Team",
+    "subtitle": "Talented professionals dedicated to your success",
+    "viewAll": "View All Team Members"
+  },
+  "contact": {
+    "title": "Let's Work Together",
+    "subtitle": "Ready to start your next project? Get in touch with us today.",
+    "form": {
+      "name": "Your Name",
+      "email": "Email Address",
+      "message": "Your Message",
+      "submit": "Send Message"
+    }
+  }
+}

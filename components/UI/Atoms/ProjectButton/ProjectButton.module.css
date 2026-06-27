@@ -1,0 +1,55 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  padding: 7px 16.891px 7px 16px;
+  min-width: 49.891px;
+  height: 32px;
+}
+/* Variants */
+.button_primary {
+  background: #D04A1D;
+  color: white;
+}
+.button_primary:hover {
+  background: #B33E17;
+  transform: translateY(-1px);
+}
+.button_secondary {
+  background: #F3F4F6;
+  color: #1F2937;
+}
+.button_secondary:hover {
+  background: #E5E7EB;
+  transform: translateY(-1px);
+}
+.button_outline {
+  background: transparent;
+  border: 1px solid #D1D5DB;
+  color: #4B5563;
+}
+.button_outline:hover {
+  background: #F9FAFB;
+  transform: translateY(-1px);
+}
+/* Disabled State */
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+/* Focus State */
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(208, 74, 29, 0.3);
+}
+/* Active State */
+.button:active {
+  transform: translateY(0);
+}

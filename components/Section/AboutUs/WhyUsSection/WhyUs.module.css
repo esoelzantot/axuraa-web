@@ -1,0 +1,158 @@
+/* ===== WhyUs Section Styles ===== */
+.whyUsSection {
+  width: 100%;
+  background: #1a1b1f;
+  padding: 2rem 0%; /* Match the parent container's 6% horizontal padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
+/* Header Section */
+.header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+  max-width: 56.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex-direction: column;
+}
+.badge {
+  /* margin-bottom: 1.6rem; */
+  display: inline-flex;
+  justify-self: center; 
+  align-items: center;
+  gap: 0.5rem;
+}
+.heading {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.03125rem;
+  line-height: 1.2;
+}
+.subtitle {
+  color: #999;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.6;
+  max-width: 43.75rem;
+  margin: 0 auto;
+}
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  width: 80%;
+  margin: 0 10%;
+  /* max-width: 100%; */
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+}
+/* Responsive Breakpoints */
+/* Large Desktop (1440px and above) - Single row */
+@media (min-width: 90rem) {
+  .whyUsSection {
+    padding: 4rem 0%;
+  }
+  .cardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.25rem;
+    width: 80%;
+  }
+ 
+}
+/* Desktop (1025px - 1439px) - Single row */
+@media (min-width: 64.0625rem) and (max-width: 89.9375rem) {
+  .whyUsSection {
+    padding: 0.5rem 6%;
+  }
+  .cardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    width: 80%;
+  }
+ 
+  .badge{
+    margin-bottom: 0.75rem;
+  }
+}
+/* Tablets (769px - 1024px) - Single row with smaller gap */
+@media (min-width: 48.0625rem) and (max-width: 64rem) {
+ 
+  .header {
+    margin-bottom: 0.125rem;
+    text-align: center;
+  }
+  .heading {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 1.0625rem;
+  }
+  .cardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.75rem;
+    width: 100%;
+  }
+  .badge{
+    margin-bottom: 1rem;
+  }
+}
+/* Tablets (641px - 768px) - 2 columns */
+@media (min-width: 40.0625rem) and (max-width: 48rem) {
+  .whyUsSection {
+    padding: 3.75rem 0px;
+  }
+  .header {
+    margin-bottom: 0.25rem;
+  }
+  .heading {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+    margin-top: 20px;
+  }
+  .badge{
+    /* margin-bottom: -2%; */
+  }
+}
+/* Mobile devices (below 640px) - 1 column */
+@media (max-width: 40rem) {
+  .whyUsSection {
+    padding: 3.75rem 6%;
+  }
+  .header {
+    margin-bottom: 2.5rem;
+  }
+  .heading {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  .badge {
+    /* margin-bottom: -8%; */
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+    gap: 2rem;
+  }
+}

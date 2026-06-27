@@ -1,0 +1,174 @@
+/* components/Sections/HistorySection/HistorySection.module.css - FIXED */
+.history_section {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 16%; /* Match the parent container's 6% horizontal padding */
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  justify-content: center;
+  /* margin: 0 11%; */
+}
+
+/* Decorative background elements */
+.history_section::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.history_section::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.content_wrapper {
+  display: grid;
+  grid-template-columns: 1fr 30rem;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Timeline Container */
+.timeline_container {
+  opacity: 0;
+  animation: fadeInLeft 0.8s ease forwards;
+}
+
+/* Remove default padding/background from HistoryJourney when inside section */
+.timeline_container :global(section) {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.timeline_container :global(.history_journey) {
+  padding: 0 !important;
+  background: transparent !important;
+  margin-left: 0 !important; /* Override the HistoryJourney margin */
+  width: 100% !important;
+}
+
+/* Card Container */
+.card_container {
+  position: sticky;
+  top: 6rem;
+  opacity: 0;
+  animation: fadeInRight 0.8s ease forwards 0.3s;
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Animations */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-1.875rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(1.875rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+
+/* Large tablets and small desktops (1024px - 1200px) */
+@media (max-width: 90rem) and (min-width: 64.0625rem) {
+  .history_section {
+    padding: 4rem 1%;
+  }
+
+  .content_wrapper {
+    grid-template-columns: 1fr 26.25rem;
+    gap: 0rem;
+    margin: 0 6%;
+  }
+
+  .card_container {
+    top: 5rem;
+    height: 75vh;
+  }
+}
+
+/* Tablets (769px - 1024px) - Keep in one row */
+@media (max-width: 64rem) and (min-width: 48.0625rem) {
+  .history_section {
+    padding: 3.5rem 2%;
+  }
+
+  .content_wrapper {
+    grid-template-columns: 1fr 23.75rem;
+    gap: 2rem;
+  }
+
+  .card_container {
+    top: 4rem;
+    height: 70vh;
+  }
+}
+
+/* Mobile and small tablets (below 768px) - Stack vertically */
+@media (max-width: 48rem) {
+  .history_section {
+    padding: 3rem 2%;
+  }
+
+  .content_wrapper {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .card_container {
+    position: relative;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    height: auto;
+    min-height: 31.25rem;
+  }
+}
+
+/* Small mobile devices (below 480px) */
+@media (max-width: 30rem) {
+  .history_section {
+    padding: 2.5rem 2%;
+  }
+
+  .content_wrapper {
+    gap: 2.5rem;
+  }
+
+  .card_container {
+    min-height: 28.125rem;
+  }
+}

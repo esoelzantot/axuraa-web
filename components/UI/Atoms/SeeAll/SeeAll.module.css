@@ -1,0 +1,119 @@
+.linkContainer {
+  width: 1080px;
+  height: 28px;
+  /* background: #034bdb; */
+  margin: 0 auto;
+  align-self: stretch;
+  text-align: right;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.link {
+  color: var(--Primary, #D04A1D);
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #ff6b35;
+}
+
+.arrowIcon {
+  transition: transform 0.2s ease;
+}
+
+.link:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+@media (width: 1024px)  {
+  .linkContainer {
+    padding: 0 24px;
+    /* background-color: aqua; */
+  }
+  
+  .link {
+    margin-right: 150px ;
+    /* background-color: blue; */
+    font-size: clamp(16px, 2vw, 20px);
+  }
+}
+
+/* Tablet */
+@media (width: 768px)  {
+  .linkContainer {
+    padding: 0 24px;
+    /* background-color: aqua; */
+  }
+  
+  .link {
+    margin-right: 150px ;
+    /* background-color: blue; */
+    font-size: clamp(16px, 2vw, 20px);
+  }
+}
+/* Mobile */
+@media (max-width: 600px) {
+  .linkContainer {
+    padding: 0 16px;
+    text-align: right;
+  }
+  
+  .link {
+    font-size: 14px;
+    text-underline-offset: 3px;
+  }
+  
+  .arrowIcon {
+    width: 16px;
+    height: 16px;
+  }
+}
+/* Small Mobile */
+@media (max-width: 360px) {
+  .link {
+    font-size: 13px;
+    gap: 4px;
+  }
+  
+  .arrowIcon {
+    width: 14px;
+    height: 14px;
+  }
+}
+@media (max-width: 600px) {
+  .linkContainer {
+    width: 343px;
+    height: 16px;
+   
+  }
+  .link {
+   color: var(--Primary, #D04A1D);
+    text-align: right;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+  .arrowIcon {
+    width: 20px;
+    height: 20px;
+  }
+}

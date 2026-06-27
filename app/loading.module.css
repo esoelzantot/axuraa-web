@@ -1,0 +1,10 @@
+/* app/loading.module.css */
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  align-self: center;
+  width: 100%;
+  min-height: 100vh;
+}
