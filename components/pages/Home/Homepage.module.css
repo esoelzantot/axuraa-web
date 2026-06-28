@@ -1,11 +1,7 @@
 .homePage {
-  /* width: 100%; */
   color: #ffffff;
-  /* background-color: #f40a0a; */
-  /* min-height: 100vh; */
   overflow-x: hidden;
   position: relative;
-  top: -10%;
 }
 
 /* Global styles that will be used across components */

@@ -377,27 +377,16 @@
 }
 
 .SuccessStoriesContent {
-  /* width: 1120px;
-
-    height: 56px; */
-
   display: flex;
-
+  width: 100%;
   height: auto;
-
-  padding: 0 280px;
-
+  padding: 0;
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 16px;
-
   align-self: stretch;
-
-  /* background-color: rgba(2, 104, 2, 0.979); */
+  text-align: center;
 }
 
 .SuccessStoriesTitle {
@@ -1672,37 +1661,17 @@
   }
 
   .SuccessStoriesContent {
-    margin-left: -90px;
-
-    /* margin: 0 auto; */
-
-    /* width: 100%;
-
-  height: auto; */
-
-    width: 18.75rem;
-
-    height: 6.25rem;
-
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
     display: flex;
-
-    /* padding: 0 280px; */
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 15px;
-
     align-self: stretch;
-
     text-align: center;
-
     padding-bottom: 5px;
-
-    /* background-color: rgba(2, 104, 2, 0.979); */
   }
 
   .SuccessStoriesTitle {
@@ -2054,39 +2023,17 @@
 
 @media (width: 425px) {
   .SuccessStoriesContent {
-    margin-left: -70px;
-
-    /* margin: 0 auto; */
-
-    /* width: 100%;*/
-
+    margin: 0 auto;
+    width: 100%;
     height: auto;
-
-    width: 18.75rem;
-
-    /* height: 6.25rem; */
-
     display: flex;
-
-    /* padding: 0 280px; */
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 15px;
-
     align-self: stretch;
-
     text-align: center;
-
     padding-bottom: 5px;
-
-    /* background-color: #7A4A1A; */
-
-    /* background-color: rgba(2, 104, 2, 0.979); */
   }
 
   .StoriesStatusBadge {
@@ -2161,40 +2108,17 @@
     /* background-color: rgb(2, 104, 2); */
   }
   .SuccessStoriesContent {
-    margin-left: -90px;
-
-    /* margin: 0 auto; */
-
-    /* width: 100%;*/
-
+    margin: 0 auto;
+    width: 100%;
     height: auto;
-
-    width: 18.75rem;
-
-    /* height: 6.25rem; */
-
     display: flex;
-
-    /* padding: 0 280px; */
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 15px;
-
     align-self: stretch;
-
     text-align: center;
-    /* background-color: #7a4a1a; */
-
     padding-bottom: 5px;
-
-    /* background-color: #7A4A1A; */
-
-    /* background-color: rgba(2, 104, 2, 0.979); */
   }
 
   .StoriesStatusBadge {

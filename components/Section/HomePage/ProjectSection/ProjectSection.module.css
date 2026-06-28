@@ -1,116 +1,73 @@
 .ProjectSection {
-  width: 1200px;
-  height: 850px;
+  width: 100%;
+  max-width: 75rem; /* 1200px */
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 50px 0px;
-  align-self: stretch;
+  gap: 1.25rem;
+  padding: 3.125rem 0;
   background: #191b1f;
-  /* background-color: coral; */
-}
-
-.heroDots {
-  /* height: 2409.793px; 
-  width: 1588.4px;; */
-  background: #040352f6;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.ProjectGrid {
-  /* background-color: yellow; */
-  display: flex;
-  width: 1120px;
-  /* height: 396.4084px; */
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  row-gap: 22px;
-  align-self: stretch;
-  flex-wrap: wrap;
-  border: 0 solid #e5e7eb;
   margin: 0 auto;
 }
 
-/* Tablet - 1024px */
+.ProjectGrid {
+  display: flex;
+  width: 100%;
+  max-width: 70rem; /* 1120px */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  row-gap: 1.375rem;
+  margin: 0 auto;
+}
+
 @media (max-width: 1024px) {
   .ProjectSection {
-    width: 100%;
-    /* background-color: antiquewhite; */
-    padding: 40px 30px;
-    gap: 18px;
-    height: auto;
+    padding: 2.5rem 1.875rem;
+    gap: 1.125rem;
   }
 
   .ProjectGrid {
-    margin: 0 auto;
-    width: 69%;
-    height: auto;
-    /* background-color: brown; */
-    /* column-gap: 20px;
-    row-gap: 20px; */
+    max-width: 44rem;
     justify-content: center;
   }
 }
 
-/* Tablet - 768px */
 @media (max-width: 768px) {
   .ProjectSection {
-    width: 100%;
-    /* background-color: blue; */
-    padding: 30px 20px;
-    height: auto;
-    gap: 16px;
-    margin: 0 auto;
+    padding: 1.875rem 1.25rem;
+    gap: 1rem;
   }
 
   .ProjectGrid {
-    height: auto;
-    width: 61%;
-    margin: 0 auto;
-    /* background-color: #16e621; */
-    flex-direction: row;
+    max-width: 26rem;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
   }
 }
 
-/* Mobile - 425px */
 @media (max-width: 440px) {
   .ProjectSection {
-    height: auto;
-    padding: 24px 16px;
-    gap: 14px;
-    /* background-color: blue; */
-    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    gap: 0.875rem;
   }
 
   .ProjectGrid {
-    padding: 10px;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 343px;
-    gap: 22px;
-    /* background-color: red; */
+    max-width: 21.4rem;
+    gap: 1.375rem;
+    padding: 0.625rem;
   }
 }
 
-/* Mobile - 375px */
 @media (max-width: 375px) {
   .ProjectSection {
-    padding: 20px 12px;
-    gap: 12px;
+    padding: 1.25rem 0.75rem;
+    gap: 0.75rem;
   }
 
   .ProjectGrid {
-    gap: 16px;
+    gap: 1rem;
   }
 }
