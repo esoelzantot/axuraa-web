@@ -123,7 +123,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 0 0 42.522px 0;
+    border-radius: var(--card-border-radius, 0 0 42.522px 0);
     background: #222429;
     /* background-color: red; */
     box-shadow: 1.417px 1.134px 14.174px 0 rgba(0, 0, 0, 0.5);
@@ -135,7 +135,7 @@
     height: 200px;
     border: 2.5px solid var(--Primary, #d04a1d);
     transform: translateY(-5px) scale(1.02);
-    border-radius: 0 0 45px 0;
+    border-radius: var(--card-border-radius, 0 0 45px 0);
     box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.6);
     transition: all 0.3s ease-in-out;
     /* background-color: antiquewhite; */
@@ -184,7 +184,7 @@
     /* background-color: #D04A1D; */
     /* padding: 20px 12px; */
     /* padding-left: 0%; */
-    border-radius: 0 0 45px 0;
+    border-radius: var(--card-border-radius, 0 0 45px 0);
   }
 
   .card:hover {
@@ -192,7 +192,7 @@
     height: 270px; /* Match the base height */
     border: 3px solid var(--Primary, #d04a1d);
     transform: translateY(-5px) scale(1.02);
-    border-radius: 0 0 45px 0;
+    border-radius: var(--card-border-radius, 0 0 45px 0);
     box-shadow: 3px 3px 18px rgba(0, 0, 0, 0.6);
     transition: all 0.3s ease-in-out;
   }
@@ -250,7 +250,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 0 0 42.522px 0;
+    border-radius: var(--card-border-radius, 0 0 42.522px 0);
     background: #222429;
     box-shadow: 1.417px 1.134px 14.174px 0 rgba(0, 0, 0, 0.5);
   }
@@ -261,7 +261,7 @@
     aspect-ratio: 261 / 304.122;
     border: 2.5px solid var(--Primary, #d04a1d);
     transform: translateY(-4px) scale(1.02);
-    border-radius: 0 0 45px 0;
+    border-radius: var(--card-border-radius, 0 0 45px 0);
     box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.6);
     transition: all 0.3s ease-in-out;
   }
@@ -280,12 +280,18 @@
     width: 100%;
     height: auto;
     font-size: clamp(13px, 1.5vw, 16.5px);
+    margin-bottom: clamp(6px, 1vw, 10px);
   }
 
   .description {
     width: 100%;
     height: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: clamp(8.5px, 1.05vw, 11.5px);
-    margin-top: clamp(6px, 1vw, 10px);
+    margin-top: clamp(10px, 1.6vw, 16px);
   }
 }
