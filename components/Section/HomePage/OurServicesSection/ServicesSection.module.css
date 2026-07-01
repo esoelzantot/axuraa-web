@@ -1,58 +1,51 @@
 .servicesSection {
   width: 100%;
-  max-width: 75rem; /* 1200px */
-  height: auto;
+  max-width: 75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
   background: #191b1f;
-  margin: 0 auto;
-  margin-bottom: 4rem;
+  margin: 0 auto 4rem;
 }
 
 .servicesGrid {
   display: flex;
   width: 100%;
-  max-width: 70rem; /* 1120px */
+  max-width: 70rem;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   margin: 0 auto;
 }
 
+/* ===== Tablet ===== */
 @media (max-width: 1024px) {
   .servicesSection {
     padding: 2.5rem 1.9rem;
     gap: 1.2rem;
   }
-
   .servicesGrid {
-    width: 100%;
     gap: 1.2rem;
     justify-content: center;
-    padding-left: 0.95rem;
-    margin-left: 3px;
   }
 }
 
+/* ===== Mobile ===== */
 @media (max-width: 768px) {
   .servicesSection {
     padding: 1.9rem 0;
     gap: 1rem;
   }
-
   .servicesGrid {
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
     gap: 1rem;
   }
 }
 
+/* ===== Small Mobile ===== */
 @media (max-width: 440px) {
   .servicesSection {
-    width: 100%;
     padding: 1.5rem 1rem;
     gap: 0.9rem;
   }
@@ -66,81 +59,40 @@
     padding: 0 0.5rem;
     box-sizing: border-box;
   }
-
-  .servicesGrid > * {
-    width: 100%;
-    margin: 0;
-  }
 }
 
+/* ===== XS Mobile ===== */
 @media (max-width: 375px) {
   .servicesSection {
     padding: 1.25rem 0.75rem;
     gap: 0.75rem;
   }
-
   .servicesGrid {
     gap: 0.75rem;
   }
 }
 
-/* ════════════════════════════════════════
-   LANDSCAPE — Mobile (height ≤ 480px)
-   Covers: iPhone SE/8/X/12/14 landscape
-   Width range: ~568px → ~932px
-   ════════════════════════════════════════ */
-@media (orientation: landscape) and (max-height: 480px) {
+/* ===== Mobile Landscape =====
+   Bounded by max-height so tablets/desktops (taller landscape
+   viewports) are never affected. Explicitly re-asserts the flex
+   row layout (rather than the Small Mobile 2x2 grid) so the 4
+   cards sit in a single row and use the extra horizontal space
+   landscape provides, with tighter vertical padding/gap to suit
+   the limited viewport height. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 932px) {
   .servicesSection {
-    padding: 1rem 1.5rem;
+    padding: 1.1rem 1.25rem;
     gap: 0.75rem;
-  }
-
-  .servicesGrid {
-    display: grid;
-    grid-template-columns: repeat(
-      4,
-      1fr
-    ); /* 3 cards + DirectionCard في row واحد */
-    gap: 0.75rem;
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    height: auto;
-  }
-
-  .servicesGrid > * {
-    width: 100%;
-    margin: 0;
-  }
-}
-
-/* ════════════════════════════════════════
-   LANDSCAPE — Mobile L / Phablet
-   Covers: iPhone Plus / Max landscape
-   Width range: ~736px → ~932px
-   ════════════════════════════════════════ */
-@media (orientation: landscape) and (max-height: 480px) and (min-width: 736px) {
-  .servicesGrid {
-    gap: 1rem;
-  }
-}
-
-/* ════════════════════════════════════════
-   LANDSCAPE — Tablet (height 481px–1024px)
-   Covers: iPad Mini/Air/Pro landscape
-   ════════════════════════════════════════ */
-@media (orientation: landscape) and (min-height: 481px) and (max-height: 1024px) {
-  .servicesSection {
-    padding: 1.5rem 2rem;
-    gap: 1rem;
   }
 
   .servicesGrid {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
-    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(0.55rem, 1.8vw, 1rem);
     max-width: 100%;
+    padding: 0;
   }
 }
