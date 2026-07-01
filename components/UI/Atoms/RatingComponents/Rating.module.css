@@ -12,11 +12,11 @@
 .card {
   display: flex;
   width: 16.5625rem; /* 265px / 16 = 16.5625rem */
-  height: 16.8470rem; /* 269.5515px / 16 = 16.8470rem */
+  height: 16.847rem; /* 269.5515px / 16 = 16.8470rem */
   flex-direction: column;
   align-items: center;
   gap: 1.3125rem; /* 21px / 16 = 1.3125rem */
-  border: 0 solid #E5E7EB;
+  border: 0 solid #e5e7eb;
   opacity: 0;
   transform: translateY(1.875rem); /* 30px / 16 = 1.875rem */
   transition: all 0.6s ease;
@@ -35,10 +35,12 @@
   justify-content: center;
   align-items: center;
   border-radius: 1.0764rem; /* 17.222px / 16 = 1.0764rem */
-  border: 0 solid #E5E7EB;
-  background: var(--Primary, #D04A1D); 
+  border: 0 solid #e5e7eb;
+  background: var(--Primary, #d04a1d);
   box-shadow: 0 0.625rem 1.875rem rgba(208, 74, 29, 0.3); /* 0 10px 30px */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .iconBox:hover {
@@ -55,7 +57,7 @@
   width: 16.4375rem; /* 263px / 16 = 16.4375rem */
   height: 3.9375rem; /* 63px / 16 = 3.9375rem */
   align-self: stretch;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   font-size: 3.2291rem; /* 51.665px / 16 = 3.2291rem */
   font-style: normal;
@@ -66,7 +68,7 @@
 .subtitle {
   width: 16.5rem; /* 264px / 16 = 16.5rem */
   height: 2.75rem; /* 44px / 16 = 2.75rem */
-  color: #7E7E7E;
+  color: #7e7e7e;
   font-size: 1.4961rem; /* 23.937px / 16 = 1.4961rem */
   font-style: normal;
   font-weight: 400;
@@ -78,7 +80,8 @@
 }
 
 /* Desktop - 1024px  */
-@media (max-width: 64rem) { /* 1024px / 16 = 64rem */
+@media (max-width: 64rem) {
+  /* 1024px / 16 = 64rem */
   .wrapper {
     display: flex;
     flex-direction: row;
@@ -89,7 +92,7 @@
     padding: 2.5rem 3.125rem; /* 40px 50px */
     box-sizing: border-box;
   }
-  
+
   .card {
     width: 30%;
     padding: 1.25rem; /* 20px / 16 = 1.25rem */
@@ -102,7 +105,7 @@
     justify-content: center;
     text-align: center;
   }
-  
+
   .iconBox {
     width: 4rem; /* 64px / 16 = 4rem */
     height: 4rem;
@@ -113,32 +116,33 @@
     justify-content: center;
     margin-bottom: 0.75rem; /* 12px / 16 = 0.75rem */
   }
-  
+
   .icon {
     width: 1.5rem; /* 24px / 16 = 1.5rem */
     height: 1.5rem;
-    color: #4F46E5;
+    color: #4f46e5;
   }
-  
+
   .number {
     width: 100%;
     font-size: 1.75rem; /* 28px / 16 = 1.75rem */
     font-weight: 700;
     line-height: 1.2;
-    color: #FFFFFF;
+    color: #ffffff;
     margin: 0.25rem 0; /* 4px / 16 = 0.25rem */
   }
-  
+
   .subtitle {
     font-size: 0.875rem; /* 14px / 16 = 0.875rem */
     line-height: 1.4;
-    color: #9CA3AF;
+    color: #9ca3af;
     margin: 0;
   }
 }
 
 /* Tablet and below - 2x2 Grid */
-@media (max-width: 48rem) { /* 768px / 16 = 48rem */
+@media (max-width: 48rem) {
+  /* 768px / 16 = 48rem */
   .wrapper {
     width: 100%;
     max-width: 37.5rem; /* 600px / 16 = 37.5rem */
@@ -149,23 +153,23 @@
     gap: 0.625rem; /* 10px / 16 = 0.625rem */
     padding: 0rem 1.25rem; /* 10px 20px */
     /* margin-top: 1rem; */
-    margin:auto;
+    margin: auto;
     /* background-color: blue; */
   }
 
   .card {
     width: 100%;
     height: auto;
-    min-height: 160px; 
-    gap: 1rem; 
+    min-height: 160px;
+    gap: 1rem;
     /* background-color: red; */
   }
 
   .iconBox {
-    width: 5rem; 
+    width: 5rem;
     height: 5rem;
-    padding: 0.5rem; 
-    border-radius: 0.875rem; 
+    padding: 0.5rem;
+    border-radius: 0.875rem;
     /* background-color: green; */
   }
 
@@ -190,7 +194,8 @@
 }
 
 /* Small Mobile - Smaller 2x2 Grid */
-@media (max-width: 30rem) { /* 480px / 16 = 30rem */
+@media (max-width: 30rem) {
+  /* 480px / 16 = 30rem */
   .wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -230,28 +235,29 @@
   .icon {
     width: 1.5rem; /* 24px / 16 = 1.5rem */
     height: 1.5rem;
-    color: #4F46E5; 
-    margin: 0; 
+    color: #4f46e5;
+    margin: 0;
   }
 
   .number {
     font-size: 1.5rem; /* 24px / 16 = 1.5rem */
     font-weight: 700;
     line-height: 1.2;
-    color: #FFFFFF;
+    color: #ffffff;
     margin: 0.25rem 0; /* 4px / 16 = 0.25rem */
   }
 
   .subtitle {
     font-size: 0.875rem; /* 14px / 16 = 0.875rem */
     line-height: 1.4;
-    color: #9CA3AF;
+    color: #9ca3af;
     margin: 0;
   }
 }
 
 /* Extra Small Mobile - Even smaller 2x2 Grid */
-@media (max-width: 23.4375rem) { /* 375px / 16 = 23.4375rem */
+@media (max-width: 23.4375rem) {
+  /* 375px / 16 = 23.4375rem */
   .wrapper {
     gap: 0.9375rem; /* 15px / 16 = 0.9375rem */
     padding: 1.5625rem 0.75rem; /* 25px 12px */
@@ -281,5 +287,112 @@
   .subtitle {
     font-size: 0.75rem; /* 12px / 16 = 0.75rem */
     line-height: 1.125rem; /* 18px / 16 = 1.125rem */
+  }
+}
+
+/* ════════════════════════════════════════
+   LANDSCAPE — Mobile (height ≤ 480px)
+   Matches the same orientation-aware tier used in
+   RatingSection.module.css. Explicitly forces the 4
+   cards into a single centered row (overriding whatever
+   width-based grid/wrap rule would otherwise apply),
+   with a tighter card-to-card gap and a much smaller
+   number-to-subtitle gap, since vertical space is scarce
+   in landscape and the portrait spacing looks oversized.
+   ════════════════════════════════════════ */
+@media (orientation: landscape) and (max-height: 480px) {
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0.9rem, 3.5vw, 1.75rem);
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    margin: 0 auto;
+  }
+
+  .card {
+    width: auto;
+    height: auto;
+    flex: 0 1 auto;
+    gap: 0.4rem;
+    padding: 0;
+  }
+
+  .iconBox {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0.5rem;
+    border-radius: 0.625rem;
+    margin-bottom: 0;
+  }
+
+  .icon {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+
+  .number {
+    width: auto;
+    height: auto;
+    font-size: 1.375rem;
+    line-height: 1.2;
+    margin: 0.125rem 0 0;
+  }
+
+  .subtitle {
+    width: auto;
+    height: auto;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 480px) and (min-width: 736px) {
+  .wrapper {
+    gap: clamp(1.5rem, 5vw, 3rem);
+    padding: 0.75rem 1.5rem;
+  }
+
+  .card {
+    gap: 0.5rem;
+  }
+
+  .iconBox {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .number {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+  }
+}
+
+/* ════════════════════════════════════════
+   LANDSCAPE — Tablet (height 481px–1024px)
+   ════════════════════════════════════════ */
+@media (orientation: landscape) and (min-height: 481px) and (max-height: 1024px) {
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 1.5rem 2rem;
+  }
+
+  .card {
+    gap: 0.75rem;
   }
 }
