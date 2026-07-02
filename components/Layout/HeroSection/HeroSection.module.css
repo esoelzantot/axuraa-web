@@ -1,15 +1,21 @@
 /* Hero Section */
 .hero {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  /* fallback for browsers without dvh support */
+  min-height: 100dvh;
+  /* accounts for mobile browser chrome (address bar) */
+  height: auto;
+  /* content defines the real height, never gets clipped */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   padding: 5% 1.5rem;
-  overflow: hidden;
-  /* background-color: #d04a1d; */
+  overflow: visible;
+  /* was "hidden" — that combined with fixed height/max-height
+                         is what was clipping the content in landscape */
   margin-top: 1.5%;
 }
 
@@ -43,9 +49,6 @@
   gap: 2rem;
   width: 100%;
   max-width: 56.25rem;
-  /* margin-top: -1%; */
-  /* background-color: #22c55e; */
-  /* pointer-events: none; */
 }
 
 .animatedBackground {
@@ -54,11 +57,8 @@
   height: 100%;
   pointer-events: auto;
   z-index: 1;
-  /* pointer-events: none; */
   inset: 0;
   margin-left: 10%;
-  /* margin-top: -5%; */
-  /* background-color: aliceblue; */
 }
 
 /* Badge */
@@ -109,11 +109,13 @@
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.6;
     transform: scale(1.2);
@@ -127,7 +129,6 @@
   line-height: 1.1;
   color: #d04a1d;
   margin: 0;
-  margin-top: -3%;
   letter-spacing: -0.02em;
   animation: fadeInUp 0.8s ease-out;
 }
@@ -138,7 +139,6 @@
   max-width: 100%;
   height: auto;
   text-align: center;
-  margin-bottom: -2%;
 }
 
 /* CTA Buttons */
@@ -151,7 +151,6 @@
   align-items: center;
   gap: var(--font-size-16, 1rem);
   z-index: 10;
-  /* background-color: #2d3748; */
 }
 
 /* Decorative Shapes */
@@ -192,6 +191,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -226,7 +226,6 @@
   max-width: 64rem;
   height: auto;
   margin: auto;
-  margin-top: -1%;
 }
 
 .companyLogo {
@@ -256,6 +255,7 @@
     opacity: 0;
     transform: translateY(1.875rem);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -266,6 +266,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -297,7 +298,11 @@
   text-align: center;
 }
 
-/* Responsive Design */
+/* ============================================================
+   Responsive Design — all breakpoints below use min-height
+   (never a fixed/max height) so the hero always fits its
+   content, regardless of viewport aspect ratio.
+   ============================================================ */
 
 /* Large Desktop and above (1200px+) */
 @media (min-width: 75rem) {
@@ -339,9 +344,8 @@
 /* Large Tablet (1024px) */
 @media (max-width: 64rem) {
   .hero {
-    margin-top: 5%;
     padding: 4% 1.5rem;
-    min-height: 90vh;
+    min-height: 100dvh;
   }
 
   .container {
@@ -352,17 +356,14 @@
   .content {
     gap: 1.5rem;
     max-width: 50rem;
-    margin-top: -8%;
   }
 
   .title {
     font-size: 4.5rem;
-    margin-top: -2%;
   }
 
   .subtitle {
     width: 90%;
-    margin-bottom: -1%;
   }
 
   .titleWrapper {
@@ -393,7 +394,6 @@
     max-width: 56.25rem;
     gap: 1.75rem;
     padding-top: 3%;
-    margin-top: -1%;
   }
 
   .companiesGrid {
@@ -416,8 +416,7 @@
 @media (max-width: 62rem) {
   .hero {
     padding: 5rem 1.5rem 3.75rem;
-    max-height: 35vh;
-    margin-top: -20%;
+    min-height: 100dvh;
   }
 
   .container {
@@ -426,13 +425,12 @@
   }
 
   .content {
-    gap: 3.25rem;
+    gap: 2rem;
     max-width: 40.625rem;
   }
 
   .title {
     font-size: 3.5rem;
-    margin-top: -1%;
   }
 
   .subtitle {
@@ -462,9 +460,8 @@
 
   .trustedSection {
     max-width: 43.75rem;
-    gap: 3.5rem;
-    padding-top: 10%;
-    margin-top: 7%;
+    gap: 2rem;
+    padding-top: 6%;
   }
 
   .companiesGrid {
@@ -481,33 +478,27 @@
 @media (max-width: 48rem) {
   .hero {
     padding: 6.25rem 1.5rem 3.75rem;
-    max-height: 80vh;
-    margin-top: -5%;
+    min-height: 100dvh;
   }
 
   .container {
-    padding-top: 10%;
-    gap: 3.75rem;
+    gap: 3rem;
     max-width: 100%;
   }
 
   .content {
-    gap: 4rem;
+    gap: 2.5rem;
     max-width: 100%;
-    /* margin-top: -20%; */
   }
 
   .title {
     font-size: 2rem;
-    margin-top: -1%;
     display: block;
   }
 
   .subtitle {
     width: 100%;
     font-size: 1rem;
-    margin-bottom: 0;
-    margin-top: -1%;
   }
 
   .titleWrapper {
@@ -531,8 +522,7 @@
     width: 100%;
     max-width: 100%;
     gap: 2rem;
-    padding-top: 2%;
-    margin-top: -6%;
+    padding-top: 2rem;
   }
 
   .companiesGrid {
@@ -540,7 +530,6 @@
     max-width: 100%;
     gap: 1.25rem 1.5rem;
     height: auto;
-    margin-top: 0;
   }
 
   .companyLogo {
@@ -552,136 +541,264 @@
     width: 15.625rem;
     height: 15.625rem;
   }
-} /* Mobile (480px - 767px) */
+}
+
+/* Mobile (480px - 767px) */
 @media (max-width: 37.5rem) {
   .hero {
     padding: 5rem 1rem 2.5rem;
-    max-height: 50vh;
+    min-height: 100dvh;
   }
+
   .container {
     gap: 2.5rem;
-    /* padding-top: 5%; */
-    margin-top: -15%;
-    padding-bottom: 5%;
   }
+
   .content {
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
+
   .title {
     font-size: 2.25rem;
   }
+
   .subtitle {
     font-size: 0.938rem;
   }
+
   .ctaButtons {
     max-width: 12.5rem;
     gap: 0.625rem;
   }
+
   .badge {
-    max-width: 1rem;
+    max-width: none;
     padding: 0.25rem 0.6875rem;
   }
+
   .badgeContant {
     font-size: 0.625rem;
     line-height: 0.8125rem;
     letter-spacing: 0.0125rem;
   }
+
   .badgeDot {
     width: 0.375rem;
     height: 0.375rem;
   }
+
   .trustedSection {
-    gap: 1.25rem;
-    padding-top: 8%;
-    margin-top: 5%;
+    gap: 1.5rem;
+    padding-top: 2rem;
   }
+
   .companiesGrid {
     gap: 1rem 1.25rem;
   }
+
   .companyLogo {
     height: 1.125rem;
   }
-} /* Small Mobile (480px and below) */
+}
+
+/* Small Mobile (480px and below) */
 @media (max-width: 30rem) {
   .hero {
     padding: 5.75rem 1rem 1.875rem;
-    max-height: 40vh;
+    min-height: 100dvh;
   }
+
   .container {
     gap: 2rem;
   }
+
   .content {
-    gap: 2.5rem;
-    /* margin-top: -25%; */
+    gap: 2rem;
   }
+
   .title {
     font-size: 2rem;
   }
+
   .subtitle {
     font-size: 0.875rem;
   }
+
   .titleWrapper {
     padding: 0 0.5rem;
-    /* font-size: 1rem; */
   }
+
   .badge {
     min-width: 10.625rem;
     padding: 0.25rem 0.625rem;
   }
+
   .badgeContant {
     font-size: 0.5625rem;
     line-height: 0.75rem;
     letter-spacing: 0.009375rem;
   }
+
   .badgeDot {
     width: 0.34375rem;
     height: 0.34375rem;
   }
+
   .ctaButtons {
     gap: 0.5rem;
   }
+
   .trustedSection {
     gap: 2rem;
-    padding-top: 15%;
-    margin-top: 8%;
+    padding-top: 2rem;
   }
+
   .companiesGrid {
     gap: 0.75rem 1rem;
     flex-direction: row;
   }
+
   .companyLogo {
     height: 1rem;
   }
+
   .shapeTopRight,
   .shapeBottomLeft {
     width: 12.5rem;
     height: 12.5rem;
   }
-} /* Extra Small Mobile (360px and below) */
+}
+
+/* Extra Small Mobile (360px and below) */
 @media (max-width: 22.5rem) {
   .hero {
     padding: 3.125rem 0.75rem 1.25rem;
   }
+
   .title {
     font-size: 1.75rem;
   }
+
   .subtitle {
     font-size: 0.813rem;
   }
+
   .badge {
     min-width: 10rem;
     padding: 0.1875rem 0.5625rem;
   }
+
   .badgeContant {
     font-size: 0.53125rem;
     line-height: 0.6875rem;
     letter-spacing: 0.00625rem;
   }
+
   .badgeDot {
     width: 0.3125rem;
     height: 0.3125rem;
   }
+
   .companyLogo {
     height: 0.875rem;
+  }
+}
+
+/* ============================================================
+   Mobile / Small-Tablet LANDSCAPE — short viewport height.
+   This is the breakpoint that was completely missing before,
+   which is why the hero appeared "empty" in landscape: the
+   width-based breakpoints above were applying tall-viewport
+   padding/max-height rules to a viewport that only has
+   300-500px of vertical space.
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    min-height: 100dvh;
+    height: auto;
+    padding: 5.5rem 2rem 2rem;
+    /* enough top padding to clear a fixed header */
+    margin-top: 0;
+  }
+
+  .container {
+    gap: 1.25rem;
+  }
+
+  .content {
+    gap: 1rem;
+  }
+
+  .title,
+  .titleWrapper h1 {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+    width: 90%;
+    margin-bottom: 0;
+  }
+
+  .ctaButtons {
+    flex-direction: row;
+    /* keep buttons side-by-side to save vertical space */
+    gap: 0.75rem;
+  }
+
+  .badge {
+    min-width: 11rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .badgeContant {
+    font-size: 0.625rem;
+    line-height: 0.8125rem;
+  }
+
+  .trustedSection {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    gap: 1rem;
+  }
+
+  .companiesGrid {
+    gap: 0.5rem 1.5rem;
+  }
+
+  .companyLogo {
+    height: 1rem;
+  }
+
+  .shapeTopRight,
+  .shapeBottomLeft {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+
+/* Extra-short landscape (e.g. small phones in landscape, ~320-375px height) */
+@media (orientation: landscape) and (max-height: 380px) {
+  .hero {
+    padding: 4.5rem 1.5rem 1.5rem;
+  }
+
+  .content {
+    gap: 0.75rem;
+  }
+
+  .title,
+  .titleWrapper h1 {
+    font-size: 1.375rem;
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+  }
+
+  .trustedSection {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    gap: 0.75rem;
   }
 }

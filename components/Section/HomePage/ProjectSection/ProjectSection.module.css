@@ -13,13 +13,13 @@
   display: flex;
   width: 100%;
   flex-direction: row;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* flex-wrap: wrap; */
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   row-gap: 1.4rem;
   gap: 25px;
   margin: 0 auto;
-  padding: 1rem 8rem;
+  padding: 1rem 6rem;
 }
 
 @media (max-width: 1024px) {

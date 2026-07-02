@@ -22,6 +22,13 @@ interface HeroSectionProps {
   primaryHref?: string;
   secondaryHref?: string;
   backgroundType: "Hexagon" | "Circle" | "Alphabet";
+  /**
+   * Minimum height of the hero section. This is applied as `minHeight`
+   * (not a fixed `height`) so the section can always grow to fit its
+   * content — e.g. on mobile landscape where the viewport height is
+   * short but the content (badge + title + subtitle + buttons + trusted
+   * section) is taller than the visible viewport.
+   */
   height?: string;
   showBackgroundDots?: boolean;
   showAnimatedCircles?: boolean;
@@ -78,7 +85,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   secondaryButtonText = "View Our Work",
   primaryHref = "/contact#contact-form",
   secondaryHref = "/en/portfolio",
-  height = "100vh",
+  height = "100dvh",
   showAnimatedCircles = true,
   showBadge = true,
   showStatusBadge = true,
@@ -106,17 +113,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     // Fetch fresh partners data
     const fetchPartners = async () => {
       try {
-        console.log("Fetching partners from API...");
         const result = await getHomePartners();
-        console.log("Partners API result:", result);
 
         if (result.success && result.data) {
           const freshPartners = result.data.partners;
-          console.log("Partners loaded successfully:", freshPartners);
           setPartners(freshPartners);
           setCachedPartners(freshPartners);
         } else {
-          console.log("Partners API returned error:", result.error);
           // Use fallback data if API fails
           const fallbackPartners = [
             { id: 1, name: "SkyTech", icon: "skytech.svg", website: "#" },
@@ -140,8 +143,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         ];
         setPartners(fallbackPartners);
         setCachedPartners(fallbackPartners);
-      } finally {
-        // Partners loaded
       }
     };
 
@@ -181,7 +182,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       className={styles.hero}
-      style={{ height }}
+      style={{ minHeight: height }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
