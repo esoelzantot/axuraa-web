@@ -22,61 +22,148 @@
 
 .ratingWrapper {
   width: 90%;
-  max-width: 75rem; /* 1200px / 16 = 75rem */
+  max-width: 75rem;
+  /* 1200px / 16 = 75rem */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 1.25rem; /* 20px / 16 = 1.25rem */
+  padding: 0 1.25rem;
+  /* 20px / 16 = 1.25rem */
   margin-top: -10%;
   margin-bottom: 5%;
 }
 
 /* Responsive */
-@media (max-width: 64rem) { /* 1024px / 16 = 64rem */
+@media (max-width: 64rem) {
+
+  /* 1024px / 16 = 64rem */
   .heroWrapper {
-    margin-bottom: 3.125rem; /* 50px / 16 = 3.125rem */
+    margin-bottom: 3.125rem;
+    /* 50px / 16 = 3.125rem */
   }
-  
+
   .ratingWrapper {
-    margin-bottom: 3.75rem; /* 60px / 16 = 3.75rem */
+    margin-bottom: 3.75rem;
+    /* 60px / 16 = 3.75rem */
     margin-top: -30%;
   }
 }
 
-@media (max-width: 62rem) { /* 1024px / 16 = 64rem */
+@media (max-width: 62rem) {
+
+  /* 1024px / 16 = 64rem */
   .heroWrapper {
-    margin-bottom: 3.125rem; /* 50px / 16 = 3.125rem */
+    margin-bottom: 3.125rem;
+    /* 50px / 16 = 3.125rem */
 
   }
-  
+
   .ratingWrapper {
-    margin-bottom: 3.75rem; /* 60px / 16 = 3.75rem */
+    margin-bottom: 3.75rem;
+    /* 60px / 16 = 3.75rem */
     margin-top: -36%;
     /* width: 30%; */
   }
 }
 
-@media (max-width: 48rem) { /* 768px / 16 = 48rem */
+@media (max-width: 48rem) {
+
+  /* 768px / 16 = 48rem */
   .heroWrapper {
-    margin-bottom: 2.5rem; /* 40px / 16 = 2.5rem */
+    margin-bottom: 2.5rem;
+    /* 40px / 16 = 2.5rem */
   }
-  
+
   .ratingWrapper {
-    padding: 0 0.9375rem; /* 15px / 16 = 0.9375rem */
-    margin-bottom: 3.125rem; /* 50px / 16 = 3.125rem */
+    padding: 0 0.9375rem;
+    /* 15px / 16 = 0.9375rem */
+    margin-bottom: 3.125rem;
+    /* 50px / 16 = 3.125rem */
     margin-top: -5%;
   }
 }
 
-@media (max-width: 36rem) { /* 576px / 16 = 36rem */
+@media (max-width: 36rem) {
+
+  /* 576px / 16 = 36rem */
   .heroWrapper {
-    margin-bottom: 1.875rem; /* 30px / 16 = 1.875rem */
+    margin-bottom: 1.875rem;
+    /* 30px / 16 = 1.875rem */
   }
-  
+
   .ratingWrapper {
-    padding: 0 0.625rem; /* 10px / 16 = 0.625rem */
-    margin-bottom: 1.875rem; /* 30px / 16 = 1.875rem */
-    margin-top: -75%;
+    padding: 0rem 0.6rem;
+    /* 10px / 16 = 0.625rem */
+    margin-bottom: 1.875rem;
+    /* 30px / 16 = 1.875rem */
+    margin-top: -30%;
   }
 }
 
+/* ============================================================
+   LANDSCAPE — Mobile / short viewport (height ≤ 500px)
+
+   IMPORTANT: percentage margins (even margin-top/-bottom) are
+   resolved against the WIDTH of the containing block, not its
+   height. In landscape the viewport is much wider than in
+   portrait, so the negative % margins above (-30%, -36%, -75%…)
+   translate into a huge negative pixel value and yank the
+   Rating row up into the Hero's title/subtitle — that's the
+   overlap in the screenshot.
+
+   This block resets those to small, fixed rem values so the
+   layout stays correct no matter which width breakpoint above
+   also happens to match. Placed last so it wins the cascade.
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 480px) {
+  .mainSection {
+    margin-top: 0;
+  }
+
+  .heroWrapper {
+    margin-bottom: 0.25rem;
+  }
+
+  .ratingWrapper {
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+    padding: 0 1rem;
+  }
+}
+
+/* Extra-short landscape (small phones, ~320-375px height) */
+@media (orientation: landscape) and (max-height: 380px) {
+  .heroWrapper {
+    margin-bottom: 0;
+  }
+
+  .ratingWrapper {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* ============================================================
+   Tablet LANDSCAPE (height 481px–1024px)
+   Mirrors HeroSection.module.css's matching tier: without this,
+   any landscape viewport taller than 480px falls back to the
+   width-based percentage margins above, which (since % margins
+   resolve against WIDTH, not height) reintroduce a large gap —
+   or, combined with the hero still being pinned to 100vh outside
+   its own 480px cutoff, push the Rating strip far below the fold.
+   ============================================================ */
+@media (orientation: landscape) and (min-height: 481px) and (max-height: 1024px) {
+  .mainSection {
+    margin-top: 0;
+  }
+
+  .heroWrapper {
+    margin-bottom: 1rem;
+  }
+
+  .ratingWrapper {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 1.25rem;
+  }
+}

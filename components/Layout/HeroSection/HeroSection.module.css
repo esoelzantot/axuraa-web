@@ -716,7 +716,7 @@
   .hero {
     min-height: 100dvh;
     height: auto;
-    padding: 5.5rem 2rem 2rem;
+    padding: 5rem 2rem 2rem;
     /* enough top padding to clear a fixed header */
     margin-top: 0;
   }
@@ -780,7 +780,7 @@
 /* Extra-short landscape (e.g. small phones in landscape, ~320-375px height) */
 @media (orientation: landscape) and (max-height: 380px) {
   .hero {
-    padding: 4.5rem 1.5rem 1.5rem;
+    padding: 5rem 1.5rem 1.5rem;
   }
 
   .content {
@@ -797,8 +797,8 @@
   }
 
   .trustedSection {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
     gap: 0.75rem;
   }
 }
