@@ -3,7 +3,7 @@
   width: 932px;
   /* height: 184.2px; */
   flex-wrap: wrap;
-  justify-content: space-between;    
+  justify-content: space-between;
   align-items: flex-start;
   border: 0 solid #E5E7EB;
   /* margin: 0 auto;  */
@@ -34,6 +34,7 @@
     /* background-color: red; */
   }
 }
+
 /* For mobile devices */
 @media (max-width: 480px) {
   .container {
@@ -59,7 +60,7 @@
     display: flex;
     flex-direction: row;
     /* align-items: stretch; */
-    justify-content:  space-between;
+    justify-content: space-between;
     row-gap: 20px;
     /* column-gap: 10px; */
     /* background-color: antiquewhite; */
@@ -72,7 +73,49 @@
     margin: 0 auto;
     padding: 0 16px; */
     /* background-color: blueviolet; */
-  
-    
+
+
+  }
+}
+
+/*
+  Landscape Mobile (short height)
+  -----------------------------------------------------------
+  FIX: on landscape phones the width is usually 480px-926px, a
+  range not covered by any of the width-based breakpoints above
+  in a way that shrinks the cards. The 5 step cards (168px each,
+  from the child .container) were overflowing the viewport
+  horizontally and getting clipped on both edges, cutting off
+  text like "Discovery" -> "iscovery".
+  This query targets ANY short-height landscape viewport and
+  forces the row to actually fit: no wrapping, no fixed width,
+  tight gap, and the row is allowed to scroll horizontally as a
+  safety net on very narrow/short devices instead of clipping.
+*/
+/*
+  Landscape Mobile (short height)
+  -----------------------------------------------------------
+  No horizontal scroll: the 5 step cards share the row width
+  equally (flex-grow on the child cards, see ProcessStepCard.module.css)
+  and are centered as a block, so they always fit within the
+  viewport with no overflow and no scroll needed.
+*/
+@media (max-height: 500px) and (orientation: landscape) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0 16px;
+  }
+}
+
+/* Extra-short landscape (e.g. small phones like iPhone SE, ~375x667) */
+@media (max-height: 400px) and (orientation: landscape) {
+  .container {
+    gap: 6px;
+    padding: 0 12px;
   }
 }
