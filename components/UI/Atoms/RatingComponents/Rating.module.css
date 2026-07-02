@@ -264,7 +264,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: space-between; */
+    justify-content: space-evenly;
     border-radius: 1rem;
     /* 16px / 16 = 1rem */
     box-sizing: border-box;
@@ -363,16 +363,12 @@
 /* ════════════════════════════════════════
    LANDSCAPE — Mobile (height ≤ 480px)
    Matches the same orientation-aware tier used in
-   HeroSection.module.css / MainSection.module.css.
-
-   The iconBox here is purely decorative (no unique info,
-   just a colored square) — on a viewport this short every
-   pixel it costs is a pixel taken from the number/label,
-   which IS the information. So it's shrunk hard (not
-   removed, to keep some visual identity) and the wrapper's
-   own padding/gaps are cut to the minimum that still reads
-   cleanly, freeing up enough height for the subtitle labels
-   to render fully instead of being clipped below the fold.
+   RatingSection.module.css. Explicitly forces the 4
+   cards into a single centered row (overriding whatever
+   width-based grid/wrap rule would otherwise apply),
+   with a tighter card-to-card gap and a much smaller
+   number-to-subtitle gap, since vertical space is scarce
+   in landscape and the portrait spacing looks oversized.
    ════════════════════════════════════════ */
 @media (orientation: landscape) and (max-height: 480px) {
   .wrapper {
@@ -381,10 +377,10 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    gap: clamp(0.75rem, 3vw, 1.5rem);
+    gap: clamp(0.9rem, 3.5vw, 1.75rem);
     width: 100%;
     max-width: 100%;
-    padding: 0.4rem 1rem;
+    padding: 0.75rem 1rem;
     margin: 0 auto;
   }
 
@@ -392,87 +388,61 @@
     width: auto;
     height: auto;
     flex: 0 1 auto;
-    gap: 0.2rem;
+    gap: 0.4rem;
     padding: 0;
   }
 
   .iconBox {
-    width: 1.75rem;
-    height: 1.75rem;
-    padding: 0.3rem;
-    border-radius: 0.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0.5rem;
+    border-radius: 0.625rem;
     margin-bottom: 0;
   }
 
   .icon {
-    width: 0.875rem !important;
-    height: 0.875rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
   }
 
   .number {
     width: auto;
     height: auto;
-    font-size: 1.25rem;
-    line-height: 1.15;
-    margin: 0;
+    font-size: 1.375rem;
+    line-height: 1.2;
+    margin: 0.125rem 0 0;
   }
 
   .subtitle {
     width: auto;
     height: auto;
-    font-size: 0.625rem;
-    line-height: 1.1;
+    font-size: 0.6875rem;
+    line-height: 1.2;
     margin: 0;
   }
 }
 
 @media (orientation: landscape) and (max-height: 480px) and (min-width: 736px) {
   .wrapper {
-    gap: clamp(1.25rem, 4vw, 2.5rem);
-    padding: 0rem 1.5rem;
+    gap: clamp(1.5rem, 5vw, 3rem);
+    padding: 0.75rem 1.5rem;
   }
 
   .card {
-    gap: 0.3rem;
+    gap: 0.5rem;
   }
 
   .iconBox {
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .number {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
   }
 
   .subtitle {
-    font-size: 0.6875rem;
-  }
-}
-
-/* Extra-short landscape (small phones, ~320-375px height) — icon
-   dropped entirely, only the number + label survive since there's
-   no room left for anything decorative. */
-@media (orientation: landscape) and (max-height: 380px) {
-  .wrapper {
-    padding: 0rem 0.75rem;
-    gap: clamp(0.6rem, 2.5vw, 1.1rem);
-  }
-
-  .card {
-    gap: 0.1rem;
-  }
-
-  .iconBox {
-    display: none;
-  }
-
-  .number {
-    font-size: 1.0625rem;
-  }
-
-  .subtitle {
-    font-size: 0.5625rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -489,7 +459,7 @@
     gap: 1.5rem;
     width: 100%;
     max-width: 100%;
-    padding: 1.0rem 2rem;
+    padding: 1.5rem 2rem;
   }
 
   .card {
