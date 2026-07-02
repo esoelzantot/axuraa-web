@@ -38,15 +38,28 @@ const Header = () => {
     }
   }, [pathname]);
 
+  // Detect mobile / landscape-mobile viewports.
+  // NOTE: previously this only checked width (<= 1024px), which meant
+  // landscape phones (width > 1024px is rare, but short-height devices
+  // in general were not caught) could fall through the desktop nav
+  // logic. We now also treat any short-height viewport in landscape
+  // orientation as "mobile" so drawer-related JS logic (if ever added)
+  // stays consistent with the CSS breakpoints.
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 1024);
+      const isLandscapeMobile =
+        window.innerHeight <= 500 && window.innerWidth > window.innerHeight;
+      setIsMobile(window.innerWidth <= 1024 || isLandscapeMobile);
     };
 
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
+    window.addEventListener("orientationchange", checkIfMobile);
 
-    return () => window.removeEventListener("resize", checkIfMobile);
+    return () => {
+      window.removeEventListener("resize", checkIfMobile);
+      window.removeEventListener("orientationchange", checkIfMobile);
+    };
   }, []);
 
   const navLinks = [
