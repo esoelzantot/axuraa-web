@@ -1,33 +1,32 @@
-
-
 .card {
   display: flex;
   width: 100%;
-  max-width: 356.971px;
+  max-width: 355px;
   min-height: 450px;
   flex-shrink: 0;
-  /* padding: 1rem; */
   flex-direction: column;
   justify-content: space-between;
   background-color: #22252f;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   height: 100%;
-  margin: 0 auto;
+  margin: 10px auto;
+  padding-bottom: 10px;
 }
+
 .imageContainer {
   width: 100%;
   height: 208px;
   position: relative;
-  /* border-radius: 8px; */
   overflow: hidden;
-  /* margin-bottom: 1rem; */
 }
+
 .projectImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .content {
   display: flex;
   width: 100%;
@@ -38,13 +37,14 @@
   gap: 0.75rem;
   padding: 1rem;
 }
-/* Keep the rest of your styles but remove fixed heights */
+
 .title {
   color: #fff;
   font-size: 17.461px;
   font-weight: 700;
   margin: 0;
 }
+
 .badge {
   display: inline-flex;
   padding: 0.25rem 0.5rem;
@@ -79,10 +79,6 @@
   font-size: 1.5rem;
   font-weight: 800;
   line-height: 1.2;
-  /* text-shadow: 
-    0 0 8px rgba(208, 74, 29, 0.7),
-    0 0 16px rgba(208, 74, 29, 0.5),
-    0 0 24px rgba(208, 74, 29, 0.3); */
   text-shadow: 0 4.158px 20.79px #902501;
   position: relative;
   display: inline-block;
@@ -95,8 +91,8 @@
   line-height: 1.4;
   margin: 0;
   flex: 1;
-  /* background-color: #902501; */
 }
+
 .readMore {
   color: var(--Primary, #d04a1d);
   text-align: right;
@@ -127,55 +123,60 @@
 .readMore:hover .arrowIcon {
   transform: translateX(4px);
 }
+
 /* Tablet Responsive (769px to 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .card {
     width: 100%;
     max-width: 356.552px;
   }
+
   .content {
     padding: 24px;
-    /* background-color: #2A0B00; */
   }
+
   .imageContainer {
     height: 240px;
   }
+
   .title {
     font-size: 18px;
     line-height: 24px;
   }
+
   .description {
     font-size: 14px;
     line-height: 20px;
   }
+
   .percentage {
     font-size: 28px;
     line-height: 34px;
   }
 }
-/* Mobile Responsive */
+
+/* Mobile Responsive (Portrait) */
 @media (max-width: 768px) {
   .card {
     width: 100%;
     max-width: 342.569px;
     padding: 0;
-    /* background-color: rgb(0, 38, 255); */
     height: auto;
-    display: flex; /* Use flex to make content stretch */
-    flex-direction: column; /* Stack children vertically */
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
   }
 
   .content {
     padding: 18.64px 18.64px 6.991px;
-    flex: 1; /* Make content take up remaining space */
+    flex: 1;
     display: flex;
     flex-direction: column;
   }
 
   .imageContainer {
     height: 200.057px;
-    flex-shrink: 0; /* Prevent image from shrinking */
+    flex-shrink: 0;
   }
 
   .title {
@@ -190,19 +191,19 @@
 
   .badge {
     padding: 4.66px 9.32px;
-    font-size: 12px; /* Slightly smaller for mobile to fit better */
+    font-size: 12px;
     line-height: normal;
     margin-bottom: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 90%; /* Ensure it doesn't break the card layout */
+    max-width: 90%;
   }
 
   .percentage {
     font-size: 26.096px;
     line-height: 31.688px;
-    margin: 8px 0; /* Add some spacing around percentage */
+    margin: 8px 0;
   }
 
   .description {
@@ -218,12 +219,92 @@
   .readMore {
     font-size: 13.048px;
     line-height: 18.64px;
-    margin-top: auto; /* Push read more to bottom */
-    display: inline-flex; /* Use flex to align text and icon */
+    margin-top: auto;
+    display: inline-flex;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
-    width: fit-content; /* Fit content width */
+    width: fit-content;
     align-self: flex-end;
+  }
+}
+
+/* ════════════════════════════════════════
+   LANDSCAPE — Mobile (height ≤ 480px)
+   الكارد ياخد عرضه من الـ grid (fluid width)
+   بدل max-width ثابت، عشان الـ 3 كروت
+   يتوزعوا بالتساوي على عرض الشاشة
+   ════════════════════════════════════════ */
+@media (orientation: landscape) and (max-height: 480px) {
+  .card {
+    width: clamp(150px, 28vw, 220px);
+    /* عرض طبيعي مرن بدل التمدد لملء العمود بالكامل */
+    max-width: clamp(150px, 28vw, 220px);
+    flex-shrink: 0;
+    /* يمنع الكروت من الانضغاط عشوائيًا داخل flex row */
+    min-height: unset;
+    height: auto;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .imageContainer {
+    height: 90px;
+  }
+
+  .content {
+    padding: 0.6rem;
+    min-height: unset;
+    gap: 0.35rem;
+  }
+
+  .title {
+    font-size: 12px;
+    line-height: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
+  .badgesRow {
+    margin-bottom: 2px;
+    gap: 4px;
+  }
+
+  .badge {
+    padding: 2px 6px;
+    font-size: 9px;
+    border-width: 1px;
+  }
+
+  .statsRow {
+    margin: 2px 0;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .percentage {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 10px;
+    line-height: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+  }
+
+  .readMore {
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .arrowIcon {
+    width: 12px;
+    height: 12px;
   }
 }

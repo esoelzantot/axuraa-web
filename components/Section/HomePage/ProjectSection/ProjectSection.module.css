@@ -1,12 +1,10 @@
 .ProjectSection {
-  width: 100%;
-  max-width: 75rem; /* 1200px */
   height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
-  padding: 3.125rem 0;
+  gap: 1.0rem;
+  padding: 3.0rem 1rem;
   background: #191b1f;
   margin: 0 auto;
 }
@@ -14,19 +12,20 @@
 .ProjectGrid {
   display: flex;
   width: 100%;
-  max-width: 70rem; /* 1120px */
   flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  row-gap: 1.375rem;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-wrap: wrap; */
+  row-gap: 1.4rem;
+  gap: 25px;
   margin: 0 auto;
+  padding: 1rem 8rem;
 }
 
 @media (max-width: 1024px) {
   .ProjectSection {
-    padding: 2.5rem 1.875rem;
-    gap: 1.125rem;
+    padding: 2.5rem 1.8rem;
+    gap: 1rem;
   }
 
   .ProjectGrid {
@@ -42,7 +41,8 @@
   }
 
   .ProjectGrid {
-    max-width: 26rem;
+    max-width: 25rem;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
@@ -55,9 +55,10 @@
   }
 
   .ProjectGrid {
+    max-width: 25rem;
     max-width: 21.4rem;
-    gap: 1.375rem;
-    padding: 0.625rem;
+    gap: 1.4rem;
+    padding: 0.6rem;
   }
 }
 
@@ -68,27 +69,36 @@
   }
 
   .ProjectGrid {
+    max-width: 25rem;
     gap: 1rem;
   }
 }
 
 /* ════════════════════════════════════════
    LANDSCAPE — Mobile (height ≤ 480px)
-   3 project cards في row واحد
    ════════════════════════════════════════ */
 @media (orientation: landscape) and (max-height: 480px) {
   .ProjectSection {
-    padding: 1rem 1.5rem;
+    margin: 0;
+    padding: 1rem 1rem;
     gap: 0.75rem;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
 
   .ProjectGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0.5rem, 1.1rem, 1rem);
     width: 100%;
     max-width: 100%;
-    row-gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
   }
 }
 
@@ -110,7 +120,7 @@
   .ProjectGrid {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     max-width: 100%;
     gap: 1rem;
   }
