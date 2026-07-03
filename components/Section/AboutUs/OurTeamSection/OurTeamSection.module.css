@@ -5,6 +5,8 @@
   padding: 5rem;
   display: flex;
   align-items: center;
+  justify-content: center;
+  /* centers the whole team block horizontally */
 }
 
 .container {
@@ -29,7 +31,7 @@
 .badge {
   /* margin-bottom: 2rem; */
   display: inline-flex;
-  justify-self: center; 
+  justify-self: center;
   align-items: center;
   gap: 0.5rem;
 }
@@ -40,6 +42,11 @@
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
+  margin: 2.5rem 0 1rem;
+}
+
+.teamGrid>* {
+  margin-bottom: 1.5rem;
 }
 
 /* Responsive adjustments */
@@ -53,6 +60,7 @@
   .teamGrid {
     gap: 1.75rem;
     flex-wrap: nowrap;
+    margin: 3rem 0 1.5rem;
   }
 
 }
@@ -66,6 +74,7 @@
   .teamGrid {
     gap: 1.5rem;
     flex-wrap: nowrap;
+    margin: 2.5rem 0 1.5rem;
   }
 
 }
@@ -79,6 +88,7 @@
   .teamGrid {
     gap: 1.25rem;
     flex-wrap: nowrap;
+    margin: 2rem 0 1.5rem;
   }
 
   /* .header {
@@ -95,25 +105,21 @@
   .header {
     margin-bottom: 2.5rem;
   }
-  
+
   .teamGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
     max-width: 25rem;
-    margin: 35px auto;
+    margin: 2.1875rem auto 2rem;
   }
-  .teamGrid > *:last-child:nth-child(odd) {
+
+  .teamGrid>*:last-child:nth-child(odd) {
     grid-column: 1 / -1;
     justify-self: center;
-    max-width: 11.25rem; /* Adjust based on your TeamCard width */
+    max-width: 11.25rem;
+    /* Adjust based on your TeamCard width */
   }
-  /* .badge{ */
-    /* margin-bottom: -8%; */
-  /* } */
-  /* .header{ */
-    /* margin-bottom: 0; */
-  /* } */
 }
 
 /* Small mobile (below 480px) - 2 columns grid, smaller */
@@ -128,15 +134,13 @@
 
   .header {
     margin-bottom: 2.5rem;
-    /* margin-left: -5%; */
-    /* margin-right: -5%; */
     max-width: 100%;
     text-align: center;
   }
-  .badge{
-    /* margin-bottom: 0rem; */
+
+  .badge {
     display: inline-flex;
-    justify-self: center; 
+    justify-self: center;
     align-items: center;
     /* gap: 0.5rem; */
   }
@@ -145,14 +149,86 @@
     gap: 1.25rem;
     max-width: 100%;
     /* margin-left: 6%; */
+    margin: 2rem auto 2rem;
     /* display: flex;
     flex-direction: column; */
     align-items: center;
     justify-content: center;
   }
-  .teamGrid > *:last-child:nth-child(odd) {
+
+  .teamGrid>*:last-child:nth-child(odd) {
     grid-column: 1 / -1;
     justify-self: center;
-    max-width: 10rem; /* Adjust for smaller screens */
+    max-width: 10rem;
+    /* Adjust for smaller screens */
+  }
+}
+
+/* ============================================================
+   Mobile / Small-Tablet LANDSCAPE — short viewport height.
+
+   IMPORTANT: on a landscape phone with a narrow viewport
+   (e.g. iPhone SE landscape, ~667px wide), this query and the
+   `@media (max-width: 48rem)` / `@media (max-width: 30rem)`
+   width-based queries above ALL match at the same time. The
+   width queries set `display: grid`, `grid-template-columns`,
+   and `max-width: 25rem` on .teamGrid — properties this block
+   was NOT overriding before, so they leaked through and capped
+   .teamGrid at 400px with no auto margin, pinning it to the
+   left (exactly the bug in the screenshot).
+
+   Fix: this block now explicitly resets every property that
+   could otherwise leak in from an overlapping width query —
+   display, max-width, and a margin that includes `auto` for
+   horizontal centering — instead of only adding new ones.
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+  .teamSection {
+    padding: 1.5rem 4%;
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .teamGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem auto 1.25rem;
+  }
+
+  .teamGrid>* {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Extra-short landscape (small phones, ~320-375px height) */
+@media (orientation: landscape) and (max-height: 380px) {
+  .teamSection {
+    padding: 1rem 2rem;
+  }
+
+  .header {
+    margin-bottom: 0.75rem;
+  }
+
+  .teamGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 2rem auto 1rem;
+  }
+
+  .teamGrid>* {
+    margin-bottom: 0.75rem;
   }
 }
