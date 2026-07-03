@@ -5,6 +5,7 @@ import HeroSection from "@/components/Layout/HeroSection/HeroSection";
 import Rating from "@/components/UI/Atoms/RatingComponents/Rating";
 import { RatingItem } from "@/types/HomePage/ratingTypes";
 import { TrackRecordData } from "@/service/TrackRecord/trackrecord";
+import AboutHeroSection from "@/components/Layout/HeroSection/AboutHeroSection";
 
 const staticRatingItems: RatingItem[] = [
   {
@@ -54,7 +55,7 @@ const MainSection = ({ trackRecord }: Props) => {
   return (
     <div className={styles.mainSection}>
       <div className={styles.heroWrapper}>
-        <HeroSection
+        <AboutHeroSection
           badgeText="WHO WE ARE"
           title1="Architecting the Future of"
           title2="Digital Business"
@@ -64,7 +65,7 @@ const MainSection = ({ trackRecord }: Props) => {
           showPrimaryButton={false}
           showSecondaryButton={false}
           showBadge={false}
-          height="60vh"
+          height="auto"
         />
       </div>
       <div className={styles.ratingWrapper}>
