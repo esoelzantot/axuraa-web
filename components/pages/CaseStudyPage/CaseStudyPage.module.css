@@ -2,27 +2,13 @@
 
 .container {
   margin-top: 60px;
-
-  /* height: auto; */
-  /* width: 1440px; */
-
-  /* height: 2343px; */
-
-  /* background: linear-gradient(0deg, #191B1F 0%, #191B1F 100%), #000; */
-
   color: white;
-
-  /* background-color: #9066da; */
-
   background-color: #191b1f;
-  /* background-color: red; */
 }
 
 /* Breadcrumb */
 
 .breadcrumb {
-  /* background-color: rgb(120, 138, 131); */
-
   border-bottom: 1px solid #1a1a1a;
 }
 
@@ -104,18 +90,15 @@
 
   justify-content: center;
 
-  /* margin-bottom: 3rem; */
-
-  /* background-color: yellowgreen; */
 }
+
 .text {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: auto;
-  /* background-color: red; */
-  /* padding-top: 10px; */
+
 }
 
 .title {
@@ -376,7 +359,8 @@
 }
 
 .featureCard {
-  flex: 0 0 auto; /* Changed from flex: 1 1 calc(33.333% - 14px) */
+  flex: 0 0 auto;
+  /* Changed from flex: 1 1 calc(33.333% - 14px) */
 
   width: 166px;
 
@@ -511,6 +495,7 @@
   gap: 14px;
   flex-shrink: 0;
 }
+
 .resultItem {
   display: flex;
   flex-direction: row;
@@ -606,7 +591,8 @@
 
   font-weight: 700;
 
-  line-height: 15.522px; /* 133.333% */
+  line-height: 15.522px;
+  /* 133.333% */
 }
 
 .testimonialAvatar {
@@ -706,7 +692,8 @@
 
   font-weight: 700;
 
-  line-height: 15.522px; /* 133.333% */
+  line-height: 15.522px;
+  /* 133.333% */
 }
 
 .details {
@@ -964,7 +951,8 @@
   }
 
   :global([dir="rtl"]) .breadcrumbContent {
-    padding-inline-start: 10%; /* In RTL this correctly pushes from right if parent has dir=rtl */
+    padding-inline-start: 10%;
+    /* In RTL this correctly pushes from right if parent has dir=rtl */
   }
 
   .main {
@@ -991,7 +979,8 @@
   }
 
   :global([dir="rtl"]) .hero {
-    align-items: flex-start; /* Correct for RTL too if we want it to start from right */
+    align-items: flex-start;
+    /* Correct for RTL too if we want it to start from right */
     text-align: right;
   }
 
@@ -1029,7 +1018,6 @@
 
     margin: 0;
 
-    /* background-color: green; */
   }
 
   .section,
@@ -1042,14 +1030,12 @@
 
     margin: 2rem 0;
 
-    /* padding-bottom: -10px; */
-
-    /* background-color: blue; */
   }
 
   .sectionText,
   .sectionText2 {
-    margin-inline-start: 4.5rem; /* Align under the text after icon gap */
+    margin-inline-start: 4.5rem;
+    /* Align under the text after icon gap */
     width: calc(100% - 6rem);
   }
 
@@ -1072,7 +1058,6 @@
 
     justify-content: center;
 
-    /* background-color: blue; */
 
     gap: 10px;
   }
@@ -1082,7 +1067,6 @@
 
     max-width: none;
 
-    /* background-color: #ec4d18; */
   }
 
   .sidebar {
@@ -1110,7 +1094,6 @@
     max-width: 100%;
     height: auto;
 
-    /* background-color: #902501; */
   }
 
   .results {
@@ -1140,7 +1123,6 @@
   .container {
     margin-top: 40px;
 
-    /* margin-left: 20px; */
   }
 
   .main {
@@ -1152,7 +1134,6 @@
 
     font-size: 12px;
 
-    /* background-color: #902501; */
   }
 
   .title {
@@ -1230,7 +1211,6 @@
 
     padding: 15px 10px;
 
-    /* background-color: red; */
   }
 
   .featureCard {
@@ -1241,20 +1221,6 @@
 
   .sidebar {
     width: 100%;
-
-    /* grid-template-columns: 1fr; */
-
-    /* background-color: #902501; */
-
-    /* display: flex;
-
-      flex-direction: row;
-
-      justify-content: center;
-
-      align-items: center;*/
-
-    /* background-color: red;  */
   }
 
   .card,
@@ -1270,7 +1236,6 @@
     border: 0 solid #e5e7eb;
 
     height: auto;
-    /* background-color: aquamarine; */
   }
 
   .results {
@@ -1305,26 +1270,9 @@
 @media (max-width: 480px) {
   .container {
     margin-top: 50px;
-
-    /* margin-left: 20px; */
-
-    /* background-color: blue;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-
-      */
   }
 
   .breadcrumbContent {
-    /* display: flex;
-
-  padding: 12px 24px;
-
-  align-items: center;
-
-  gap: 8px;
-
-  color: #888;
-
-*/
 
     font-size: 12px;
 
@@ -1366,7 +1314,6 @@
   }
 
   .title {
-    /* background-color: blue; */
 
     margin-top: 5px;
     margin-bottom: 6px;
@@ -1384,15 +1331,12 @@
 
     justify-content: center;
 
-    /* align-items: center; */
 
     margin-top: 20px;
 
-    /* padding: 5px 5px; */
 
     padding: 0;
 
-    /* background-color: #902501; */
   }
 
   .featureCard {
@@ -1402,7 +1346,6 @@
 
     max-width: 100%;
 
-    /* background-color: blue; */
   }
 
   .featureIcon {
@@ -1410,13 +1353,11 @@
 
     height: 30px;
 
-    /* background-color: #374151; */
   }
 
   .featureTitle {
     width: 100%;
 
-    /* height: 45px; */
 
     margin-bottom: 10px;
 
@@ -1430,13 +1371,11 @@
 
     line-height: normal;
 
-    /* background-color: greenyellow; */
   }
 
   .featureDescription {
     width: 100%;
 
-    /* height: 59px;  */
 
     color: #fff;
 
@@ -1448,6 +1387,72 @@
 
     line-height: normal;
 
-    /* background-color: rgb(108, 116, 93); */
+  }
+}
+
+/* ============================================================
+   LANDSCAPE (tablets & wide phones). The desktop breakpoint
+   above (min-width: 1024px) turns .grid into a 2-column layout
+   (1fr content + 320px sticky sidebar). On a landscape tablet
+   (e.g. iPad, ~1024px wide) that same rule fires, and once the
+   longer main-content column finishes scrolling, the sticky
+   sidebar keeps sitting in its narrow 320px track while the
+   other column sits empty — that's the big dark gap in the
+   screenshots. Fix: drop back to a single-column grid and turn
+   the sidebar itself into a wrapping row of cards so it uses
+   the full width instead of one narrow sticky strip.
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 850px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .sidebar {
+    position: static;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .card,
+  .ProjectDetailscard {
+    flex: 1 1 calc(50% - 0.625rem);
+    min-width: 17.5rem;
+    max-width: 100%;
+    width: auto;
+  }
+
+  .hero {
+    margin-bottom: 1.5rem;
+  }
+
+  .section,
+  .section2 {
+    margin: 1.25rem 0;
+  }
+}
+
+/* Extra-short landscape (small phones, ~320-375px height) —
+   at this width a 2-card row is usually too tight, so let the
+   cards fall back to a single column via flex-wrap while still
+   keeping the section spacing compact. */
+@media (orientation: landscape) and (max-height: 420px) {
+  .sidebar {
+    gap: 1rem;
+  }
+
+  .card,
+  .ProjectDetailscard {
+    flex: 1 1 100%;
+  }
+
+  .section,
+  .section2 {
+    margin: 1rem 0;
   }
 }
