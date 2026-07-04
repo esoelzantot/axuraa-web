@@ -103,17 +103,6 @@
 /* ============================================================
    LANDSCAPE — Mobile / short viewport (height ≤ 500px)
 
-   IMPORTANT: percentage margins (even margin-top/-bottom) are
-   resolved against the WIDTH of the containing block, not its
-   height. In landscape the viewport is much wider than in
-   portrait, so the negative % margins above (-30%, -36%, -75%…)
-   translate into a huge negative pixel value and yank the
-   Rating row up into the Hero's title/subtitle — that's the
-   overlap in the screenshot.
-
-   This block resets those to small, fixed rem values so the
-   layout stays correct no matter which width breakpoint above
-   also happens to match. Placed last so it wins the cascade.
    ============================================================ */
 @media (orientation: landscape) and (max-height: 480px) {
   .mainSection {
@@ -126,7 +115,7 @@
 
   .ratingWrapper {
     margin-top: 0.25rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 7rem;
     padding: 0 1rem;
   }
 }
@@ -145,12 +134,7 @@
 
 /* ============================================================
    Tablet LANDSCAPE (height 481px–1024px)
-   Mirrors HeroSection.module.css's matching tier: without this,
-   any landscape viewport taller than 480px falls back to the
-   width-based percentage margins above, which (since % margins
-   resolve against WIDTH, not height) reintroduce a large gap —
-   or, combined with the hero still being pinned to 100vh outside
-   its own 480px cutoff, push the Rating strip far below the fold.
+
    ============================================================ */
 @media (orientation: landscape) and (min-height: 481px) and (max-height: 1024px) {
   .mainSection {
@@ -163,7 +147,7 @@
 
   .ratingWrapper {
     margin-top: 1rem;
-    margin-bottom: 2rem;
-    padding: 0 1.25rem;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
   }
 }

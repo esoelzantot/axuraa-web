@@ -182,7 +182,7 @@ const AboutHeroSection: React.FC<AboutHeroSectionProps> = ({
   return (
     <section
       className={styles.hero}
-      style={height !== "auto" ? { minHeight: height } : undefined}
+      style={{ minHeight: height }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

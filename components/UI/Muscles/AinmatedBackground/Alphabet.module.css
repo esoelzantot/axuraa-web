@@ -365,7 +365,7 @@
 }
 
 @media (max-width: 23.75rem) {
- .alphabetContainer {
+  .alphabetContainer {
     --letter-a1-x: -3.125rem;
     --letter-a1-y: 16.25rem;
     --letter-a1-size: 5.625rem;
@@ -449,5 +449,79 @@
     --letter-q2-target-x: 6.25rem;
     --letter-q2-target-y: 30.25rem;
     --letter-q2-size: 3.75rem;
+  }
+}
+
+/* ============================================
+   Mobile Landscape — scaled positions to stay inside hero
+   ============================================ */
+@media (max-height: 30rem) and (orientation: landscape) {
+  .alphabetContainer {
+    --letter-a1-x: -1.25rem;
+    --letter-a1-y: 7rem;
+    --letter-a1-size: 4.5rem;
+
+    --letter-a2-x: 34rem;
+    --letter-a2-y: 1.5rem;
+    --letter-a2-size: 4.5rem;
+
+    --letter-r1-x: 34rem;
+    --letter-r1-y: 1.25rem;
+    --letter-r1-size: 5rem;
+
+    --letter-r2-x: -1.25rem;
+    --letter-r2-y: 7.5rem;
+    --letter-r2-size: 5rem;
+
+    --letter-x-x: 1.5rem;
+    --letter-x-y: 12.5rem;
+    --letter-x-target-x: 30rem;
+    --letter-x-target-y: 12.5rem;
+    --letter-x-size: 4rem;
+
+    --letter-u-x: 36rem;
+    --letter-u-y: 8.5rem;
+    --letter-u-target-x: 0.5rem;
+    --letter-u-target-y: 2rem;
+    --letter-u-size: 3rem;
+
+    --letter-q1-x: 32rem;
+    --letter-q1-y: 13.5rem;
+    --letter-q1-target-x: 21rem;
+    --letter-q1-target-y: 3rem;
+    --letter-q1-size: 3rem;
+
+    --letter-q2-x: 2rem;
+    --letter-q2-y: 2.5rem;
+    --letter-q2-target-x: 18rem;
+    --letter-q2-target-y: 13.5rem;
+    --letter-q2-size: 3rem;
+  }
+}
+
+/* Extra small landscape height */
+@media (max-height: 22.5rem) and (orientation: landscape) {
+  .alphabetContainer {
+    --letter-a1-size: 3.5rem;
+    --letter-a2-size: 3.5rem;
+    --letter-r1-size: 4rem;
+    --letter-r2-size: 4rem;
+    --letter-x-size: 3.25rem;
+    --letter-u-size: 2.5rem;
+    --letter-q1-size: 2.5rem;
+    --letter-q2-size: 2.5rem;
+
+    --letter-a1-y: 5rem;
+    --letter-a2-y: 1rem;
+    --letter-r1-y: 0.75rem;
+    --letter-r2-y: 5.5rem;
+    --letter-x-y: 9.5rem;
+    --letter-x-target-y: 9.5rem;
+    --letter-u-y: 6.5rem;
+    --letter-u-target-y: 1.5rem;
+    --letter-q1-y: 10rem;
+    --letter-q1-target-y: 2.5rem;
+    --letter-q2-y: 2rem;
+    --letter-q2-target-y: 10rem;
   }
 }

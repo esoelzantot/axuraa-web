@@ -55,7 +55,7 @@ const MainSection = ({ trackRecord }: Props) => {
   return (
     <div className={styles.mainSection}>
       <div className={styles.heroWrapper}>
-        <AboutHeroSection
+        <HeroSection
           badgeText="WHO WE ARE"
           title1="Architecting the Future of"
           title2="Digital Business"
@@ -65,7 +65,7 @@ const MainSection = ({ trackRecord }: Props) => {
           showPrimaryButton={false}
           showSecondaryButton={false}
           showBadge={false}
-          height="auto"
+          height="70vh"
         />
       </div>
       <div className={styles.ratingWrapper}>

@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import styles from './Rating.module.css';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import styles from "./Rating.module.css";
 
-import { RatingProps } from '@/types/HomePage/ratingTypes';
+import { RatingProps } from "@/types/HomePage/ratingTypes";
 
-const Rating: React.FC<RatingProps> = ({ 
-  items, 
+const Rating: React.FC<RatingProps> = ({
+  items,
   duration = 3000,
   maxValue = 50,
   // suffix = ''
@@ -22,20 +22,23 @@ const Rating: React.FC<RatingProps> = ({
     const increment = maxValue / steps;
     const stepDuration = duration / steps;
     let currentStep = 0;
-    
+
     const timer = setInterval(() => {
       currentStep++;
       if (currentStep <= steps) {
-        setCounts(prevCounts => 
-          prevCounts.map((_, i) => 
-            Math.min(Math.floor(increment * currentStep * (items[i].value / maxValue)), items[i].value)
-          )
+        setCounts((prevCounts) =>
+          prevCounts.map((_, i) =>
+            Math.min(
+              Math.floor(increment * currentStep * (items[i].value / maxValue)),
+              items[i].value,
+            ),
+          ),
         );
       } else {
         clearInterval(timer);
       }
     }, stepDuration);
-    
+
     return () => clearInterval(timer);
   };
 
@@ -44,7 +47,7 @@ const Rating: React.FC<RatingProps> = ({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
             startCounter();
@@ -55,8 +58,8 @@ const Rating: React.FC<RatingProps> = ({
       },
       {
         threshold: 0.1, // Trigger when 10% of the component is visible
-        rootMargin: '0px 0px -50px 0px' // Optional: adjust when the animation should start
-      }
+        rootMargin: "0px 0px -50px 0px", // Optional: adjust when the animation should start
+      },
     );
 
     observer.observe(ratingRef.current);
@@ -71,18 +74,18 @@ const Rating: React.FC<RatingProps> = ({
   return (
     <div className={styles.wrapper} ref={ratingRef}>
       {items.map((item, index) => (
-        <div 
-          key={item.id} 
-          className={`${styles.card} ${isVisible ? styles.cardVisible : ''}`}
+        <div
+          key={item.id}
+          className={`${styles.card} ${isVisible ? styles.cardVisible : ""}`}
           style={{ transitionDelay: `${index * 0.15}s` }}
         >
           {item?.showIcon && (
             <div className={styles.iconBox}>
-              <Image 
-                src={item.icon} 
-                alt={`${item.label} icon`} 
-                width={40} 
-                height={40} 
+              <Image
+                src={item.icon}
+                alt={`${item.label} icon`}
+                width={40}
+                height={40}
                 className={styles.icon}
               />
             </div>
