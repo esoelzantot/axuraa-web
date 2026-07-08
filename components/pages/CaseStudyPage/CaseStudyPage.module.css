@@ -680,6 +680,8 @@
 
   background: #222;
 
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+
   /* background-color: rgb(231, 173, 98); */
 }
 
@@ -802,8 +804,9 @@
 /* Mobile First - Base styles above are for mobile */
 
 /* Tablet - 768px */
+/* NOTE: fixed from exact "(width: 768px)" match to a proper min-width range */
 
-@media (width: 768px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .container {
     height: auto;
 
@@ -934,8 +937,6 @@
   .container {
     margin-top: 60px;
 
-    margin-left: -20px;
-
     /* background-color: #1461fc; */
   }
 
@@ -967,7 +968,7 @@
 
   .grid {
     grid-template-columns: 1fr 320px;
-    gap: 2rem;
+    gap: 1rem;
     margin-left: 0;
     align-items: start;
   }
@@ -1391,18 +1392,14 @@
 }
 
 /* ============================================================
-   LANDSCAPE (tablets & wide phones). The desktop breakpoint
-   above (min-width: 1024px) turns .grid into a 2-column layout
-   (1fr content + 320px sticky sidebar). On a landscape tablet
-   (e.g. iPad, ~1024px wide) that same rule fires, and once the
-   longer main-content column finishes scrolling, the sticky
-   sidebar keeps sitting in its narrow 320px track while the
-   other column sits empty — that's the big dark gap in the
-   screenshots. Fix: drop back to a single-column grid and turn
-   the sidebar itself into a wrapping row of cards so it uses
-   the full width instead of one narrow sticky strip.
+   LANDSCAPE (tablets & wide phones ONLY).
+   Constrained with max-width: 1023px so it never overrides the
+   desktop/laptop two-column layout defined at min-width: 1024px.
+   Laptop screens are often "landscape" with height < 850px too,
+   so without this max-width guard the sidebar would incorrectly
+   stack under the main content on laptops.
    ============================================================ */
-@media (orientation: landscape) and (max-height: 850px) {
+@media (orientation: landscape) and (max-height: 850px) and (max-width: 1023px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -1437,11 +1434,9 @@
   }
 }
 
-/* Extra-short landscape (small phones, ~320-375px height) —
-   at this width a 2-card row is usually too tight, so let the
-   cards fall back to a single column via flex-wrap while still
-   keeping the section spacing compact. */
-@media (orientation: landscape) and (max-height: 420px) {
+/* Extra-short landscape (small phones, ~320-375px height), still
+   constrained to max-width: 1023px for the same reason as above. */
+@media (orientation: landscape) and (max-height: 420px) and (max-width: 1023px) {
   .sidebar {
     gap: 1rem;
   }

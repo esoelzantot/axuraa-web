@@ -269,7 +269,7 @@
   .Circle_2 {
     left: 50%;
     top: 50%;
-    transform: translate(-125%, 130%);
+    transform: translate(-125%, 70%);
   }
 
   .animatedBackground.hovered .Circle_1 {
@@ -320,13 +320,13 @@
   .Circle_1 {
     top: 50%;
     left: 50%;
-    transform: translate(65%, 15%);
+    transform: translate(150%, -15%);
   }
 
   .Circle_2 {
     top: 50%;
     left: 50%;
-    transform: translate(-145%, -25%);
+    transform: translate(-225%, 15%);
   }
 
   .animatedBackground.hovered .Circle_1 {

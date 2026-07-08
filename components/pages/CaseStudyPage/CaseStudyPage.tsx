@@ -18,8 +18,6 @@ interface TestimonialDisplay {
   author: string;
 }
 
-const preImage = "/assets/OverviewIcon.png";
-
 const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
   // All data transformation happens here — no fetching, no loading states
   const caseStudy = {
@@ -86,9 +84,6 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
     secondImage: project.second_image_url ?? null,
   };
 
-  // console.log("results:", caseStudy.results);
-  // console.log("project results:", project.case_study_results);
-
   const projectDetails = [
     {
       icon: "/assets/ProjectDetailscard/client.svg",
@@ -96,7 +91,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
       value: caseStudy.client,
     },
     {
-      icon: "/assets/ProjectDetailscard/client.svg",
+      icon: "/assets/ProjectDetailscard/manager.svg",
       label: "Project Manager:",
       value: caseStudy.projectManager,
     },
@@ -125,24 +120,6 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
   const handleContact = () => {
     window.location.href = `/${locale}/contact#contact-form`;
   };
-
-  console.log("CaseStudyPage data:", {
-    title: caseStudy.title,
-    subtitle: caseStudy.subtitle,
-    overview: caseStudy.overview,
-    features: caseStudy.features,
-    tags: caseStudy.tags,
-    client: caseStudy.client,
-    projectManager: caseStudy.projectManager,
-    timeframe: caseStudy.timeframe,
-    team: caseStudy.team,
-    location: caseStudy.location,
-    url_deployment: caseStudy.url_deployment,
-    results: caseStudy.results,
-    testimonials: caseStudy.testimonials,
-    mainImage: caseStudy.mainImage,
-    secondImage: caseStudy.secondImage,
-  });
 
   return (
     <div className={styles.container}>
@@ -218,8 +195,8 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                   <Image
                     src="/assets/OverviewIcon.png"
                     alt="Overview"
-                    width={30}
-                    height={30}
+                    width={24}
+                    height={24}
                     className={styles.overviewIcon}
                   />
                 </div>
@@ -235,8 +212,8 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                   <Image
                     src="/assets/Sparkling.png"
                     alt="Features"
-                    width={30}
-                    height={30}
+                    width={24}
+                    height={24}
                     className={styles.overviewIcon}
                   />
                 </div>
@@ -254,8 +231,8 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                         <Image
                           src={feature.icon}
                           alt="Feature icon"
-                          width={30}
-                          height={30}
+                          width={24}
+                          height={24}
                           className={styles.overviewIcon}
                         />
                       ) : (
@@ -335,15 +312,15 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
 
             {/* Project Details */}
             <div className={styles.ProjectDetailscard}>
-              <h3 className={styles.cardTitle}>Project Details</h3>
+              <h3 className={styles.detailsTitle}>Project Details</h3>
               <div className={styles.details}>
                 {projectDetails.map((detail, index) => (
                   <div key={index} className={styles.detailItem}>
                     <Image
                       src={detail.icon}
                       alt=""
-                      width={8.488}
-                      height={9.701}
+                      width={14}
+                      height={16}
                       className={styles.detailIcon}
                     />
                     <span className={styles.detailLabel}>{detail.label}</span>

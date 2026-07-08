@@ -29,6 +29,7 @@ const Header = () => {
   const router = useRouter();
 
   const primaryHref = `#contact-section`;
+  const homeHref = `/#home-page`;
 
   // Set locale based on pathname, but only on client side
   useEffect(() => {
@@ -62,6 +63,12 @@ const Header = () => {
     };
   }, []);
 
+  // Same behavior as the "Home" tab in navLinks below — just closes the
+  // mobile drawer (if open) and lets the Link navigate normally.
+  const handleLogoClick = () => {
+    setIsMenuOpen(false);
+  };
+
   const navLinks = [
     { key: "home", href: `/`, icon: <Home size={20} /> },
     {
@@ -94,7 +101,12 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
-        <div className={styles.logo}>
+        <Link
+          href={homeHref}
+          className={styles.logo}
+          onClick={handleLogoClick}
+          aria-label="Go to homepage"
+        >
           <Image
             src="/assets/logo2.svg"
             alt="Axuram Logo"
@@ -103,7 +115,7 @@ const Header = () => {
             height={60}
             priority
           />
-        </div>
+        </Link>
 
         {/* Mobile Sidebar Drawer Overlay */}
         <div
@@ -114,14 +126,20 @@ const Header = () => {
         <nav className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ""}`}>
           {/* Mobile Drawer Header */}
           <div className={styles.mobileDrawerHeader}>
-            <Image
-              src="/assets/logo2.svg"
-              alt="Axuram Logo"
-              className={styles.logoImage}
-              width={120}
-              height={48}
-              priority
-            />
+            <Link
+              href={homeHref}
+              onClick={handleLogoClick}
+              aria-label="Go to homepage"
+            >
+              <Image
+                src="/assets/logo2.svg"
+                alt="Axuram Logo"
+                className={styles.logoImage}
+                width={120}
+                height={48}
+                priority
+              />
+            </Link>
             <button
               className={styles.closeToggle}
               onClick={() => setIsMenuOpen(false)}

@@ -11,6 +11,10 @@ import { ContactData } from "../Contact/Contact";
 const Homepage = ({ contactData }: { contactData: ContactData | null }) => {
   return (
     <div className={styles.homePage}>
+      <div
+        id="home-page"
+        style={{ margin: 0, padding: 0, height: 0 }}
+      />
       <ServicesSection />
       <BusinessSsection />
 
