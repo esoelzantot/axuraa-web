@@ -47,7 +47,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, locale }) => {
       animate="show"
     >
       <div className={styles.projectsGrid}>
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <motion.div
             key={project.id}
             variants={item}
@@ -57,10 +57,11 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, locale }) => {
               id={project.id}
               title={project.title}
               category={project.category}
-              categories={project.categories} // ← add
+              categories={project.categories}
               percentage={project.percentage}
               description={project.description}
               imageUrl={project.imageUrl}
+              index={index}
               locale={locale}
             />
           </motion.div>

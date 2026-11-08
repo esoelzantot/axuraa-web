@@ -1,58 +1,174 @@
 /*
-  Project card — fills its grid cell (max 380px) with consistent spacing.
-  Content is clamped so every card in a row has the same rhythm, and the
-  "Read More" link is pinned to the bottom edge of the card.
+  Project card — same design language as the Services page card
+  (components/Molecules/ServiceCard): dark layered surface, cursor spotlight,
+  gradient hairline border on hover, outlined index number, tile + label row,
+  chips and an arrow CTA; plus a framed project image on top.
 */
 .card {
-  --card-pad: clamp(1rem, 0.8rem + 0.8vw, 1.375rem);
+  --accent: #d04a1d;
+  --accent-2: #f0652f;
+  --pad: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+  --mx: 50%;
+  --my: 0%;
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 0;
   max-width: 380px;
   height: 100%;
-  border-radius: 20px;
-  background: #22252d;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(208, 74, 29, 0.1), transparent 55%),
+    linear-gradient(180deg, #23262e 0%, #1c1e24 100%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
 }
 
-.imageContainer {
+/* Gradient border: a padded pseudo-element masked to its outline */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03) 40%, rgba(208, 74, 29, 0.25));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.35s ease;
+}
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(240, 101, 47, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* ---------- Framed image ---------- */
+.frame {
   position: relative;
-  display: block;
-  width: 100%;
+  margin: 10px 10px 0;
   aspect-ratio: 16 / 9;
-  flex-shrink: 0;
+  border-radius: 16px;
   overflow: hidden;
-  /* Branded placeholder for images that are missing or transparent */
   background:
     radial-gradient(circle at 30% 20%, rgba(208, 74, 29, 0.25), transparent 60%),
-    #1b1d23;
+    #17191e;
 }
 
-.projectImage {
+.image {
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.content {
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(10, 11, 14, 0.55) 100%);
+  pointer-events: none;
+}
+
+/* ---------- Body (mirrors the service card) ---------- */
+.body {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: var(--card-pad);
   min-width: 0;
+  padding: calc(var(--pad) - 0.25rem) var(--pad) var(--pad);
 }
 
-/* Title: max 2 lines */
+.index {
+  position: absolute;
+  top: 0.25rem;
+  right: 1rem;
+  z-index: 0;
+  font-size: clamp(3rem, 2.6rem + 1.6vw, 4.25rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+  transition: -webkit-text-stroke-color 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Same tile as the service card's icon tile, holding the key result */
+.resultTile {
+  display: grid;
+  place-items: center;
+  min-width: 56px;
+  height: 56px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(208, 74, 29, 0.22), rgba(208, 74, 29, 0.06));
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 101, 47, 0.35),
+    0 8px 20px rgba(208, 74, 29, 0.15);
+  color: var(--accent-2);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.kind {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c7cbd3;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .title {
+  position: relative;
+  z-index: 1;
   margin: 0;
   color: #fff;
-  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+  font-size: clamp(1.1rem, 1rem + 0.45vw, 1.3rem);
   font-weight: 700;
   line-height: 1.3;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(2 * 1.3em);
+}
+
+.description {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.55;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -60,90 +176,105 @@
   overflow: hidden;
 }
 
-/* Tags: max 2 rows (each row is 28px + 6px gap) */
-.badgesRow {
+/* Chips: max 2 rows (30px + 8px gap) */
+.tags {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  max-height: calc(28px * 2 + 6px);
+  gap: 8px;
+  max-height: calc(30px * 2 + 8px);
   overflow: hidden;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.badge {
-  display: inline-block;
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   max-width: 100%;
   min-width: 0;
-  height: 28px;
-  padding: 0 0.7rem;
+  height: 30px;
+  padding: 0 12px 0 10px;
   border-radius: 999px;
-  border: 1px solid rgba(208, 74, 29, 0.55);
-  background: linear-gradient(90deg, #902501 0%, #3a1306 100%);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 26px;
-  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #dfe2e8;
+  font-size: 13px;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(208, 74, 29, 0.2);
+}
+
+.tagText {
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-/* Key result: number + 2-line label */
-.statsRow {
+.more {
+  padding: 0 12px;
+  color: #9ca3af;
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
-  min-width: 0;
-}
-
-.percentage {
-  flex-shrink: 0;
-  color: #d04a1d;
-  font-size: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
-  font-weight: 800;
-  line-height: 1;
-  text-shadow: 0 4px 18px rgba(208, 74, 29, 0.35);
-}
-
-.description {
-  margin: 0;
-  min-width: 0;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.9rem;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Pinned to the bottom of the card, inside its padding */
-.readMore {
-  margin-top: auto;
-  align-self: flex-end;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 40px;
-  padding-top: 0.5rem;
-  color: #d04a1d;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  color: #fff;
   font-size: 0.95rem;
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.arrowIcon {
-  transition: transform 0.2s ease;
+/* The whole card is the click target */
+.cta::after {
+  content: "";
+  position: absolute;
+  inset: -100vmax;
 }
 
-.readMore:hover .arrowIcon,
-.readMore:focus-visible .arrowIcon {
-  transform: translateX(4px);
+.cta:focus-visible {
+  outline: none;
+}
+
+.card:has(.cta:focus-visible) {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.ctaLabel {
+  transition: color 0.3s ease;
+}
+
+.ctaIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #902501);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(208, 74, 29, 0.35);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .srOnly {
@@ -155,22 +286,77 @@
   white-space: nowrap;
 }
 
+/* ---------- Hover (pointer devices only) ---------- */
 @media (hover: hover) {
   .card:hover {
     transform: translateY(-6px);
-    border-color: rgba(208, 74, 29, 0.35);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(208, 74, 29, 0.1);
   }
 
-  .card:hover .projectImage {
-    transform: scale(1.05);
+  .card:hover::before {
+    background: linear-gradient(140deg, rgba(240, 101, 47, 0.9), rgba(255, 255, 255, 0.06) 45%, rgba(208, 74, 29, 0.7));
+  }
+
+  .card:hover .spotlight {
+    opacity: 1;
+  }
+
+  .card:hover .image {
+    transform: scale(1.06);
+  }
+
+  .card:hover .index {
+    -webkit-text-stroke-color: rgba(240, 101, 47, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .card:hover .resultTile {
+    transform: rotate(-4deg) scale(1.04);
+    box-shadow:
+      inset 0 0 0 1px rgba(240, 101, 47, 0.6),
+      0 12px 26px rgba(208, 74, 29, 0.3);
+  }
+
+  .card:hover .ctaLabel {
+    color: var(--accent-2);
+  }
+
+  .card:hover .ctaIcon {
+    transform: rotate(45deg) scale(1.05);
+  }
+}
+
+/* Touch: a press state instead of hover */
+@media (hover: none) {
+  .card:active {
+    transform: scale(0.985);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 20px;
+  }
+
+  .frame {
+    margin: 8px 8px 0;
+    border-radius: 14px;
+  }
+
+  .resultTile {
+    min-width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 1.1rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .projectImage,
-  .arrowIcon {
+  .image,
+  .resultTile,
+  .ctaIcon,
+  .index {
     transition: none;
   }
 }

@@ -36,6 +36,8 @@ export interface ProjectCardProps {
   description: string;
   imageUrl: string;
   locale?: string;
+  /** 0-based position in the grid, shown as an outlined "01". */
+  index?: number;
 }
 
 /** DevolperCard component props interface from path :
