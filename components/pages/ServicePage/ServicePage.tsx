@@ -2,18 +2,25 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Code2,
+  FlaskConical,
+  PenTool,
+  Quote,
+  Rocket,
+  Search,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 import styles from "./ServicePage.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
-import TechnologiesUsed from "@/components/Molecules/TechnologiesUsed/TechnologiesUsed";
-import FeaturesContainer from "@/components/Molecules/FeaturesContainer/FeaturesContainer";
-import OurDevelopmentContainer from "@/components/Molecules/OurDevelopmentContainer.tsx/OurDevelopmentContainer";
-import SuccessStoriesContainer from "@/components/Molecules/SuccessStoriesContainer/SuccessStoriesContainer";
-import Image from "next/image";
-import ServicePackagesContainer from "@/components/Molecules/ServicePackagesContainer/ServicePackagesContainer";
-import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
+import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
 import { ServiceItem } from "@/service/serviceId/serviceId";
-
-import { useRouter } from "next/navigation";
 import { Locale, localize as getStr } from "@/lib/i18n";
 
 interface Props {
@@ -21,49 +28,18 @@ interface Props {
   locale: Locale;
 }
 
-const developmentProcess = [
-  {
-    id: 1,
-    title: "Discovery",
-    description:
-      "We analyze your requirements and create a detailed project plan.",
-    icon: "1",
-  },
-  {
-    id: 2,
-    title: "Design",
-    description:
-      "Our designers create wireframes and UI/UX designs for your approval.",
-    icon: "2",
-  },
-  {
-    id: 3,
-    title: "Development",
-    description:
-      "Our developers bring the design to life with clean, efficient code.",
-    icon: "3",
-  },
-  {
-    id: 4,
-    title: "Testing",
-    description:
-      "We thoroughly test all features to ensure quality and performance.",
-    icon: "4",
-  },
-  {
-    id: 5,
-    title: "Launch & Support",
-    description:
-      "We deploy your project and provide ongoing support and maintenance.",
-    icon: "5",
-  },
+const developmentProcess: { title: string; description: string; icon: LucideIcon }[] = [
+  { title: "Discovery", description: "We analyze your requirements and create a detailed project plan.", icon: Search },
+  { title: "Design", description: "Our designers create wireframes and UI/UX designs for your approval.", icon: PenTool },
+  { title: "Development", description: "Our developers bring the design to life with clean, efficient code.", icon: Code2 },
+  { title: "Testing", description: "We thoroughly test all features to ensure quality and performance.", icon: FlaskConical },
+  { title: "Launch & Support", description: "We deploy your project and provide ongoing support and maintenance.", icon: Rocket },
 ];
 
 const servicePackages = [
   {
     title: "Starter Package",
     description: "Perfect for small businesses",
-    price: "$99/month",
     features: [
       "5 pages website",
       "Mobile responsive",
@@ -74,13 +50,10 @@ const servicePackages = [
       "Analytics dashboard",
     ],
     isPopular: false,
-    hasButtonBackground: false,
-    hasShadow: false,
   },
   {
     title: "Professional Package",
     description: "Ideal for growing businesses",
-    price: "$199/month",
     features: [
       "10 pages website",
       "Mobile responsive",
@@ -91,13 +64,10 @@ const servicePackages = [
       "Analytics dashboard",
     ],
     isPopular: true,
-    hasButtonBackground: true,
-    hasShadow: true,
   },
   {
     title: "Enterprise Package",
     description: "For large scale businesses",
-    price: "$399/month",
     features: [
       "Unlimited pages",
       "Mobile responsive",
@@ -108,19 +78,47 @@ const servicePackages = [
       "Analytics dashboard",
     ],
     isPopular: false,
-    hasButtonBackground: false,
-    hasShadow: false,
   },
 ];
 
+/** Section heading shared by every block: eyebrow pill, title (last word accented), intro. */
+const SectionHead = ({
+  eyebrow,
+  title,
+  intro,
+  id,
+  align = "center",
+}: {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  id: string;
+  align?: "center" | "start";
+}) => {
+  const words = title.split(" ");
+  const last = words.pop();
+  return (
+    <header className={`${styles.head} ${align === "start" ? styles.headStart : ""}`}>
+      <span className={styles.eyebrow}>
+        <Sparkles size={13} aria-hidden="true" /> {eyebrow}
+      </span>
+      <h2 id={id} className={styles.headTitle}>
+        {words.length > 0 && <>{words.join(" ")} </>}
+        <span className={styles.accent}>{last}</span>
+      </h2>
+      {intro && <p className={styles.headIntro}>{intro}</p>}
+    </header>
+  );
+};
+
 const ServicePage: React.FC<Props> = ({ service, locale }) => {
-  const router = useRouter();
+  const contactHref = `/${locale}/contact#contact-form`;
+
   const features =
-    service.features?.map((f, i) => ({
-      id: i + 1,
+    service.features?.map((f) => ({
       title: getStr(f.title, locale),
       description: getStr(f.description, locale),
-      iconUrl: f.icon || "/assets/Frame.svg",
+      icon: f.icon || "",
     })) ?? [];
 
   const successStories =
@@ -129,26 +127,24 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
       // a link can outlive its project; skip dangling references
       .filter((p): p is NonNullable<typeof p> => Boolean(p?._id))
       .map((p) => ({
-      id: p._id,
-      title: getStr(p.title, locale),
-      description: getStr(p.overview, locale),
-      iconUrl: p.main_image_url || "/assets/Frame.svg",
-      metrics:
-        p.case_study_results?.map((r) => ({
-          label: getStr(r.description, locale),
-          value: r.value,
-          valueColor: "#D04A1D",
-        })) ?? [],
-    })) ?? [];
+        id: p._id,
+        title: getStr(p.title, locale),
+        description: getStr(p.overview, locale),
+        image: p.main_image_url || "",
+        metrics:
+          p.case_study_results?.map((r) => ({
+            label: getStr(r.description, locale),
+            value: r.value,
+          })) ?? [],
+      })) ?? [];
 
   const technologies = service.technologies_used?.map((t) => t.name) ?? [];
-
-  const units = service.what_we_do?.units ?? [];
+  const units = (service.what_we_do?.units ?? []).map((u) => getStr(u, locale)).filter(Boolean);
 
   return (
-    <div className={styles.servicePage}>
+    <div className={styles.page}>
       <HeroSection
-        primaryHref={`/${locale}/contact#contact-form`}
+        primaryHref={contactHref}
         title1={getStr(service.title, locale) || "Service"}
         title2=""
         subtitle1={getStr(service.description, locale) || "Service description"}
@@ -165,172 +161,244 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         height="70vh"
       />
 
-      <div className={styles.contentSection1}>
-        <div className={styles.contentSection2}>
-          <h2 className={styles.contentSection2Title}>What We Do</h2>
-          <p className={styles.contentSection2Description}>
-            {getStr(service.what_we_do?.description, locale) ||
-              "Our experts build exceptional digital experiences."}
-          </p>
-          <ul className={styles.serviceList}>
-            {units.length > 0 ? (
-              units.map((unit, i) => (
-                <li key={i} className={styles.serviceItem}>
-                  <svg
-                    className={styles.serviceIcon}
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                  >
-                    <path
-                      d="M10 1.66675C5.4 1.66675 1.66666 5.40008 1.66666 10.0001C1.66666 14.6001 5.4 18.3334 10 18.3334C14.6 18.3334 18.3333 14.6001 18.3333 10.0001C18.3333 5.40008 14.6 1.66675 10 1.66675ZM8.33333 15L3.33333 10.0001L4.55 8.78341L8.33333 12.5584L15.45 5.44175L16.6667 6.66675L8.33333 15Z"
-                      fill="#D04A1D"
-                    />
-                  </svg>
-                  <span className={styles.serviceContent}>
-                    {getStr(unit, locale)}
+      {/* ---------- What We Do + Technologies ---------- */}
+      <section className={styles.section} aria-labelledby="sp-what">
+        <div className={`${styles.inner} ${styles.whatGrid}`}>
+          <div className={styles.whatMain}>
+            <SectionHead id="sp-what" eyebrow="Overview" title="What We Do" align="start" />
+            <p className={styles.lead}>
+              {getStr(service.what_we_do?.description, locale) ||
+                "Our experts build exceptional digital experiences."}
+            </p>
+            <ul className={styles.units}>
+              {(units.length ? units : ["Custom application and platform development"]).map((unit, i) => (
+                <li key={i} className={styles.unit}>
+                  <span className={styles.unitCheck} aria-hidden="true">
+                    <Check size={14} strokeWidth={2.75} />
                   </span>
+                  <span>{unit}</span>
                 </li>
-              ))
-            ) : (
-              <li className={styles.serviceItem}>
-                <svg
-                  className={styles.serviceIcon}
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                >
-                  <path
-                    d="M10 1.66675C5.4 1.66675 1.66666 5.40008 1.66666 10.0001C1.66666 14.6001 5.4 18.3334 10 18.3334C14.6 18.3334 18.3333 14.6001 18.3333 10.0001C18.3333 5.40008 14.6 1.66675 10 1.66675ZM8.33333 15L3.33333 10.0001L4.55 8.78341L8.33333 12.5584L15.45 5.44175L16.6667 6.66675L8.33333 15Z"
-                    fill="#D04A1D"
-                  />
-                </svg>
-                <span className={styles.serviceContent}>
-                  Custom application and platform development
-                </span>
-              </li>
-            )}
-          </ul>
-        </div>
-        <TechnologiesUsed technologies={technologies} />
-      </div>
+              ))}
+            </ul>
+          </div>
 
-      <div className={styles.FeaturesCapabilities}>
-        <div className={styles.FeaturesCapabilitiesContent}>
-          <StatusBadge
-            text="OUR FEATURES"
-            className={styles.FeaturesStatusBadge}
+          {technologies.length > 0 && (
+            <aside className={styles.techCard} aria-labelledby="sp-tech">
+              <span className={styles.techGlow} aria-hidden="true" />
+              <h3 id="sp-tech" className={styles.techTitle}>
+                Technologies Used
+              </h3>
+              <ul className={styles.techList}>
+                {technologies.map((tech) => (
+                  <li key={tech} className={styles.techChip}>
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )}
+        </div>
+      </section>
+
+      {/* ---------- Features & Capabilities ---------- */}
+      <section className={`${styles.section} ${styles.tinted}`} aria-labelledby="sp-features">
+        <div className={styles.inner}>
+          <SectionHead
+            id="sp-features"
+            eyebrow="Our Features"
+            title="Features & Capabilities"
+            intro={
+              getStr(service.description_features, locale) ||
+              "Comprehensive services designed to build and scale your digital presence."
+            }
           />
-          <h2 className={styles.FeaturesCapabilitiesTitle}>
-            Features & Capabilities
-          </h2>
-          <p className={styles.FeaturesCapabilitiesDescription}>
-            {getStr(service.description_features, locale) ||
-              "Comprehensive services designed to build and scale your digital presence."}
-          </p>
-        </div>
-        <div className={styles.FeaturesCapabilitiesContainer}>
-          <FeaturesContainer features={features} />
-        </div>
-      </div>
-
-      <div className={styles.OurDevelopmentProcess}>
-        <div className={styles.OurDevelopmentProcessContent}>
-          <StatusBadge
-            text="OUR PROCESS"
-            className={styles.DevelopmentStatusBadge}
-          />
-          <h2 className={styles.OurDevelopmentProcessTitle}>
-            Our Development Process
-          </h2>
-          <p className={styles.OurDevelopmentProcessDescription}>
-            A systematic approach that ensures a high-quality product through
-            discovery, design, implementation, and support.
-          </p>
-        </div>
-        <div className={styles.OurDevelopmentContainer}>
-          <OurDevelopmentContainer steps={developmentProcess} />
-        </div>
-      </div>
-
-      <div className={styles.SuccessStories}>
-        <StatusBadge text="OUR STORIES" className={styles.StoriesStatusBadge} />
-        <div className={styles.SuccessStoriesContent}>
-          <h2 className={styles.SuccessStoriesTitle}>Success Stories</h2>
-          <p className={styles.SuccessStoriesDescription}>
-            {getStr(service.description_stories, locale) ||
-              "Real results demonstrating measurable improvements in digital performance."}
-          </p>
-        </div>
-        <div className={styles.SuccessStoriesContainer}>
-          <SuccessStoriesContainer stories={successStories} locale={locale} />
-        </div>
-        <div className={styles.testimonialSection}>
-          <div className={styles.testimonialContent}>
-            <Image
-              src="/assets/SuccessStories/AndAnd.svg"
-              alt="And"
-              className={styles.andIcon}
-              width={30}
-              height={30}
-            />
-            <p className={styles.testimonialText}>
-              &ldquo;The team completely transformed our online presence. Their design
-              sense is brilliant, and the development process was smooth and
-              transparent.&rdquo;
-            </p>
-            <div className={styles.testimonialAuthor}>
-              <div className={styles.authorIcon}>
-                <Image
-                  src="/assets/SuccessStories/Frame.png"
-                  alt="Author"
-                  className={styles.authorImage}
-                  width={28}
-                  height={28}
-                />
-              </div>
-              <div className={styles.authorInfo}>
-                <span className={styles.authorName}>Sarah Johnson</span>
-                <span className={styles.authorRole}>CEO, TechStart Inc.</span>
-              </div>
+          {features.length > 0 && (
+            <div className={styles.featureGrid}>
+              {features.map((f, i) => (
+                <article key={i} className={styles.featureCard}>
+                  <span className={styles.featureNum} aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={styles.featureIcon}>
+                    <ServiceIcon
+                      icon={f.icon}
+                      title={f.title}
+                      sizes="52px"
+                      imageClassName={styles.featureImg}
+                      svgClassName={styles.featureSvg}
+                    />
+                  </span>
+                  <h3 className={styles.featureTitle}>{f.title}</h3>
+                  <p className={styles.featureText}>{f.description}</p>
+                </article>
+              ))}
             </div>
-          </div>
+          )}
         </div>
-      </div>
+      </section>
 
-      <div className={styles.ServicePackages}>
-        <div className={styles.ServicePackagesContent}>
-          <StatusBadge text="OUR PACKAGES" />
-          <h2 className={styles.ServicePackagesTitle}>Service Packages</h2>
-          <p className={styles.ServicePackagesDescription}>
-            Choose the solution that fits your business needs.
-          </p>
-        </div>
-        <div className={styles.ServicePackagesContainer}>
-          <ServicePackagesContainer
-            packages={servicePackages}
-            locale={locale}
+      {/* ---------- Development Process ---------- */}
+      <section className={styles.section} aria-labelledby="sp-process">
+        <div className={styles.inner}>
+          <SectionHead
+            id="sp-process"
+            eyebrow="Our Process"
+            title="Our Development Process"
+            intro="A systematic approach that ensures a high-quality product through discovery, design, implementation, and support."
           />
+          <ol className={styles.steps}>
+            {developmentProcess.map(({ title, description, icon: Icon }, i) => (
+              <li key={title} className={styles.step}>
+                <span className={styles.stepMarker}>
+                  <span className={styles.stepIcon} aria-hidden="true">
+                    <Icon size={22} />
+                  </span>
+                  <span className={styles.stepNum}>{i + 1}</span>
+                </span>
+                <h3 className={styles.stepTitle}>{title}</h3>
+                <p className={styles.stepText}>{description}</p>
+              </li>
+            ))}
+          </ol>
         </div>
-        <div className={styles.ctaSection}>
-          <div className={styles.ctaText}>
-            <h2 className={styles.ctaText1}>Free Project Consultation</h2>
-            <p className={styles.ctaText2}>
-              Get a comprehensive evaluation of your project goals with our
-              complimentary assessment.
-            </p>
+      </section>
+
+      {/* ---------- Success Stories ---------- */}
+      <section className={`${styles.section} ${styles.tinted}`} aria-labelledby="sp-stories">
+        <div className={styles.inner}>
+          <SectionHead
+            id="sp-stories"
+            eyebrow="Our Stories"
+            title="Success Stories"
+            intro={
+              getStr(service.description_stories, locale) ||
+              "Real results demonstrating measurable improvements in digital performance."
+            }
+          />
+
+          {successStories.length > 0 && (
+            <div
+              className={`${styles.storyGrid} ${successStories.length === 1 ? styles.storySolo : ""}`}
+            >
+              {successStories.map((story) => (
+                <article key={story.id} className={styles.storyCard}>
+                  <div className={styles.storyMedia}>
+                    {!story.image && (
+                      <span className={styles.storyPlaceholder} aria-hidden="true">
+                        {story.title.charAt(0)}
+                      </span>
+                    )}
+                    {story.image && (
+                      <Image
+                        src={story.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 92vw, 540px"
+                        className={styles.storyImg}
+                        unoptimized={
+                          story.image.startsWith("http") && !story.image.includes("res.cloudinary.com")
+                        }
+                      />
+                    )}
+                    <span className={styles.storyShade} aria-hidden="true" />
+                  </div>
+                  <div className={styles.storyBody}>
+                    <h3 className={styles.storyTitle}>{story.title}</h3>
+                    <p className={styles.storyText}>{story.description}</p>
+                    {story.metrics.length > 0 && (
+                      <dl className={styles.metrics}>
+                        {story.metrics.slice(0, 4).map((m, i) => (
+                          <div key={i} className={styles.metric}>
+                            <dt>{m.label}</dt>
+                            <dd>{m.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                    <Link href={`/${locale}/case-study/${story.id}`} className={styles.storyLink}>
+                      View case study
+                      <span className={styles.storyArrow} aria-hidden="true">
+                        <ArrowUpRight size={18} />
+                      </span>
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <figure className={styles.testimonial}>
+            <Quote className={styles.quoteMark} size={36} aria-hidden="true" />
+            <blockquote className={styles.quoteText}>
+              &ldquo;The team completely transformed our online presence. Their design sense is
+              brilliant, and the development process was smooth and transparent.&rdquo;
+            </blockquote>
+            <figcaption className={styles.quoteAuthor}>
+              <span className={styles.avatar} aria-hidden="true">
+                SJ
+              </span>
+              <span>
+                <strong>Sarah Johnson</strong>
+                <span className={styles.authorRole}>CEO, TechStart Inc.</span>
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* ---------- Service Packages + CTA ---------- */}
+      <section className={styles.section} aria-labelledby="sp-packages">
+        <div className={styles.inner}>
+          <SectionHead
+            id="sp-packages"
+            eyebrow="Our Packages"
+            title="Service Packages"
+            intro="Choose the solution that fits your business needs."
+          />
+          <div className={styles.packages}>
+            {servicePackages.map((pkg) => (
+              <article
+                key={pkg.title}
+                className={`${styles.pkg} ${pkg.isPopular ? styles.pkgPopular : ""}`}
+              >
+                {pkg.isPopular && <span className={styles.popular}>Most Popular</span>}
+                <h3 className={styles.pkgTitle}>{pkg.title}</h3>
+                <p className={styles.pkgText}>{pkg.description}</p>
+                <ul className={styles.pkgList}>
+                  {pkg.features.map((feature) => (
+                    <li key={feature}>
+                      <span className={styles.unitCheck} aria-hidden="true">
+                        <Check size={13} strokeWidth={2.75} />
+                      </span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <Link href={contactHref} className={styles.pkgBtn}>
+                  Get Started <ArrowRight size={18} aria-hidden="true" />
+                </Link>
+              </article>
+            ))}
           </div>
-          <button
-            className={styles.ctaButton}
-            type="button"
-            onClick={() => router.push(`/${locale}/contact#contact-form`)}
-          >
-            Schedule Free Assessment
-          </button>
+
+          <div className={styles.cta}>
+            <span className={styles.ctaPattern} aria-hidden="true" />
+            <div className={styles.ctaCopy}>
+              <h2 className={styles.ctaTitle}>Free Project Consultation</h2>
+              <p className={styles.ctaText}>
+                Get a comprehensive evaluation of your project goals with our complimentary
+                assessment.
+              </p>
+            </div>
+            <Link href={contactHref} className={styles.ctaBtn}>
+              Schedule Free Assessment
+              <span className={styles.ctaArrow} aria-hidden="true">
+                <ArrowUpRight size={18} />
+              </span>
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
