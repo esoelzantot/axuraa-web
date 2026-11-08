@@ -32,7 +32,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
       />
       <SeeAll href={`/${locale}/portfolio`}>{seeAllText}</SeeAll>
       <div className={styles.ProjectGrid}>
-        {items.map((project) => (
+        {items.map((project, index) => (
           <ProjectCard
             key={project.id}
             id={project.id}
@@ -42,6 +42,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
             percentage={project.percentage}
             description={project.description}
             imageUrl={project.imageUrl}
+            index={index}
             locale={locale}
           />
         ))}

@@ -3,14 +3,19 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiArrowRight } from "react-icons/fi";
+import { ArrowUpRight } from "lucide-react";
 import styles from "./ProjectCart.module.css";
 import { ProjectCardProps } from "@/types/Generals/cardTypes";
+import { useSpotlight } from "@/components/UI/Atoms/HomeServiceCard/HomeServiceCard";
+
+const MAX_TAGS = 3;
 
 /**
- * Project card used on the home page and the portfolio grid.
- * Layout: 16:9 image -> title (2 lines max) -> category tags (2 rows max)
- * -> key result -> "Read More" pinned to the bottom of the card.
+ * Project card — built on the same design as the Services page card:
+ * dark surface with cursor glow, gradient border on hover, outlined index
+ * number, a tile + label row (the tile holds the project's key result),
+ * 2-line title, description, chips and an arrow CTA. The project image sits
+ * in a frame at the top. The whole card links to the case study.
  */
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
@@ -21,49 +26,74 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   imageUrl,
   locale = "en",
+  index,
 }) => {
-  const tags = categories.length > 0 ? categories : [category];
+  const { ref, onPointerMove } = useSpotlight<HTMLElement>();
+  const tags = categories.length > 0 ? categories : category ? [category] : [];
+  const shown = tags.slice(0, MAX_TAGS);
+  const extra = tags.length - shown.length;
+  const number = typeof index === "number" ? String(index + 1).padStart(2, "0") : null;
   const href = `/${locale || "en"}/case-study/${id}`;
   const remote = imageUrl.startsWith("http") && !imageUrl.includes("res.cloudinary.com");
 
   return (
-    <article className={styles.card}>
-      <Link href={href} className={styles.imageContainer} tabIndex={-1} aria-hidden="true">
+    <article ref={ref} className={styles.card} onPointerMove={onPointerMove}>
+      <span className={styles.spotlight} aria-hidden="true" />
+
+      <div className={styles.frame}>
         <Image
           src={imageUrl}
           alt=""
           fill
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 380px"
-          className={styles.projectImage}
+          className={styles.image}
           unoptimized={remote}
         />
-      </Link>
+        <span className={styles.shade} aria-hidden="true" />
+      </div>
 
-      <div className={styles.content}>
+      <div className={styles.body}>
+        {number && (
+          <span className={styles.index} aria-hidden="true">
+            {number}
+          </span>
+        )}
+
+        <div className={styles.top}>
+          {percentage && <div className={styles.resultTile}>{percentage}</div>}
+          <span className={styles.kind}>Case Study</span>
+        </div>
+
         <h3 className={styles.title} title={title}>
           {title}
         </h3>
-
-        <ul className={styles.badgesRow} aria-label="Categories">
-          {tags.map((tag) => (
-            <li key={tag} className={styles.badge} title={tag}>
-              {tag}
-            </li>
-          ))}
-        </ul>
-
-        <div className={styles.statsRow}>
-          <span className={styles.percentage}>{percentage}</span>
+        {description && (
           <p className={styles.description} title={description}>
             {description}
           </p>
-        </div>
+        )}
 
-        <Link href={href} className={styles.readMore}>
-          Read More
-          <FiArrowRight className={styles.arrowIcon} aria-hidden="true" />
-          <span className={styles.srOnly}> about {title}</span>
-        </Link>
+        {shown.length > 0 && (
+          <ul className={styles.tags} aria-label="Categories">
+            {shown.map((tag) => (
+              <li key={tag} className={styles.tag} title={tag}>
+                <span className={styles.dot} aria-hidden="true" />
+                <span className={styles.tagText}>{tag}</span>
+              </li>
+            ))}
+            {extra > 0 && <li className={`${styles.tag} ${styles.more}`}>+{extra}</li>}
+          </ul>
+        )}
+
+        <div className={styles.footer}>
+          <Link href={href} className={styles.cta}>
+            <span className={styles.ctaLabel}>View case study</span>
+            <span className={styles.ctaIcon} aria-hidden="true">
+              <ArrowUpRight size={18} strokeWidth={2} />
+            </span>
+            <span className={styles.srOnly}>: {title}</span>
+          </Link>
+        </div>
       </div>
     </article>
   );
