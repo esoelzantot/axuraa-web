@@ -45,8 +45,14 @@ const BusinessSolutions = ({ services, locale }: Props) => {
         {services.length === 0 ? (
           <div className={styles.sectionError}>No services available.</div>
         ) : (
-          services.map((service) => (
-            <ServiceCard key={service.id} {...service} locale={locale} />
+          services.map((service, index) => (
+            <ServiceCard
+              key={service.id}
+              {...service}
+              index={index}
+              variant="solution"
+              locale={locale}
+            />
           ))
         )}
       </div>
