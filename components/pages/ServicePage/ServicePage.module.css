@@ -267,7 +267,7 @@
 
   width: 1440px;
 
-  height: 369.2px;
+  height: auto;
 
   flex-direction: column;
 
@@ -332,7 +332,7 @@
 
   width: 962px;
 
-  height: 14px;
+  height: auto;
 
   color: #fff;
 
@@ -488,7 +488,7 @@
 }
 
 .testimonialText {
-  height: 27.067px;
+  height: auto;
 
   align-self: stretch;
 
@@ -566,7 +566,7 @@
 .authorName {
   color: #fff;
 
-  font-size: 9.486px;
+  font-size: 12px;
 
   font-style: normal;
 
@@ -580,7 +580,7 @@
 .authorRole {
   color: #999;
 
-  font-size: 9.486px;
+  font-size: 12px;
 
   font-style: normal;
 
@@ -719,7 +719,7 @@
 
 /* .ctaText p:last-child {
 
-    font-size: 10.898px;
+    font-size: 12px;
 
     font-weight: 400;
 
@@ -791,7 +791,7 @@
 
   color: #d9d9d9;
 
-  font-size: 10.898px;
+  font-size: 12px;
 
   font-style: normal;
 
@@ -1014,7 +1014,7 @@
 
     color: #d9d9d9;
 
-    font-size: 10.898px;
+    font-size: 12px;
 
     font-style: normal;
 
@@ -1317,7 +1317,7 @@
 
     color: #d9d9d9;
 
-    font-size: 10.898px;
+    font-size: 12px;
 
     font-style: normal;
 
@@ -1335,7 +1335,7 @@
 
     width: 342px;
 
-    height: 550px;
+    height: auto;
 
     /* padding: 10px; */
 
@@ -1457,7 +1457,7 @@
 
     /* width: 343px; */
 
-    max-height: 1241.9968px;
+    max-height: none;
 
     padding-top: 40px;
 
@@ -1493,7 +1493,7 @@
 
     width: 333px;
 
-    height: 33px;
+    height: auto;
 
     flex-direction: column;
 
@@ -1535,7 +1535,7 @@
 
     padding-bottom: 20px;
 
-    height: 800px;
+    height: auto;
 
     flex-direction: column;
 
@@ -1641,7 +1641,7 @@
   .SuccessStories {
     width: 100%;
 
-    height: 1300px;
+    height: auto;
 
     display: flex;
 
@@ -1721,7 +1721,7 @@
 
     /* width: 343px;
 
-   height: 53px;
+   height: auto;
 
    color: #FFF;
 
@@ -1746,7 +1746,7 @@
 
     width: 343px;
 
-    height: 222.9916px;
+    height: auto;
 
     display: flex;
 
@@ -1770,7 +1770,7 @@
 
     width: 343px;
 
-    height: 222.9916px;
+    height: auto;
 
     display: flex;
 
@@ -1798,7 +1798,7 @@
 
     width: 313px;
 
-    height: 90px;
+    height: auto;
 
     color: #fff;
 
@@ -1881,7 +1881,7 @@
   .ServicePackagesDescription {
     width: 343px;
 
-    height: 52px;
+    height: auto;
 
     margin: 0 auto;
 
@@ -1917,7 +1917,7 @@
   .ctaSection {
     width: 343px;
 
-    height: 177.0664px;
+    height: auto;
 
     display: flex;
 
@@ -2005,7 +2005,7 @@
 
     color: #d9d9d9;
 
-    font-size: 10.898px;
+    font-size: 12px;
 
     font-style: normal;
 
@@ -2073,7 +2073,7 @@
 
     /* width: 343px;
 
-   height: 53px;
+   height: auto;
 
    color: #FFF;
 
@@ -2160,7 +2160,7 @@
 
     /* width: 343px;
 
-   height: 53px;
+   height: auto;
 
    color: #FFF;
 
@@ -2208,3 +2208,87 @@
 }
 
 } */
+
+/* ============================================================
+   Responsive guard (kept last): every block keeps its designed
+   width when there is room but never exceeds its container.
+   The design used fixed widths (1440 / 1120 / 962 / 548 / 343px)
+   that overflowed on tablets and small phones.
+   ============================================================ */
+.contentSection1,
+.contentSection2,
+.contentSection2Description,
+.FeaturesCapabilities,
+.FeaturesCapabilitiesContent,
+.FeaturesCapabilitiesTitle,
+.FeaturesCapabilitiesDescription,
+.FeaturesCapabilitiesContainer,
+.OurDevelopmentProcess,
+.OurDevelopmentProcessContent,
+.OurDevelopmentProcessTitle,
+.OurDevelopmentProcessDescription,
+.OurDevelopmentContainer,
+.SuccessStories,
+.SuccessStoriesContent,
+.SuccessStoriesContainer,
+.testimonialSection,
+.testimonialContent,
+.ServicePackages,
+.ServicePackagesContent,
+.ServicePackagesContainer,
+.ctaSection {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.contentSection1 {
+  max-width: calc(100% - 2rem);
+}
+
+@media (max-width: 480px) {
+  .contentSection1,
+  .contentSection2,
+  .contentSection2Description,
+  .FeaturesCapabilitiesContent,
+  .FeaturesCapabilitiesTitle,
+  .OurDevelopmentProcessTitle,
+  .OurDevelopmentProcessDescription,
+  .OurDevelopmentContainer {
+    width: 100%;
+  }
+
+  .contentSection1 {
+    width: calc(100% - 2rem);
+  }
+}
+
+/* Section intro blocks (badge + title + text): definite full width with side
+   padding, so their percentage-width children never collapse to 0 */
+.FeaturesCapabilitiesContent,
+.OurDevelopmentProcessContent,
+.SuccessStoriesContent,
+.ServicePackagesContent {
+  width: 100%;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+.SuccessStoriesDescription,
+.ServicePackagesDescription,
+.OurDevelopmentProcessDescription,
+.FeaturesCapabilitiesDescription {
+  max-width: min(100%, 62rem);
+  margin-inline: auto;
+}
+
+/* "What we do" list items wrap within the screen on very small phones */
+.serviceList,
+.serviceItem,
+.serviceContent {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.testimonialText,
+.testimonialAuthor {
+  max-width: 100%;
+}

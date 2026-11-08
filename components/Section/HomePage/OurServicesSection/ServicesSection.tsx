@@ -34,7 +34,7 @@ const FALLBACK_SERVICES = [
   },
 ];
 
-const linkStyle: React.CSSProperties = { color: "inherit", textDecoration: "none" };
+const linkStyle: React.CSSProperties = { display: "block", height: "100%", color: "inherit", textDecoration: "none" };
 
 const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
   const items = filterServices(services, "service").slice(0, 3);
@@ -64,7 +64,6 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
               title={card.title}
               description={card.description}
               iconSrc={card.icon}
-              borderRadius="0 0 68.087px 0"
             />
           );
           return card.id ? (
@@ -79,7 +78,6 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
           title="See All Services"
           description="Explore our full catalog"
           iconSrc="/assets/DirectionIcon.svg"
-          borderRadius="0 0 68.087px 0"
           href={`/${locale}/service`}
         />
       </div>

@@ -34,3 +34,8 @@
     gap: 15px;
   }
 }
+/* Responsive guard */
+.container {
+  max-width: 100%;
+  box-sizing: border-box;
+}

@@ -416,7 +416,7 @@
   .subtitle {
     width: auto;
     height: auto;
-    font-size: 0.6875rem;
+    font-size: 12px;
     line-height: 1.2;
     margin: 0;
   }
@@ -505,4 +505,8 @@
     line-height: 1.3;
     margin: 0;
   }
+}
+/* Never stretch the icons when a breakpoint changes only one dimension */
+.icon {
+  object-fit: contain;
 }

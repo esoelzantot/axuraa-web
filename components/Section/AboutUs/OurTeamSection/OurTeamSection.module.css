@@ -232,3 +232,37 @@
     margin-bottom: 0.75rem;
   }
 }
+/* ============================================================
+   Responsive team grid (kept last so it wins at every size).
+   Cards keep their designed 11.5rem width and wrap onto new
+   rows; the old single-row flex layout ran off-screen on tablets.
+   ============================================================ */
+.teamSection {
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 2rem);
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(11.5rem, 100%), 11.5rem));
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  width: 100%;
+  max-width: 100%;
+  margin: 2.5rem auto 1rem;
+}
+
+.teamGrid > *,
+.teamGrid > *:last-child:nth-child(odd) {
+  grid-column: auto;
+  max-width: none;
+  margin: 0;
+}
+
+/* Phones: two equal columns */
+@media (max-width: 480px) {
+  .teamGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.875rem;
+  }
+}

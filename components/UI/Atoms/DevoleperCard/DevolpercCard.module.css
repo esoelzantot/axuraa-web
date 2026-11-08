@@ -363,7 +363,7 @@
 
   .authorRole {
     width: 126px;
-    font-size: 11px;
+    font-size: 12px;
     height: 22px;
   }
 }
@@ -412,7 +412,7 @@
 
   .authorRole {
     width: 112px;
-    font-size: 10px;
+    font-size: 12px;
     height: 20px;
   }
 }
@@ -478,7 +478,7 @@
     width: 97px;
     height: 17px;
     color: #fff;
-    font-size: 10px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 200;
     line-height: normal;
@@ -529,7 +529,7 @@
 
   .authorRole {
     width: 88px;
-    font-size: 8px;
+    font-size: 12px;
     height: 16px;
   }
 }

@@ -217,7 +217,7 @@
   .roleSection {
     height: 3.75rem;
     bottom: -0.625rem;
-    font-size: 0.7rem;
+    font-size: 12px;
     width: 100%;
   }
 
@@ -257,5 +257,17 @@
 
   .role {
     padding: 2rem 0.5rem 0 0.5rem;
+  }
+}
+/* Responsive guard: fill the grid cell on narrow screens */
+.container,
+.card {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
   }
 }

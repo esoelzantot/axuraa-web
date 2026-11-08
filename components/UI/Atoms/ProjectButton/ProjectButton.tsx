@@ -7,6 +7,8 @@ interface ProjectButtonProps {
   className?: string;
   style?: React.CSSProperties;
   variant?: 'primary' | 'secondary' | 'outline';
+  title?: string;
+  pressed?: boolean;
 }
 
 const ProjectButton: React.FC<ProjectButtonProps> = ({
@@ -14,12 +16,17 @@ const ProjectButton: React.FC<ProjectButtonProps> = ({
   onClick,
   className = '',
   style,
-  variant = 'primary'
+  variant = 'primary',
+  title,
+  pressed,
 }) => {
   const variantClass = styles[`button_${variant}`] || '';
   
   return (
     <button
+      type="button"
+      title={title}
+      aria-pressed={pressed}
       className={`${styles.button} ${variantClass} ${className}`}
       onClick={onClick}
       style={style}

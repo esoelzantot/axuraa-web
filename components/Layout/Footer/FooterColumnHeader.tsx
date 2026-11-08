@@ -12,11 +12,11 @@ const FooterColumnHeader: React.FC<FooterColumnHeaderProps> = ({ title }) => {
       variant="h3"
       style={{
         color: 'rgba(255, 255, 255, 0.95)',
-        fontSize: '24px',
+        fontSize: 'clamp(18px, 1.6vw, 24px)',
         fontStyle: 'normal',
         fontWeight: 600,
         lineHeight: 'normal',
-        margin: '0 0 24px 0',
+        margin: '0 0 20px 0',
         display: 'flex',
         alignItems: 'center',
         gap: '12px'

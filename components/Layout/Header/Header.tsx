@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Menu,
   X,
@@ -36,6 +36,21 @@ const Header = () => {
     : "";
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  // While the drawer is open: lock page scroll and close on Escape.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isMenuOpen]);
 
   const navLinks = [
     { key: "home", segment: "", href: homeHref, icon: <Home size={20} /> },

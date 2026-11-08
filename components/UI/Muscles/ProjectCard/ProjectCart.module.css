@@ -46,10 +46,14 @@
 }
 
 .badge {
-  display: inline-flex;
+  display: inline-block;
+  /* Long category names are truncated (full text in the title attribute) */
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   padding: 0.25rem 0.5rem;
-  justify-content: center;
-  align-items: center;
   border-radius: 19.401px;
   border: 1.94px solid #902501;
   background: linear-gradient(90deg, #902501 0%, #2a0b00 100%);
@@ -62,6 +66,8 @@
 .badgesRow {
   display: flex;
   flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
   gap: 6px;
   margin-bottom: 8px;
 }
@@ -274,7 +280,7 @@
 
   .badge {
     padding: 2px 6px;
-    font-size: 9px;
+    font-size: 12px;
     border-width: 1px;
   }
 
@@ -289,7 +295,7 @@
   }
 
   .description {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 12px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -299,7 +305,7 @@
   }
 
   .readMore {
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 4px;
   }
 
@@ -307,4 +313,9 @@
     width: 12px;
     height: 12px;
   }
+}
+/* Keep the designed 355px cap, but never wider than its grid cell */
+.card {
+  min-width: 0;
+  max-width: min(355px, 100%);
 }

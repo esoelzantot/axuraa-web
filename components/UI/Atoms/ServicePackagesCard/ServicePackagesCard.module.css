@@ -168,7 +168,7 @@
   align-items: center;
   background: #D04A1D;
   color: #D9D9D9;
-  font-size: 9px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 600;
   line-height: 14.875px;
@@ -183,7 +183,7 @@
     right: -50px;
     width: 180px;
     height: 28px;
-    font-size: 11px;
+    font-size: 12px;
     padding: 0 15px;
   } */
 }
@@ -222,4 +222,9 @@
   .button {
     padding: 9.917px 40px;
   }
+}
+/* Responsive guard */
+.card {
+  max-width: 100%;
+  box-sizing: border-box;
 }

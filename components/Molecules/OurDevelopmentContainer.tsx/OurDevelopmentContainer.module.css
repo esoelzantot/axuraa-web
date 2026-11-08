@@ -119,3 +119,8 @@
     padding: 0 12px;
   }
 }
+/* Responsive guard: designed at 932px, shrinks with its container */
+.container {
+  max-width: 100%;
+  box-sizing: border-box;
+}

@@ -1,22 +1,39 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #191b1f;
+  --foreground: #ededed;
+  /* Height of the fixed header; used for anchor offsets and page top spacing */
+  --header-height: 72px;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (max-width: 1023.98px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --header-height: 64px;
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  /* `clip` (unlike `hidden`) hides horizontal overflow without turning
+     html/body into a scroll container, so the window keeps scrolling. */
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip;
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-roboto), sans-serif;
@@ -24,10 +41,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+img,
+svg,
+video {
+  max-width: 100%;
 }
 
 a {
@@ -35,8 +52,20 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid #d04a1d;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
   html {
-    color-scheme: dark;
+    scroll-behavior: auto;
   }
 }

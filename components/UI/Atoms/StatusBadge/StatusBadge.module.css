@@ -91,7 +91,7 @@ backdrop-filter: blur(2px);
 /* Responsive sizing */
 @media (max-width: 768px) {
   .badgeText {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 14px;
   }
   .statusBadge {

@@ -106,3 +106,11 @@
     justify-content: center;
   }
 }
+/* Responsive guard: below desktop, cards wrap instead of overflowing
+   (e.g. phones in landscape) */
+@media (max-width: 1023.98px) {
+  .container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

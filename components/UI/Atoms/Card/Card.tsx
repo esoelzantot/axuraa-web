@@ -19,7 +19,7 @@ const Card: React.FC<CardProps> = ({
   iconSrc = "/assets/CardIcon.svg",  
   title,
   description,
-  borderRadius = "0 0 68.087px 0"
+  borderRadius
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -33,7 +33,7 @@ const Card: React.FC<CardProps> = ({
     // Uses CSS modules for styling and applies hover class when isHovered is true
     <div 
       className={`${styles.card} ${isHovered ? styles.hovered : ''}`}
-      style={{ '--card-border-radius': borderRadius } as React.CSSProperties}
+      style={borderRadius ? ({ '--card-border-radius': borderRadius } as React.CSSProperties) : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       role="article" // Better accessibility
@@ -62,7 +62,7 @@ const Card: React.FC<CardProps> = ({
 
         {/* Card title and description */}
 
-        <h2 className={styles.title}>{title}</h2>
+        <h3 className={styles.title}>{title}</h3>
 
 
          <p className={styles.description}>{description}</p>

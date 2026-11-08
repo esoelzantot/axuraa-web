@@ -197,7 +197,7 @@
 
     .metricValue {
         color: var(--Primary, #D04A1D);
-        font-size: 10px;
+        font-size: 12px;
         font-style: normal;
         font-weight: 400;
         line-height: 11.24px;
@@ -216,4 +216,15 @@
     .metricsContainer {
         gap: 10px;
     }
+}
+/* Responsive guard: keep the designed 356px when there is room */
+.successStory {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.title,
+.description,
+.metricsContainer {
+  max-width: 100%;
 }

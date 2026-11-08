@@ -21,9 +21,10 @@ const StartButton: React.FC<StartButtonProps> = ({
         <span className={styles.iconWrapper}>
           <Image
             src="/assets/StartIconButtom.svg"
-            alt="Start"
+            alt=""
             width={24}
             height={24}
+            style={{ objectFit: "contain" }}
           />
         </span>
       </span>
