@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./ServicesSection.module.css";
-import Card from "@/components/UI/Atoms/Card/Card";
+import HomeServiceCard from "@/components/UI/Atoms/HomeServiceCard/HomeServiceCard";
 import Badge from "@/components/UI/Atoms/Badge/Badge";
-import DirectionCard from "@/components/UI/Atoms/Card/DirectionCard";
+import SeeAllCard from "@/components/UI/Atoms/HomeServiceCard/SeeAllCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
-import { ServiceItem, filterServices, serviceIconSrc } from "@/service/Services/services";
+import { ServiceItem, filterServices } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
 
 interface ServicesSectionProps {
@@ -43,7 +43,7 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
         id: s._id as string | null,
         title: localize(s.title, locale),
         description: localize(s.description, locale),
-        icon: serviceIconSrc(s.icon),
+        icon: s.icon?.trim() || "",
       }))
     : FALLBACK_SERVICES;
 
@@ -58,12 +58,15 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
       />
 
       <div className={styles.servicesGrid}>
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           const content = (
-            <Card
+            <HomeServiceCard
               title={card.title}
               description={card.description}
-              iconSrc={card.icon}
+              icon={card.icon}
+              index={index}
+              corner="bottom-right"
+              interactive={Boolean(card.id)}
             />
           );
           return card.id ? (
@@ -74,11 +77,11 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
             <div key={card.title}>{content}</div>
           );
         })}
-        <DirectionCard
+        <SeeAllCard
           title="See All Services"
           description="Explore our full catalog"
-          iconSrc="/assets/DirectionIcon.svg"
           href={`/${locale}/service`}
+          corner="bottom-right"
         />
       </div>
     </section>

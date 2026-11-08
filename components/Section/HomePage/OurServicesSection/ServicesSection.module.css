@@ -12,8 +12,6 @@
 
 /* 4 columns on desktop -> 2 on tablet -> 1 on phones (cards switch to a row layout) */
 .servicesGrid {
-  --card-border-radius: 0 0 68px 0;
-  --card-border-radius-mobile: 0 0 40px 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(1rem, 2vw, 1.5rem);

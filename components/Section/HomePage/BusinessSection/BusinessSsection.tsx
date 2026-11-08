@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./BusinessSsection.module.css";
-import Card from "@/components/UI/Atoms/Card/Card";
+import HomeServiceCard from "@/components/UI/Atoms/HomeServiceCard/HomeServiceCard";
 import Badge from "@/components/UI/Atoms/Badge/Badge";
-import DirectionCard from "@/components/UI/Atoms/Card/DirectionCard";
+import SeeAllCard from "@/components/UI/Atoms/HomeServiceCard/SeeAllCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
-import { ServiceItem, filterServices, serviceIconSrc } from "@/service/Services/services";
+import { ServiceItem, filterServices } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
 
 interface BusinessSectionProps {
@@ -43,7 +43,7 @@ const BusinessSection = ({ services, locale }: BusinessSectionProps) => {
         id: s._id as string | null,
         title: localize(s.title, locale),
         description: localize(s.description, locale),
-        icon: serviceIconSrc(s.icon),
+        icon: s.icon?.trim() || "",
       }))
     : FALLBACK_SOLUTIONS;
 
@@ -57,12 +57,15 @@ const BusinessSection = ({ services, locale }: BusinessSectionProps) => {
         titleLayout="column"
       />
       <div className={styles.servicesGrid}>
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           const content = (
-            <Card
+            <HomeServiceCard
               title={card.title}
               description={card.description}
-              iconSrc={card.icon}
+              icon={card.icon}
+              index={index}
+              corner="top-right"
+              interactive={Boolean(card.id)}
             />
           );
           return card.id ? (
@@ -73,11 +76,11 @@ const BusinessSection = ({ services, locale }: BusinessSectionProps) => {
             <div key={card.title}>{content}</div>
           );
         })}
-        <DirectionCard
+        <SeeAllCard
           title="See All Solutions"
           description="Explore our full catalog"
-          iconSrc="/assets/DirectionIcon.svg"
           href={`/${locale}/businessSolutions`}
+          corner="top-right"
         />
       </div>
     </section>

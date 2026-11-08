@@ -1,0 +1,334 @@
+/*
+  Home service/solution card.
+  Keeps the original idea (icon on top, title, description, one large
+  rounded "signature" corner) with a modern treatment:
+  glowing signature corner, gradient hairline border, cursor spotlight,
+  orbiting ring around the icon, index number and an Explore hint.
+*/
+.card {
+  --accent: #d04a1d;
+  --accent-2: #f0652f;
+  --big: clamp(48px, 5vw, 68px);
+  --mx: 50%;
+  --my: 0%;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  min-height: clamp(260px, 26vw, 320px);
+  padding: clamp(1.5rem, 1.2rem + 1vw, 2rem) clamp(1rem, 0.8rem + 0.8vw, 1.5rem);
+  background: linear-gradient(180deg, #24272f 0%, #1c1e24 100%);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+}
+
+.cornerBottom {
+  border-radius: 14px 14px var(--big) 14px;
+}
+
+.cornerTop {
+  border-radius: 14px var(--big) 14px 14px;
+}
+
+/* Gradient hairline border that follows the asymmetric radius */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 45%, rgba(208, 74, 29, 0.35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.4s ease;
+}
+
+/* Glow sitting in the signature corner */
+.cornerGlow {
+  position: absolute;
+  z-index: -1;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(208, 74, 29, 0.32), transparent 65%);
+  filter: blur(6px);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.cornerBottom .cornerGlow {
+  right: -30%;
+  bottom: -30%;
+}
+
+.cornerTop .cornerGlow {
+  right: -30%;
+  top: -30%;
+}
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(300px circle at var(--mx) var(--my), rgba(240, 101, 47, 0.15), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.index {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  color: rgba(240, 101, 47, 0.75);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+
+.index::after {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  margin-left: 8px;
+  vertical-align: middle;
+  background: rgba(240, 101, 47, 0.5);
+}
+
+/* Icon with an orbit ring */
+.iconWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.orbit {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 60%, rgba(240, 101, 47, 0.9) 80%, transparent 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
+}
+
+.iconTile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(208, 74, 29, 0.24), rgba(208, 74, 29, 0.06));
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 101, 47, 0.35),
+    0 10px 24px rgba(208, 74, 29, 0.18);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.iconImage {
+  object-fit: cover;
+}
+
+.iconSvg {
+  width: 32px;
+  height: 32px;
+  color: var(--accent-2);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.05rem, 0.95rem + 0.45vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(2 * 1.3em);
+}
+
+.description {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.925rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.explore {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease, gap 0.35s ease;
+}
+
+/* Link focus (the card is wrapped in a link by the section) */
+a:focus-visible > .card {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  }
+
+  .card:hover::before {
+    background: linear-gradient(150deg, rgba(240, 101, 47, 0.95), rgba(255, 255, 255, 0.05) 45%, rgba(208, 74, 29, 0.85));
+  }
+
+  .card:hover .spotlight {
+    opacity: 1;
+  }
+
+  .card:hover .cornerGlow {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+
+  .card:hover .orbit {
+    opacity: 1;
+    animation: spin 2.4s linear infinite;
+  }
+
+  .card:hover .iconTile {
+    transform: scale(1.06) rotate(-4deg);
+  }
+
+  .card:hover .explore {
+    opacity: 1;
+    transform: none;
+    gap: 10px;
+  }
+}
+
+/* Touch: hint always visible, press feedback */
+@media (hover: none) {
+  .explore {
+    opacity: 1;
+    transform: none;
+  }
+
+  .card:active {
+    transform: scale(0.985);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Phones: compact horizontal card (icon left), keeps the signature corner */
+@media (max-width: 560px) {
+  .card {
+    --big: 40px;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    min-height: 0;
+    padding: 18px 16px 18px 14px;
+    text-align: start;
+  }
+
+  .index {
+    top: 10px;
+    left: auto;
+    right: 18px;
+  }
+
+  .index::after {
+    display: none;
+  }
+
+  .iconWrap {
+    width: 68px;
+    height: 68px;
+    margin: 0;
+  }
+
+  .iconTile {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  .iconSvg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .text {
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .title {
+    min-height: 0;
+    padding-right: 1.75rem;
+    font-size: 1.05rem;
+  }
+
+  .description {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 0.875rem;
+  }
+
+  .explore {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .iconTile,
+  .explore,
+  .cornerGlow {
+    transition: none;
+  }
+
+  .card:hover .orbit {
+    animation: none;
+  }
+}

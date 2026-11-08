@@ -54,12 +54,3 @@ export const getAllServices = async (lang: Locale = "en"): Promise<ServicesApiRe
 /** Active services of the given type ("service" or "solution"). */
 export const filterServices = (services: ServiceItem[] | undefined, type: "service" | "solution") =>
   (services ?? []).filter((s) => s.type === type && s.is_active === true);
-
-/** Resolves an icon value from the API to a usable `src`. */
-export const serviceIconSrc = (icon: string | undefined, fallback = "/assets/CardIcon.svg") => {
-  const value = icon?.trim();
-  if (!value) return fallback;
-  if (value.startsWith("http") || value.startsWith("/")) return value;
-  // Bare file names live in /public/assets; bare icon names (e.g. "cloud") have no asset.
-  return /\.(svg|png|jpe?g|webp|gif)$/i.test(value) ? `/assets/${value}` : fallback;
-};

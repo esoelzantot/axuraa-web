@@ -1,0 +1,128 @@
+/*
+  "See all" CTA card: same footprint and signature corner as the service
+  cards, filled with the brand gradient so it reads as the next step.
+*/
+.card {
+  --big: clamp(48px, 5vw, 68px);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+  min-height: clamp(260px, 26vw, 320px);
+  padding: 2rem 1.25rem;
+  background: linear-gradient(150deg, #e0582a 0%, #d04a1d 45%, #8f2a0a 100%);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(208, 74, 29, 0.3);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+}
+
+.cornerBottom {
+  border-radius: 14px 14px var(--big) 14px;
+}
+
+.cornerTop {
+  border-radius: 14px var(--big) 14px 14px;
+}
+
+/* Dot pattern fading towards the centre */
+.pattern {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.2px, transparent 1.4px);
+  background-size: 14px 14px;
+  -webkit-mask: radial-gradient(circle at 100% 100%, #000 0%, transparent 70%);
+  mask: radial-gradient(circle at 100% 100%, #000 0%, transparent 70%);
+  opacity: 0.7;
+}
+
+.cornerTop .pattern {
+  -webkit-mask: radial-gradient(circle at 100% 0%, #000 0%, transparent 70%);
+  mask: radial-gradient(circle at 100% 0%, #000 0%, transparent 70%);
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.3s ease;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.title {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.card:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 26px 50px rgba(208, 74, 29, 0.42);
+  }
+
+  .card:hover .arrow {
+    transform: translateX(6px) rotate(-45deg);
+    background: #fff;
+    color: #d04a1d;
+  }
+}
+
+@media (hover: none) {
+  .card:active {
+    transform: scale(0.985);
+  }
+}
+
+/* Phones: compact row */
+@media (max-width: 560px) {
+  .card {
+    --big: 40px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 14px;
+    min-height: 0;
+    padding: 18px 16px;
+    text-align: start;
+  }
+
+  .arrow {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .arrow {
+    transition: none;
+  }
+}
