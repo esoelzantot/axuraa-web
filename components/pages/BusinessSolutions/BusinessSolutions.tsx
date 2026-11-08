@@ -36,7 +36,7 @@ const BusinessSolutions = ({ services, locale }: Props) => {
         showTrustedSection={false}
         showPrimaryButton={true}
         showSecondaryButton={false}
-        height="75vh"
+        height="70vh"
         showStatusBadge={true}
         backgroundType="Circle"
       />

@@ -613,3 +613,9 @@
     max-height: 15.625rem; /* 250px / 16 = 15.625rem */
   }
 }
+
+/* === Standard alignment: content spans --content-max inside --page-gutter === */
+/* Inner padding scales with the screen instead of a fixed 48px */
+.contactForm {
+  padding: clamp(1.25rem, 3vw, 3rem);
+}

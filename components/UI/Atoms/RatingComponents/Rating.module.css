@@ -510,3 +510,22 @@
 .icon {
   object-fit: contain;
 }
+
+/* Desktop: the stats row spans the shared content width (edges line up with
+   the sections above and below); tablet/phone keep their 2x2 grid. */
+@media (min-width: 64.0625rem) {
+  .wrapper {
+    width: 100%;
+    max-width: var(--content-max, 70rem);
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+/* Tablet/phone: the parent section already provides the gutter */
+@media (max-width: 64rem) {
+  .wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

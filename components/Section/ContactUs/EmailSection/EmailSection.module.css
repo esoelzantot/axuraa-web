@@ -144,3 +144,10 @@
   padding-left: var(--page-gutter, 1rem);
   padding-right: var(--page-gutter, 1rem);
 }
+
+/* Same content width as the rest of the page */
+.cardsGrid {
+  max-width: var(--content-max, 70rem);
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -822,3 +822,9 @@
     padding-bottom: 1.5rem;
   }
 }
+
+/* Decorative backgrounds (letters, circles, hexagons) stay inside the hero
+   on both axes; the hero height is content-driven, so nothing real is cut. */
+.hero {
+  overflow: clip;
+}

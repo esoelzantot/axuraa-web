@@ -156,3 +156,21 @@
 .mainSection {
   margin-top: 0;
 }
+
+/* About hero = same hero as every other page: no 100vh wrapper and no
+   negative margins pulling the stats up into the hero. */
+.mainSection {
+  min-height: 0;
+}
+
+.heroWrapper {
+  margin-bottom: 0;
+}
+
+.ratingWrapper {
+  width: 100%;
+  max-width: calc(var(--content-max, 70rem) + 2 * var(--page-gutter, 1rem));
+  margin: clamp(1.5rem, 4vw, 3rem) auto clamp(2rem, 5vw, 4rem);
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

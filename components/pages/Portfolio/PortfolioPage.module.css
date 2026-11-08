@@ -143,7 +143,7 @@
 /* Responsive guard (kept last): the grid wrapper is fluid at every size */
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: calc(var(--content-max, 70rem) + 2 * var(--page-gutter, 1rem));
     margin-inline: auto;
     padding-inline: clamp(1rem, 4vw, 2rem);
     box-sizing: border-box;

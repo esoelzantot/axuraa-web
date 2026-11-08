@@ -21,7 +21,7 @@
   justify-items: center;
   align-items: stretch;
   width: 100%;
-  max-width: var(--content-max, 75rem);
+  max-width: var(--content-max, 70rem);
   margin: 0.5rem auto 0;
 }
 

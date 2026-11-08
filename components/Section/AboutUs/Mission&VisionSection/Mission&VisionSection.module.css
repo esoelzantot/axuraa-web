@@ -166,3 +166,29 @@
   padding-left: var(--page-gutter, 1rem);
   padding-right: var(--page-gutter, 1rem);
 }
+
+/* === Standard alignment: content spans --content-max inside --page-gutter === */
+.section {
+  margin-top: 0;
+  border-top: none;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--content-max, 70rem);
+}
+
+.cardsGrid {
+  margin: 0;
+  gap: clamp(1rem, 3vw, 2rem);
+  /* min() keeps the 350px minimum from overflowing small phones */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21.875rem), 1fr));
+}
+
+/* The section already provides the gutter; no second inner padding */
+.container {
+  padding-left: 0;
+  padding-right: 0;
+}

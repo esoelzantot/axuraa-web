@@ -166,23 +166,12 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                         src={caseStudy.mainImage}
                         alt={caseStudy.title ?? "Project image"}
                         fill
-                        sizes="(max-width: 1024px) 100vw, 760px"
+                        sizes="(max-width: 1024px) 100vw, 900px"
                         className={styles.frameImage}
                         priority
                       />
                     </div>
                   </div>
-                  {caseStudy.secondImage && (
-                    <div className={styles.frameFloat} aria-hidden="true">
-                      <Image
-                        src={caseStudy.secondImage}
-                        alt=""
-                        fill
-                        sizes="240px"
-                        className={styles.frameImage}
-                      />
-                    </div>
-                  )}
                 </figure>
               )}
             </section>
