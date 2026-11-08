@@ -1,6 +1,11 @@
-"use client";
+import type { Metadata } from "next";
 
-import React from 'react';
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "How Axuraa collects, uses and protects your personal information.",
+};
+
+
 import styles from './privacy-policy.module.css';
 
 const BulletIcon = () => (

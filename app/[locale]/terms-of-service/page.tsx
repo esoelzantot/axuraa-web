@@ -1,6 +1,11 @@
-"use client";
+import type { Metadata } from "next";
 
-import React from 'react';
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: "The terms that govern the use of the Axuraa website and services.",
+};
+
+
 import styles from './terms-of-service.module.css';
 
 const BulletIcon = () => (

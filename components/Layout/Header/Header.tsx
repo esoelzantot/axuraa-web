@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Menu,
   X,
@@ -15,84 +15,57 @@ import { LanguageButton } from "@/components/UI/Atoms/Button/LanguageButton";
 import styles from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import useClientTranslation from "@/hooks/useClientTranslation";
+import { SUPPORTED_LOCALES, isSupportedLocale, localeFromPath } from "@/lib/i18n";
+import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from "@/lib/site";
 
 const Header = () => {
-  const { t, locale } = useClientTranslation("navlink");
-  // const [activeLink, setActiveLink] = useState("Home");
+  const { t } = useClientTranslation("navlink");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentLocale, setCurrentLocale] = useState("en");
-
   const pathname = usePathname();
-  const router = useRouter();
+  const currentLocale = localeFromPath(pathname);
 
-  const primaryHref = `#contact-section`;
-  const homeHref = `/#home-page`;
+  const homeHref = `/${currentLocale}`;
+  // The contact block lives on the home page (#contact-section).
+  const startProjectHref = `/${currentLocale}#contact-section`;
 
-  // Set locale based on pathname, but only on client side
-  useEffect(() => {
-    if (pathname) {
-      const extractedLocale = pathname.split("/")[1] || "en";
-      setCurrentLocale(extractedLocale);
-    }
-  }, [pathname]);
+  // First path segment after the locale ("" on the home page).
+  const activeSegment = isSupportedLocale(pathname?.split("/")[1])
+    ? (pathname?.split("/")[2] ?? "")
+    : "";
 
-  // Detect mobile / landscape-mobile viewports.
-  // NOTE: previously this only checked width (<= 1024px), which meant
-  // landscape phones (width > 1024px is rare, but short-height devices
-  // in general were not caught) could fall through the desktop nav
-  // logic. We now also treat any short-height viewport in landscape
-  // orientation as "mobile" so drawer-related JS logic (if ever added)
-  // stays consistent with the CSS breakpoints.
-  useEffect(() => {
-    const checkIfMobile = () => {
-      const isLandscapeMobile =
-        window.innerHeight <= 500 && window.innerWidth > window.innerHeight;
-      setIsMobile(window.innerWidth <= 1024 || isLandscapeMobile);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    window.addEventListener("orientationchange", checkIfMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-      window.removeEventListener("orientationchange", checkIfMobile);
-    };
-  }, []);
-
-  // Same behavior as the "Home" tab in navLinks below — just closes the
-  // mobile drawer (if open) and lets the Link navigate normally.
-  const handleLogoClick = () => {
-    setIsMenuOpen(false);
-  };
+  const closeMenu = () => setIsMenuOpen(false);
 
   const navLinks = [
-    { key: "home", href: `/`, icon: <Home size={20} /> },
+    { key: "home", segment: "", href: homeHref, icon: <Home size={20} /> },
     {
       key: "services",
+      segment: "service",
       href: `/${currentLocale}/service`,
       icon: <Briefcase size={20} />,
     },
     {
       key: "businessSolutions",
+      segment: "businessSolutions",
       href: `/${currentLocale}/businessSolutions`,
       icon: <Grid size={20} />,
     },
     {
       key: "portfolio",
+      segment: "portfolio",
       href: `/${currentLocale}/portfolio`,
       icon: <LayoutGrid size={20} />,
     },
     {
       key: "aboutus",
+      segment: "aboutus",
       href: `/${currentLocale}/aboutus`,
       icon: <Users size={20} />,
     },
     {
       key: "contact",
+      segment: "contact",
       href: `/${currentLocale}/contact`,
       icon: <Phone size={20} />,
     },
@@ -104,12 +77,12 @@ const Header = () => {
         <Link
           href={homeHref}
           className={styles.logo}
-          onClick={handleLogoClick}
+          onClick={closeMenu}
           aria-label="Go to homepage"
         >
           <Image
             src="/assets/logo2.svg"
-            alt="Axuram Logo"
+            alt="Axuraa logo"
             className={styles.logoImage}
             width={150}
             height={60}
@@ -128,12 +101,12 @@ const Header = () => {
           <div className={styles.mobileDrawerHeader}>
             <Link
               href={homeHref}
-              onClick={handleLogoClick}
+              onClick={closeMenu}
               aria-label="Go to homepage"
             >
               <Image
                 src="/assets/logo2.svg"
-                alt="Axuram Logo"
+                alt="Axuraa logo"
                 className={styles.logoImage}
                 width={120}
                 height={48}
@@ -155,59 +128,53 @@ const Header = () => {
                 <li key={link.key} className={styles.navItem}>
                   <Link
                     href={link.href}
-                    className={`${styles.navLink} ${t(pathname.split("/")[2] || "home") === t(link.key) ? styles.active : ""}`}
-                    onClick={() => {
-                      // setActiveLink(t(link.key));
-                      setIsMenuOpen(false);
-                    }}
+                    className={`${styles.navLink} ${
+                      activeSegment === link.segment ||
+                      // case studies belong to the portfolio section
+                      (link.segment === "portfolio" && activeSegment === "case-study")
+                        ? styles.active
+                        : ""
+                    }`}
+                    aria-current={activeSegment === link.segment ? "page" : undefined}
+                    onClick={closeMenu}
                   >
                     <span className={styles.navIcon}>{link.icon}</span>
                     {t(link.key)}
-                    {/* {activeLink === t(link.key) && (
-                      <span className={styles.navUnderline} />
-                    )} */}
                   </Link>
                 </li>
               ))}
-              <li
-                className={`${styles.mobileLanguageItem} ${isMenuOpen ? styles.visible : ""}`}
-              >
-                <div className={styles.mobileLanguageButton}>
-                  {/* <LanguageButton /> */}
-                </div>
-              </li>
+              {SUPPORTED_LOCALES.length > 1 && (
+                <li
+                  className={`${styles.mobileLanguageItem} ${isMenuOpen ? styles.visible : ""}`}
+                >
+                  <div className={styles.mobileLanguageButton}>
+                    <LanguageButton />
+                  </div>
+                </li>
+              )}
             </ul>
 
             {/* Mobile Drawer Footer (Visible only on mobile) */}
             <div className={styles.mobileDrawerFooter}>
               <Link
-                href={`/${primaryHref}`}
+                href={startProjectHref}
                 className={styles.startProjectBtn}
                 onClick={(e) => {
-                  setIsMenuOpen(false);
-                  if (primaryHref.startsWith("#")) {
-                    const element = document.getElementById(
-                      primaryHref.substring(1),
-                    );
-                    if (element) {
-                      e.preventDefault();
-                      element.scrollIntoView({ behavior: "smooth" });
-                    } else {
-                      router.push(`/${primaryHref}`);
-                    }
-                  } else {
-                    router.push(primaryHref);
+                  closeMenu();
+                  const element = document.getElementById("contact-section");
+                  // Already on the home page: smooth-scroll instead of navigating.
+                  if (element) {
+                    e.preventDefault();
+                    element.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
               >
                 <MessageSquare size={18} className={styles.btnIcon} />
-                {t("start_project") !== "start_project"
-                  ? t("start_project")
-                  : "Start a Project"}
+                {t("start_project", "Start a Project")}
               </Link>
 
               <div className={styles.contactCards}>
-                <a href="tel:+971586651844" className={styles.contactCard}>
+                <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} className={styles.contactCard}>
                   <div className={styles.contactIcon}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -225,13 +192,11 @@ const Header = () => {
                   </div>
                   <div className={styles.contactInfo}>
                     <span className={styles.contactLabel}>Call us</span>
-                    <span className={styles.contactValue}>
-                      +971 58 665 1844
-                    </span>
+                    <span className={styles.contactValue}>{CONTACT_PHONE}</span>
                   </div>
                 </a>
 
-                <a href="mailto:info@axuraa.com" className={styles.contactCard}>
+                <a href={`mailto:${CONTACT_EMAIL}`} className={styles.contactCard}>
                   <div className={styles.contactIcon}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -250,14 +215,15 @@ const Header = () => {
                   </div>
                   <div className={styles.contactInfo}>
                     <span className={styles.contactLabel}>Email us</span>
-                    <span className={styles.contactValue}>info@axuraa.com</span>
+                    <span className={styles.contactValue}>{CONTACT_EMAIL}</span>
                   </div>
                 </a>
               </div>
 
               <div className={styles.socialIcons}>
                 <a
-                  href="https://linkedin.com/company/axuraa"
+                  href={SOCIAL_LINKS.linkedin}
+                  aria-label="LinkedIn"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialIcon}
@@ -279,7 +245,8 @@ const Header = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://instagram.com/axuraa"
+                  href={SOCIAL_LINKS.instagram}
+                  aria-label="Instagram"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialIcon}
@@ -308,7 +275,8 @@ const Header = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://facebook.com/axuraa"
+                  href={SOCIAL_LINKS.facebook}
+                  aria-label="Facebook"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialIcon}
@@ -328,7 +296,8 @@ const Header = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://twitter.com/axuraa"
+                  href={SOCIAL_LINKS.twitter}
+                  aria-label="X (Twitter)"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialIcon}
@@ -353,7 +322,7 @@ const Header = () => {
         </nav>
 
         <div className={styles.desktopLanguageBtn}>
-          {/* <LanguageButton /> */}
+          {SUPPORTED_LOCALES.length > 1 && <LanguageButton />}
         </div>
 
         <button
@@ -369,4 +338,4 @@ const Header = () => {
   );
 };
 
-export default React.memo(Header);
+export default Header;

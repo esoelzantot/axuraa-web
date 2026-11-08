@@ -1,20 +1,12 @@
-/** Worker interface representing a worker's details 
- * from path :
- * @/components/Section/HomePage/WorkerSection/WorkerSection.tsx 
-*/
+import { ClientItem } from "@/service/Clients/Clients";
+import { Locale } from "@/lib/i18n";
 
-export interface Worker {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  imageUrl: string;
-}
-
+/** WorkerSection props — @/components/Section/HomePage/WorkerSection/WorkerSection.tsx */
 export interface WorkerSectionProps {
   badgeText: string;
   title1: string;
   title2: string;
   subtitle: string;
-
+  clients: ClientItem[];
+  locale: Locale;
 }

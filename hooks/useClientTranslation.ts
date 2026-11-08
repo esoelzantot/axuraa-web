@@ -1,72 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { Locale, localeFromPath } from "@/lib/i18n";
 
-interface TranslationData {
-  [key: string]: any;
-}
+import enCommon from "@/public/locales/en/common.json";
+import enNavlink from "@/public/locales/en/navlink.json";
+
+type Dictionary = Record<string, unknown>;
+
+/**
+ * Translations are bundled (not fetched at runtime), so text renders on the
+ * server and the first paint shows real labels instead of raw keys.
+ * Only the namespaces used by client components are bundled; import more here as needed.
+ * Add a locale by importing its files here and listing it in SUPPORTED_LOCALES.
+ */
+const RESOURCES: Partial<Record<Locale, Record<string, Dictionary>>> = {
+  en: {
+    common: enCommon,
+    navlink: enNavlink,
+  },
+};
 
 const useClientTranslation = (namespace: string = "common") => {
-  const [translations, setTranslations] = useState<TranslationData>({});
-  const [locale, setLocale] = useState<string>("en");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadTranslations = async () => {
-      try {
-        // Get locale from URL
-        const pathLocale = window.location.pathname.split("/")[1] || "en";
-        setLocale(pathLocale);
-
-        // Load translation file
-        const response = await fetch(
-          `/locales/${pathLocale}/${namespace}.json`,
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setTranslations(data);
-        }
-      } catch (error) {
-        console.error("Failed to load translations:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadTranslations();
-
-    // Listen for URL changes (language switching)
-    const handlePopState = () => {
-      loadTranslations();
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    // Also listen for custom language change events
-    const handleLanguageChange = () => {
-      loadTranslations();
-    };
-
-    window.addEventListener("languagechange", handleLanguageChange);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-      window.removeEventListener("languagechange", handleLanguageChange);
-    };
-  }, [namespace]);
+  const locale = localeFromPath(usePathname());
+  const dictionary = RESOURCES[locale]?.[namespace] ?? RESOURCES.en?.[namespace] ?? {};
 
   const t = (key: string, fallback?: string): string => {
-    const keys = key.split(".");
-    let value: any = translations;
-
-    for (const k of keys) {
-      value = value?.[k];
+    let value: unknown = dictionary;
+    for (const part of key.split(".")) {
+      value = value && typeof value === "object" ? (value as Dictionary)[part] : undefined;
     }
-
-    return (typeof value === "string" ? value : fallback || key) as string;
+    return typeof value === "string" ? value : (fallback ?? key);
   };
 
-  return { t, locale, loading };
+  return { t, locale, loading: false };
 };
 
 export default useClientTranslation;

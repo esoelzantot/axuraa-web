@@ -1,44 +1,41 @@
-import { ENDPOINTS } from '../api/APIs';
+import { ENDPOINTS } from "../api/APIs";
+import { http } from "../api/http";
+import { Locale, Localized } from "@/lib/i18n";
 
-export interface LocalizedField {
-  en: string;
-  ar: string;
-}
-
-export interface ServiceUnit {
-  en: string;
-  ar: string;
-}
-
+/**
+ * Service as returned by `GET /services?lang=xx`.
+ * With `lang` set, text fields are usually plain strings, but they are typed as
+ * `Localized` so callers always go through `localize()`.
+ */
 export interface ServiceItem {
   _id: string;
   id: string;
   icon?: string;
-  title: string;           // ← plain string, NOT LocalizedField
-  subtitle?: string;       // ← plain string
-  description: string;     // ← plain string
+  title: Localized;
+  subtitle?: Localized;
+  description: Localized;
   what_we_do?: {
-    description?: string;  // ← plain string
-    units?: string[];      // ← array of strings, not ServiceUnit[]
+    description?: Localized;
+    units?: Localized[];
   };
   technologies_used?: { name: string }[];
-  type?: string;
+  type?: "service" | "solution" | string;
   is_active?: boolean;
   projects?: {
     projects_id: {
-      title: string;
-      overview?: string;
-      subTitle?: string;
+      title: Localized;
+      overview?: Localized;
+      subTitle?: Localized;
       main_image_url?: string;
       case_study_results?: {
-        description?: string;
+        description?: Localized;
         value?: string;
       }[];
     };
   }[];
   features?: {
-    title: string;
-    description: string;
+    title: Localized;
+    description: Localized;
   }[];
 }
 
@@ -48,39 +45,21 @@ export interface ServicesApiResult {
   error?: string;
 }
 
-export const getAllServices = async (
-  lang: 'en' | 'ar' = 'en'
-): Promise<ServicesApiResult> => {
-  try {
-    const url = `${ENDPOINTS.Services.getAll}?lang=${lang}`;
+export const getAllServices = async (lang: Locale = "en"): Promise<ServicesApiResult> => {
+  const res = await http<{ data?: ServiceItem[] }>(`${ENDPOINTS.Services.getAll}?lang=${lang}`);
+  if (!res.ok) return { success: false, error: res.error };
+  return { success: true, data: Array.isArray(res.json.data) ? res.json.data : [] };
+};
 
-    const response = await fetch(url, {
-      method: 'GET',
-    });
+/** Active services of the given type ("service" or "solution"). */
+export const filterServices = (services: ServiceItem[] | undefined, type: "service" | "solution") =>
+  (services ?? []).filter((s) => s.type === type && s.is_active === true);
 
-    const json = (await response.json()) as any;
-
-    if (!response.ok) {
-      return {
-        success: false,
-        error: json?.message || `Failed to load services: ${response.status}`,
-      };
-    }
-
-    // IMPORTANT: match your real response: data is an ARRAY
-    const services: ServiceItem[] = Array.isArray(json?.data) ? json.data : [];
-
-    return {
-      success: true,
-      data: services,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error:
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred while loading services',
-    };
-  }
+/** Resolves an icon value from the API to a usable `src`. */
+export const serviceIconSrc = (icon: string | undefined, fallback = "/assets/CardIcon.svg") => {
+  const value = icon?.trim();
+  if (!value) return fallback;
+  if (value.startsWith("http") || value.startsWith("/")) return value;
+  // Bare file names live in /public/assets; bare icon names (e.g. "cloud") have no asset.
+  return /\.(svg|png|jpe?g|webp|gif)$/i.test(value) ? `/assets/${value}` : fallback;
 };

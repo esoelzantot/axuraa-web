@@ -1,20 +1,21 @@
 'use client'
 import React from 'react';
+import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 import styles from './SeeAll.module.css';
 
 import { LinkWithIconProps } from '@/types/Generals/iconsTypes';
 
 const LinkWithIcon: React.FC<LinkWithIconProps> = ({ 
-  href = "/en/portfolio", 
+  href, 
   children, 
   className = '' 
 }) => {
   return (
     <div className={`${styles.linkContainer} ${className}`}>
-      <a href={href} className={styles.link}>
-        {children} <FiArrowRight className={styles.arrowIcon} />
-      </a>
+      <Link href={href} className={styles.link}>
+        {children} <FiArrowRight className={styles.arrowIcon} aria-hidden="true" />
+      </Link>
     </div>
   );
 };

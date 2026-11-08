@@ -4,12 +4,13 @@ import React from "react";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import styles from "./SocialMediaSection.module.css";
 import SocialMediaCard from "@/components/UI/Muscles/SocilaCard/SocialMediaCard";
+import { SocialMediaPlatform } from "@/types/Generals/socialTypes";
 
 interface SocialMediaSectionProps {
   title1?: string;
   title2?: string;
   subtitle?: string;
-  platforms?: any[];
+  platforms?: SocialMediaPlatform[];
   className?: string;
 }
 
@@ -22,6 +23,15 @@ const SocialMediaSection: React.FC<SocialMediaSectionProps> = ({
 }) => {
   return (
     <section className={`${styles.section} ${className}`}>
+      {/* Gradient used by every SocialMediaCard icon (defined once to keep ids unique). */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="socialIconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#D04A1D" />
+            <stop offset="100%" stopColor="#902501" />
+          </linearGradient>
+        </defs>
+      </svg>
       <div className={styles.container}>
         <div className={styles.header}>
           <SectionHeader

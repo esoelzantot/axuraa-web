@@ -1,39 +1,31 @@
-// app/[locale]/businessSolutions/page.tsx
-import { getAllServices } from "@/service/Services/services";
+import type { Metadata } from "next";
+import { getAllServices, filterServices } from "@/service/Services/services";
 import BusinessSolutions from "@/components/pages/BusinessSolutions/BusinessSolutions";
+import { Locale, localize } from "@/lib/i18n";
 
-interface PageProps {
-  params: Promise<{ locale: string }>; // ← Promise
-}
+export const revalidate = 60;
 
-export default async function BusinessSolutionsPage({ params }: PageProps) {
-  const { locale } = await params;
-  const typedLocale = locale as "en" | "ar";
+export const metadata: Metadata = {
+  title: "Business Solutions",
+  description: "Ready-made business solutions from Axuraa, tailored to the way you work.",
+};
 
-  const result = await getAllServices(typedLocale);
+export default async function BusinessSolutionsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = (await params).locale as Locale;
+  const result = await getAllServices(locale);
 
-  const services =
-    result.success && result.data
-      ? result.data
-          .filter((s) => s.type === "solution" && s.is_active === true)
-          .map((service) => ({
-            id: service._id,
-            title:
-              typeof service.title === "string"
-                ? service.title
-                : service.title[typedLocale] || service.title,
-            description:
-              typeof service.description === "string"
-                ? service.description
-                : service.description[typedLocale] || service.description,
-            features:
-              service.what_we_do?.units?.map((u) =>
-                typeof u === "string" ? u : u[typedLocale] || u || "",
-              ) ?? [],
-            buttonText: "Learn More",
-            iconUrl: service.icon?.trim() || "/assets/Frame.svg",
-          }))
-      : [];
+  const services = filterServices(result.data, "solution").map((service) => ({
+    id: service._id,
+    title: localize(service.title, locale),
+    description: localize(service.description, locale),
+    features: (service.what_we_do?.units ?? []).map((u) => localize(u, locale)).filter(Boolean),
+    buttonText: "Learn More",
+    iconUrl: service.icon?.trim() || "/assets/Frame.svg",
+  }));
 
-  return <BusinessSolutions services={services} locale={typedLocale} />;
+  return <BusinessSolutions services={services} locale={locale} />;
 }

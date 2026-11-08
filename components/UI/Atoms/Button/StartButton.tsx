@@ -11,11 +11,9 @@ const StartButton: React.FC<StartButtonProps> = ({
 }) => {
   return (
     <button
+      type="button"
       className={`${styles.startButton} ${className}`}
-      onClick={(e) => {
-        console.log("StartButton clicked!");
-        if (onClick) onClick(e);
-      }}
+      onClick={onClick}
       {...props}
     >
       <span className={styles.buttonContent}>

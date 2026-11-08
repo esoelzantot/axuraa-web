@@ -478,3 +478,10 @@
   }
 
 }
+
+/* Brand wordmark (was an <h1>; keeps the same look without a second page-level h1) */
+.brantlogo {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0.67em 0;
+}

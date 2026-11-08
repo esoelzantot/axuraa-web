@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import SuccessStoryCard from '@/components/UI/Atoms/SuccessStories/SuccessStories';
 import styles from './SuccessStoriesContainer.module.css';
 interface SuccessStoriesContainerProps {
@@ -14,18 +17,21 @@ interface SuccessStoriesContainerProps {
     }>;
   }>;
   className?: string;
+  locale: string;
 }
 const SuccessStoriesContainer: React.FC<SuccessStoriesContainerProps> = ({
   stories,
-  className = ''
+  className = '',
+  locale,
 }) => {
+  const router = useRouter();
   return (
     <div className={`${styles.container} ${className}`}>
       {stories.map((story, index) => (
         <SuccessStoryCard 
-          key={index} 
+          key={story.id || index} 
           {...story} 
-          onClick={() => window.location.href = `/en/case-study/${story.id}`}
+          onClick={() => router.push(`/${locale}/case-study/${story.id}`)}
           style={{ cursor: 'pointer' }}
         />
       ))}

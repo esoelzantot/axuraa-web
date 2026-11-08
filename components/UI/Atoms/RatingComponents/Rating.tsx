@@ -16,58 +16,49 @@ const Rating: React.FC<RatingProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const ratingRef = useRef<HTMLDivElement>(null);
 
-  const startCounter = () => {
-    setCounts(Array(items.length).fill(0));
-    const steps = 60;
-    const increment = maxValue / steps;
-    const stepDuration = duration / steps;
-    let currentStep = 0;
-
-    const timer = setInterval(() => {
-      currentStep++;
-      if (currentStep <= steps) {
-        setCounts((prevCounts) =>
-          prevCounts.map((_, i) =>
-            Math.min(
-              Math.floor(increment * currentStep * (items[i].value / maxValue)),
-              items[i].value,
-            ),
-          ),
-        );
-      } else {
-        clearInterval(timer);
-      }
-    }, stepDuration);
-
-    return () => clearInterval(timer);
-  };
-
   useEffect(() => {
-    if (!ratingRef.current) return;
+    const node = ratingRef.current;
+    if (!node) return;
+
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    // Counts every item up from 0 each time the block scrolls into view.
+    const startCounter = () => {
+      if (timer) clearInterval(timer);
+      setCounts(Array(items.length).fill(0));
+      const steps = 60;
+      const increment = maxValue / steps;
+      const stepDuration = duration / steps;
+      let currentStep = 0;
+
+      timer = setInterval(() => {
+        currentStep++;
+        if (currentStep <= steps) {
+          setCounts(
+            items.map((item) =>
+              Math.min(Math.floor(increment * currentStep * (item.value / maxValue)), item.value),
+            ),
+          );
+        } else if (timer) {
+          clearInterval(timer);
+        }
+      }, stepDuration);
+    };
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            startCounter();
-          } else {
-            setIsVisible(false);
-          }
+          setIsVisible(entry.isIntersecting);
+          if (entry.isIntersecting) startCounter();
         });
       },
-      {
-        threshold: 0.1, // Trigger when 10% of the component is visible
-        rootMargin: "0px 0px -50px 0px", // Optional: adjust when the animation should start
-      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
     );
 
-    observer.observe(ratingRef.current);
-
+    observer.observe(node);
     return () => {
-      if (ratingRef.current) {
-        observer.unobserve(ratingRef.current);
-      }
+      observer.disconnect();
+      if (timer) clearInterval(timer);
     };
   }, [items, duration, maxValue]);
 

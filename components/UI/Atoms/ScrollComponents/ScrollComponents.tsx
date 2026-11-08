@@ -1,4 +1,6 @@
-import React, { useRef, useState, ReactNode, CSSProperties, useEffect } from 'react';
+"use client";
+
+import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import styles from './ScrollComponents.module.css';
 
 import { ScrollComponentProps } from '@/types/Generals/scrollTypes';
@@ -13,27 +15,21 @@ export const HorizontalScroll: React.FC<ScrollComponentProps> = ({
   const isDragging = useRef(false);
   const startPos = useRef(0);
   const scrollPos = useRef(0);
-  const [items, setItems] = useState<ReactNode[]>([]);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const scrollInterval = useRef<NodeJS.Timeout | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isAutoScrolling = useRef(false);
 
-  // Duplicate the items to create a seamless loop
-  useEffect(() => {
+  // Duplicate the items (5 copies) to create a seamless infinite loop.
+  // Derived during render instead of copied into state from an effect.
+  const items = useMemo(() => {
     const childrenArray = React.Children.toArray(children);
-    // Create 5 copies for smoother infinite scroll
-    setItems([
-      ...childrenArray,
-      ...childrenArray,
-      ...childrenArray,
-      ...childrenArray,
-      ...childrenArray
-    ]);
-    cardRefs.current = cardRefs.current.slice(0, childrenArray.length * 5);
+    return [...childrenArray, ...childrenArray, ...childrenArray, ...childrenArray, ...childrenArray];
   }, [children]);
+
+  useEffect(() => {
+    cardRefs.current = cardRefs.current.slice(0, items.length);
+  }, [items.length]);
 
   // Initialize scroll position to the middle set
   useEffect(() => {
@@ -44,23 +40,23 @@ export const HorizontalScroll: React.FC<ScrollComponentProps> = ({
     const middleSetIndex = childrenCount * 2; // Start at the 3rd set (middle)
     
     // Wait for DOM to render
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       const card = cardRefs.current[middleSetIndex];
       if (card) {
         scroller.scrollLeft = card.offsetLeft - scroller.offsetLeft;
       }
     }, 100);
+    return () => clearTimeout(timer);
   }, [items.length]);
 
   // Handle infinite scroll repositioning
-  const handleInfiniteScroll = () => {
+  const handleInfiniteScroll = useCallback(() => {
     const scroller = scrollRef.current;
     if (!scroller || items.length === 0 || isAutoScrolling.current) return;
 
     const childrenCount = items.length / 5;
     const scrollLeft = scroller.scrollLeft;
     const scrollWidth = scroller.scrollWidth;
-    const clientWidth = scroller.clientWidth;
 
     // Calculate card width
     const totalGap = 22 * (items.length - 1);
@@ -82,7 +78,7 @@ export const HorizontalScroll: React.FC<ScrollComponentProps> = ({
       const newScrollLeft = equivalentIndex * (cardWidth + 22);
       scroller.scrollLeft = newScrollLeft;
     }
-  };
+  }, [items.length]);
 
   // Auto-scroll logic with smooth infinite loop
   useEffect(() => {
@@ -93,7 +89,6 @@ export const HorizontalScroll: React.FC<ScrollComponentProps> = ({
       if (isDragging.current || isHovered) return;
 
       isAutoScrolling.current = true;
-      const childrenCount = items.length / 5;
       const scrollLeft = scroller.scrollLeft;
       
       // Calculate card width
@@ -125,7 +120,7 @@ export const HorizontalScroll: React.FC<ScrollComponentProps> = ({
         clearInterval(scrollInterval.current);
       }
     };
-  }, [items.length, isHovered]);
+  }, [items.length, isHovered, handleInfiniteScroll]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     const scroller = scrollRef.current;

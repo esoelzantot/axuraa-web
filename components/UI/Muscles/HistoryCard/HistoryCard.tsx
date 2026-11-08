@@ -1,6 +1,5 @@
 // components/UI/HistoryCard/HistoryCard.tsx
 import React from 'react';
-import Image from 'next/image';
 import styles from './HistoryCard.module.css';
 import Typography from '@/components/UI/Atoms/Typography/Typography';
 import Icon from '@/components/UI/Atoms/Icon/Icon';

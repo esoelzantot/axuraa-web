@@ -1,22 +1,14 @@
-import { LocalizedField } from '@/service/serviceId/serviceId';
+import { ENDPOINTS } from "../api/APIs";
+import { http, unwrap } from "../api/http";
+import { Locale } from "@/lib/i18n";
+import { RatingItem } from "@/types/HomePage/ratingTypes";
 
-// API Base URL
-const API_BASE_URL = 'https://back-end-axuraa.fly.dev/api/v1';
-
-// Endpoints
-const ENDPOINTS = {
-  TrackRecord: {
-    getHomeTrackRecord: () => `${API_BASE_URL}/site/home/track-record`,
-  },
-};
-
-// Interfaces
 export interface TrackRecordItem {
   id: number;
   label: string;
   value: number;
   icon: string;
-  suffix?: '' | '%' | '+';
+  suffix?: "" | "%" | "+";
 }
 
 export interface TrackRecordData {
@@ -30,48 +22,21 @@ export interface TrackRecordApiResult {
   error?: string;
 }
 
-// API Functions
+/** Maps API records to the `Rating` component's items, inferring a suffix when the API omits it. */
+export const toRatingItems = (records: TrackRecordItem[] | undefined): RatingItem[] =>
+  (records ?? []).map((record) => ({
+    id: record.id,
+    value: record.value,
+    label: record.label,
+    icon: "/assets/RatingIcon.svg",
+    showIcon: true,
+    suffix: record.suffix ?? (record.value >= 1000 ? "+" : record.value === 100 ? "%" : ""),
+  }));
+
 export const getHomeTrackRecord = async (
-  lang: 'en' | 'ar' = 'en'
+  lang: Locale = "en",
 ): Promise<TrackRecordApiResult> => {
-  try {
-    const url = `${ENDPOINTS.TrackRecord.getHomeTrackRecord()}?lang=${lang}`;
-    console.log('=== TRACK RECORD API DEBUG ===');
-    console.log('Fetching track record from:', url);
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const json = (await response.json()) as any;
-    console.log('Track Record API Response:', json);
-    console.log('Response status:', response.status, response.ok);
-
-    if (!response.ok) {
-      return {
-        success: false,
-        error: json?.message || `Failed to load track record: ${response.status}`,
-      };
-    }
-
-    const trackRecordData = json?.data ?? json;
-    console.log('Extracted track record data:', trackRecordData);
-
-    return {
-      success: true,
-      data: trackRecordData,
-    };
-  } catch (error) {
-    console.log('Track Record API call error:', error);
-    return {
-      success: false,
-      error:
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred while loading track record',
-    };
-  }
+  const res = await http(`${ENDPOINTS.Home.trackRecord}?lang=${lang}`);
+  if (!res.ok) return { success: false, error: res.error };
+  return { success: true, data: unwrap<TrackRecordData>(res.json) };
 };

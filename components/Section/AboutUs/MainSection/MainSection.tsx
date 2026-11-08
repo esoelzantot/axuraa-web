@@ -5,7 +5,6 @@ import HeroSection from "@/components/Layout/HeroSection/HeroSection";
 import Rating from "@/components/UI/Atoms/RatingComponents/Rating";
 import { RatingItem } from "@/types/HomePage/ratingTypes";
 import { TrackRecordData } from "@/service/TrackRecord/trackrecord";
-import AboutHeroSection from "@/components/Layout/HeroSection/AboutHeroSection";
 
 const staticRatingItems: RatingItem[] = [
   {

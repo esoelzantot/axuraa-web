@@ -1,19 +1,17 @@
-// app/[locale]/services/page.tsx
-import { getAllServices, ServiceItem } from "@/service/Services/services";
+import type { Metadata } from "next";
+import { getAllServices, filterServices } from "@/service/Services/services";
 import ServicesPage from "@/components/pages/Services/ServicesPage";
+import { Locale } from "@/lib/i18n";
 
-interface PageProps {
-    params: Promise<{ locale: string }>;
-}
+export const revalidate = 60;
 
-export default async function ServiceIndexPage({ params }: PageProps) {
-    const { locale } = await params;
-    const typedLocale = locale as "en" | "ar";
+export const metadata: Metadata = {
+  title: "Services",
+  description: "Web, mobile, cloud and AI services from Axuraa.",
+};
 
-    const result = await getAllServices(typedLocale);
-    const services = result.data?.filter(
-        (s: ServiceItem) => s.type === "service" && s.is_active
-    ) ?? [];
-
-    return <ServicesPage services={services} locale={typedLocale} />;
+export default async function ServiceIndexPage({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = (await params).locale as Locale;
+  const result = await getAllServices(locale);
+  return <ServicesPage services={filterServices(result.data, "service")} locale={locale} />;
 }

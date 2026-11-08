@@ -12,11 +12,9 @@ const ViewButton: React.FC<ViewButtonProps> = ({
 }) => {
   return (
     <button
+      type="button"
       className={`${styles.viewButton} ${className}`}
-      onClick={(e) => {
-        console.log('ViewButton clicked!');
-        if (onClick) onClick(e);
-      }}
+      onClick={onClick}
       {...props}
     >
       <span className={styles.buttonContent}>

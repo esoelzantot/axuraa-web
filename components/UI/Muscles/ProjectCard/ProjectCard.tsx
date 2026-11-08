@@ -8,7 +8,6 @@ import Link from "next/link";
 
 import { ProjectCardProps } from "@/types/Generals/cardTypes";
 
-// ProjectCard.tsx// ProjectCard.tsx
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   title,
@@ -20,7 +19,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   locale = "en",
 }) => {
   const displayCategories = categories.length > 0 ? categories : [category];
-  console.log("ProjectCard categories:", categories);
 
   return (
     <div className={styles.card}>
@@ -31,7 +29,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           width={356}
           height={208}
           className={styles.projectImage}
-          priority
         />
       </div>
 

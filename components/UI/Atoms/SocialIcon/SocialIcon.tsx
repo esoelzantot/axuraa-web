@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import styles from './SocialIcon.module.css';
 
 import { SocialIconProps } from '@/types/Generals/iconsTypes';
@@ -10,8 +9,6 @@ const SocialIcon: React.FC<SocialIconProps> = ({
   showLabel = false,
   alt = 'Social icon'
 }) => {
-  // Check if the icon URL is external (starts with http)
-  const isExternalUrl = icon.startsWith('http');
   
   return (
     <div className={styles.socialIconWrapper}>
