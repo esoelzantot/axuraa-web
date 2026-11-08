@@ -41,7 +41,7 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
           </p>
         )}
 
-        {services.map((service) => {
+        {services.map((service, index) => {
           const title = localize(service.title, locale);
           const description = localize(service.description, locale);
           const features = (service.what_we_do?.units ?? [])
@@ -56,6 +56,8 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
               description={description}
               features={features}
               iconUrl={service.icon}
+              index={index}
+              variant="service"
               locale={locale}
               buttonText={locale === "ar" ? "عرض التفاصيل" : "Learn More"}
             />

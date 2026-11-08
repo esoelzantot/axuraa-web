@@ -24,7 +24,7 @@ export default async function BusinessSolutionsPage({
     description: localize(service.description, locale),
     features: (service.what_we_do?.units ?? []).map((u) => localize(u, locale)).filter(Boolean),
     buttonText: "Learn More",
-    iconUrl: service.icon?.trim() || "/assets/Frame.svg",
+    iconUrl: service.icon?.trim() || "",
   }));
 
   return <BusinessSolutions services={services} locale={locale} />;

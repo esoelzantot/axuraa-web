@@ -1,455 +1,329 @@
-.serviceCard {
+/*
+  Service / solution card
+  - dark layered surface, cursor-following orange spotlight (pointer devices)
+  - gradient hairline border that lights up on hover (mask technique)
+  - large outlined index watermark, icon tile, feature chips
+  - the CTA link is stretched over the whole card
+*/
+.card {
+  --accent: #d04a1d;
+  --accent-2: #f0652f;
+  --mx: 50%;
+  --my: 0%;
+  position: relative;
+  isolation: isolate;
   display: flex;
-  padding: 33.551px 32.153px;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 18.173px;
-  border-radius: 11.184px;
-  border: 0 solid #e5e7eb;
-  background-color: #222429;
-  color: #e6e6e6;
-  box-sizing: border-box;
-  width: 100%;
-  transition:
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+  gap: 0.875rem;
+  height: 100%;
+  min-width: 0;
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(208, 74, 29, 0.1), transparent 55%),
+    linear-gradient(180deg, #23262e 0%, #1c1e24 100%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
 }
 
-.serviceCard:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0.1875rem 0.3125rem rgba(144, 37, 1, 0.4),
-    0 0.3125rem 0.625rem rgba(208, 74, 29, 0.3);
+/* Gradient border: a padded pseudo-element masked to its outline */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03) 40%, rgba(208, 74, 29, 0.25));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.35s ease;
 }
 
-.cardHeader {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  align-self: stretch;
+/* Cursor spotlight */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(240, 101, 47, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
 
-.iconContainer {
-  width: 48px;
-  height: 48px;
+/* Large outlined number in the corner */
+.index {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  z-index: 0;
+  font-size: clamp(3.5rem, 3rem + 2vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+  transition: -webkit-text-stroke-color 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.top {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  flex-shrink: 0;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
-.safeIcon {
-  width: 27.959px;
-  height: 27.959px;
+.iconTile {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(208, 74, 29, 0.22), rgba(208, 74, 29, 0.06));
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 101, 47, 0.35),
+    0 8px 20px rgba(208, 74, 29, 0.15);
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.iconImage {
+  object-fit: cover;
+}
+
+.iconSvg {
+  width: 26px;
+  height: 26px;
+  color: var(--accent-2);
+}
+
+.kind {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #c7cbd3;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .title {
-  color: #e6e6e6;
-  font-size: 19.571px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 27.959px;
-  /* 142.857% */
-  margin: auto 0;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(2 * 1.3em);
 }
 
 .description {
-  width: 100%;
-  height: auto;
-  align-self: stretch;
-  color: #b3b3b3;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.3;
-  margin-bottom: 12px;
-}
-
-.featuresList {
-  display: flex;
-  padding: 0 140.668px 3.18px 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 14px;
-  align-self: stretch;
-  border: 0 solid #e5e7eb;
-}
-
-.featureItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #e6e6e6;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.3;
-}
-
-.checkIcon {
-  color: #d04a1d;
-  width: 15.5px;
-  height: 15.5px;
-}
-
-.buttonContainer {
-  display: flex;
-  padding: 33.551px 32.153px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  border-radius: 11.184px;
-  border: 0 solid #e5e7eb;
-  background: #2a2a2a;
-}
-
-.learnMoreButton {
-  display: flex;
-  padding: 5.592px 26.798px 4.959px 22.367px;
-  align-items: center;
-  border-radius: 5.592px;
-  border: 0 solid #e5e7eb;
-  background: var(--Primary, #d04a1d);
-  color: #1a1a1a;
-  font-size: 16.776px;
-  font-style: normal;
-  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
   line-height: 1.6;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.learnMoreButton:hover {
+.features {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #dfe2e8;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.feature span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.featureIcon {
+  flex-shrink: 0;
+  padding: 2px;
+  border-radius: 50%;
+  background: rgba(208, 74, 29, 0.2);
+  color: var(--accent-2);
+  box-sizing: content-box;
+}
+
+.more {
+  padding-left: 12px;
+  color: #9ca3af;
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
   color: #fff;
-  box-shadow: 0 2px 8px rgba(208, 74, 29, 0.3);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.learnMoreButton svg {
-  transition: transform 0.2s ease-in-out;
-  margin-left: 4px;
+/* The whole card is the click target */
+.stretched::after {
+  content: "";
+  position: absolute;
+  inset: -100vmax;
 }
 
-.learnMoreButton:hover svg {
-  transform: translateX(4px);
-  filter: brightness(0.9);
+.card:has(.stretched) {
+  cursor: pointer;
 }
 
-/* 1024px - 1199px (Small Desktop) */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .serviceCard {
-    width: 100%;
-    max-width: 480px;
-    padding: 24px 20px;
-    gap: 16px;
-  }
-
-  .cardHeader {
-    gap: 16px;
-  }
-
-  .iconContainer {
-    width: 40px;
-    height: 40px;
-  }
-
-  .safeIcon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .title {
-    width: auto;
-    height: auto;
-    font-size: 18px;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .description {
-    width: 100%;
-    height: auto;
-    font-size: 15px;
-    line-height: 1.3;
-  }
-
-  .featuresList {
-    padding: 0;
-    gap: 12px;
-  }
-
-  .featureItem {
-    gap: 8px;
-    font-size: 14px;
-    line-height: 1.3;
-  }
-
-  .checkIcon {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-  }
-
-  .buttonContainer {
-    padding: 20px 0 0;
-  }
-
-  .learnMoreButton {
-    padding: 8px 24px;
-    font-size: 14px;
-    line-height: 1.3;
-  }
+.ctaLabel {
+  transition: color 0.3s ease;
 }
 
-/* 900px - 1023px (Tablet Landscape) */
-@media (min-width: 900px) and (max-width: 1023px) {
-  .serviceCard {
-    padding: 30px 28px;
+.ctaIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #902501);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(208, 74, 29, 0.35);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cta:focus-visible {
+  outline: none;
+}
+
+.card:has(.cta:focus-visible) {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+/* ---------- Hover (pointer devices only) ---------- */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(208, 74, 29, 0.1);
   }
 
-  .title {
-    font-size: 19px;
-    line-height: 1.6;
+  .card:hover::before {
+    background: linear-gradient(140deg, rgba(240, 101, 47, 0.9), rgba(255, 255, 255, 0.06) 45%, rgba(208, 74, 29, 0.7));
   }
 
-  .description {
-    font-size: 15px;
-    line-height: 1.3;
+  .card:hover .spotlight {
+    opacity: 1;
   }
 
-  .featureItem {
-    font-size: 15px;
-    line-height: 1.3;
+  .card:hover .index {
+    -webkit-text-stroke-color: rgba(240, 101, 47, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .card:hover .iconTile {
+    transform: rotate(-6deg) scale(1.05);
+    box-shadow:
+      inset 0 0 0 1px rgba(240, 101, 47, 0.6),
+      0 12px 26px rgba(208, 74, 29, 0.3);
+  }
+
+  .card:hover .ctaLabel {
+    color: var(--accent-2);
+  }
+
+  .card:hover .ctaIcon {
+    transform: rotate(45deg) scale(1.05);
   }
 }
 
-/* Tablet - 768px to 899px */
-@media (min-width: 768px) and (max-width: 899px) {
-  .serviceCard {
-    width: 100%;
-    max-width: 100%;
-    padding: 28px 24px;
-  }
-
-  .cardHeader {
-    gap: 16px;
-  }
-
-  .iconContainer {
-    width: 40px;
-    height: 40px;
-  }
-
-  .safeIcon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .title {
-    font-size: 18px;
-    line-height: 1.6;
-  }
-
-  .description {
-    font-size: 14.5px;
-    line-height: 1.3;
-  }
-
-  .featureItem {
-    font-size: 14.5px;
-    line-height: 1.3;
-  }
-
-  .learnMoreButton {
-    padding: 10px 24px;
-    font-size: 15px;
-  }
-}
-
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-  .serviceCard {
-    width: 100%;
-    /* was a fixed 343px — caused overflow when 2 columns are forced in landscape */
-    padding: 33.551px 32.153px;
-    gap: 18.173px;
-  }
-
-  .cardHeader {
-    gap: 18px;
-  }
-
-  .iconContainer {
-    width: 26.212px;
-    height: 27.956px;
-  }
-
-  .safeIcon {
-    width: 26.212px;
-    height: 27.956px;
-  }
-
-  .title {
-    width: auto;
-    height: auto;
-    font-size: 19.571px;
-    line-height: 1.6;
-  }
-
-  .description {
-    width: 100%;
-    height: auto;
-    font-size: 15px;
-    line-height: 1.3;
-  }
-
-  .featuresList {
-    padding: 0;
-    gap: 14px;
-  }
-
-  .featureItem {
-    width: 100%;
-    /* was a fixed 279px — same overflow issue */
-    gap: 9.026px;
-  }
-
-  .checkIcon {
-    width: 16px;
-    height: 16px;
-  }
-
-  .featureItem span {
-    font-size: 15px;
-    line-height: 1.3;
-  }
-
-  .learnMoreButton {
-    padding: 5.592px 26.798px 4.959px 22.367px;
-    font-size: 16.776px;
-    line-height: 1.3;
+/* Touch: a press state instead of hover */
+@media (hover: none) {
+  .card:active {
+    transform: scale(0.985);
   }
 }
 
 @media (max-width: 480px) {
-  .serviceCard {
-    width: 100%;
-    padding: 24px 20px;
+  .card {
+    border-radius: 20px;
   }
 
-  .cardHeader {
-    gap: 12px;
+  .iconTile {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
   }
 
-  .iconContainer {
-    width: 24px;
-    height: 24px;
-  }
-
-  .safeIcon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .title {
-    font-size: 18px;
-    line-height: 1.5;
-  }
-
-  .description {
-    font-size: 14px;
-    line-height: 1.3;
-  }
-
-  .featuresList {
-    gap: 12px;
-  }
-
-  .featureItem {
-    width: 100%;
-    gap: 8px;
-  }
-
-  .checkIcon {
-    width: 14px;
-    height: 14px;
-  }
-
-  .featureItem span {
-    font-size: 14px;
-    line-height: 1.3;
-  }
-
-  .learnMoreButton {
-    padding: 8px 20px;
-    font-size: 15px;
-    line-height: 1.3;
+  .iconSvg {
+    width: 22px;
+    height: 22px;
   }
 }
 
-/* ================================================
-   Mobile Landscape Fix
-   Compact spacing + text clamp so cards stay usable
-   when the viewport height is short (phone rotated).
-   ================================================ */
-@media (max-width: 926px) and (orientation: landscape) {
-  .serviceCard {
-    width: 100%;
-    padding: 20px 18px;
-    gap: 12px;
-  }
-
-  .cardHeader {
-    gap: 12px;
-  }
-
-  .iconContainer {
-    width: 32px;
-    height: 32px;
-  }
-
-  .safeIcon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .title {
-    font-size: 16px;
-    line-height: 1.4;
-    margin: 0;
-  }
-
-  .description {
-    font-size: 13px;
-    line-height: 1.3;
-    margin-bottom: 8px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .featuresList {
-    padding: 0;
-    gap: 8px;
-  }
-
-  .featureItem {
-    width: 100%;
-    gap: 6px;
-    font-size: 13px;
-  }
-
-  .checkIcon {
-    width: 13px;
-    height: 13px;
-  }
-
-  .learnMoreButton {
-    padding: 6px 18px;
-    font-size: 13px;
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .iconTile,
+  .ctaIcon,
+  .index {
+    transition: none;
   }
 }

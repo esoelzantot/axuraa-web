@@ -136,3 +136,20 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+/* === Cards grid (kept last): 3 columns desktop, 2 tablet, 1 phone === */
+.servicesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+  width: 100%;
+  max-width: calc(var(--content-max, 70rem) + 2 * var(--page-gutter, 1rem));
+  margin: 0 auto;
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  align-items: stretch;
+}
+
+.servicesContainer > * {
+  min-width: 0;
+}
