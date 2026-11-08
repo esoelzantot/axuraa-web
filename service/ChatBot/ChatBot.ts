@@ -1,7 +1,5 @@
-export interface ChatBotRequest {
-  question: string;
-  lang?: string;
-}
+import { ENDPOINTS } from "../api/APIs";
+import { http } from "../api/http";
 
 export interface ChatBotResponse {
   status: string;
@@ -9,34 +7,17 @@ export interface ChatBotResponse {
   lang: string;
 }
 
-export const askChatBot = async (question: string, lang: string = 'en'): Promise<ChatBotResponse> => {
-  try {
-    console.log('Sending request:', { question, lang });
-    
-    const response = await fetch(`https://back-end-axuraa.fly.dev/api/v1/bot?lang=${lang}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        question: question.trim(),
-      }),
-    });
-
-    console.log('Response status:', response.status);
-    console.log('Response headers:', response.headers);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response:', errorText);
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-    }
-
-    const data: ChatBotResponse = await response.json();
-    console.log('API Response:', data);
-    return data;
-  } catch (error) {
-    console.error('Error calling ChatBot API:', error);
-    throw error;
-  }
+/** Throws when the bot cannot answer, so the UI can show its own fallback message. */
+export const askChatBot = async (
+  question: string,
+  lang: string = "en",
+): Promise<ChatBotResponse> => {
+  const res = await http<ChatBotResponse>(ENDPOINTS.ChatBot.ask(lang), {
+    method: "POST",
+    body: { question: question.trim() },
+    timeoutMs: 30_000,
+  });
+  if (!res.ok) throw new Error(res.error);
+  if (typeof res.json?.answer !== "string") throw new Error("Invalid chatbot response");
+  return res.json;
 };

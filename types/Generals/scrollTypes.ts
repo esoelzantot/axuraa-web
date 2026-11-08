@@ -1,4 +1,4 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 
 /** ScrollComponentProps interface from path :
  * @/components/UI/Atoms/ScrollComponents/ScrollComponents.tsx 

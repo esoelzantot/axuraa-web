@@ -1,14 +1,6 @@
-import { ENDPOINTS } from '../api/APIs';
-
-export interface LocalizedField {
-  en: string;
-  ar: string;
-}
-
-export interface ServiceUnit {
-  en: string;
-  ar: string;
-}
+import { ENDPOINTS } from "../api/APIs";
+import { http } from "../api/http";
+import { Locale, Localized } from "@/lib/i18n";
 
 export interface Technology {
   _id?: string;
@@ -18,8 +10,8 @@ export interface Technology {
 
 export interface ServiceFeature {
   _id: string;
-  title: LocalizedField;
-  description: LocalizedField;
+  title: Localized;
+  description: Localized;
   icon?: string;
 }
 
@@ -28,17 +20,17 @@ export interface ServiceProject {
   services_id: string;
   projects_id: {
     _id: string;
-    title: LocalizedField;
+    title: Localized;
     main_image_url?: string;
     client_id: string;
     project_manager: string;
-    overview: LocalizedField;
+    overview: Localized;
     case_study_results: Array<{
-      description: LocalizedField;
+      description: Localized;
       value: string;
     }>;
     status: string;
-    subTitle?: LocalizedField;
+    subTitle?: Localized;
     location?: string;
     start_work?: string;
   };
@@ -48,18 +40,18 @@ export interface ServiceProject {
 export interface ServiceItem {
   _id: string;
   icon?: string;
-  title: LocalizedField;
-  subtitle?: LocalizedField;
-  description: LocalizedField;
+  title: Localized;
+  subtitle?: Localized;
+  description: Localized;
   what_we_do?: {
-    description?: LocalizedField;
-    units?: ServiceUnit[];
+    description?: Localized;
+    units?: Localized[];
   };
   technologies_used?: Technology[];
   features?: ServiceFeature[];
   projects?: ServiceProject[];
-  description_features?: LocalizedField;
-  description_stories?: LocalizedField;
+  description_features?: Localized;
+  description_stories?: Localized;
   type?: string;
   is_active?: boolean;
 }
@@ -70,61 +62,20 @@ export interface ServiceApiResult {
   error?: string;
 }
 
+const OBJECT_ID = /^[0-9a-fA-F]{24}$/;
+
 export const getServiceById = async (
   id: string,
-  lang: 'en' | 'ar' = 'en'
+  lang: Locale = "en",
 ): Promise<ServiceApiResult> => {
-  try {
-    const url = `${ENDPOINTS.Services.getById(id)}?lang=${lang}`;
-    console.log('Calling API URL:', url);
+  if (!OBJECT_ID.test(id)) return { success: false, error: "Invalid service ID" };
 
-    const response = await fetch(url, {
-      method: 'GET',
-    });
+  const res = await http<{ data?: ServiceItem }>(`${ENDPOINTS.Services.getById(id)}?lang=${lang}`);
+  if (!res.ok) return { success: false, error: res.error };
 
-    const json = (await response.json()) as any;
-    console.log('API Response:', json);
-    console.log('Response status:', response.status, response.ok);
-
-    if (!response.ok) {
-      return {
-        success: false,
-        error: json?.message || `Failed to load service: ${response.status}`,
-      };
-    }
-
-    const service = json?.data ?? null;
-    console.log('Extracted service:', service);
-    console.log('Service properties:', {
-      hasType: service?.hasOwnProperty('type'),
-      hasIsActive: service?.hasOwnProperty('is_active'),
-      type: service?.type,
-      is_active: service?.is_active,
-      serviceId: service?._id
-    });
-
-    // Temporarily disable validation to debug
-    if (service) {
-      console.log('Service found, returning success');
-      return {
-        success: true,
-        data: service,
-      };
-    } else {
-      console.log('No service data found');
-      return {
-        success: false,
-        error: 'Service not found',
-      };
-    }
-  } catch (error) {
-    console.log('API call error:', error);
-    return {
-      success: false,
-      error:
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred while loading the service',
-    };
+  const service = res.json.data;
+  if (!service?._id || service.is_active === false) {
+    return { success: false, error: "Service not found" };
   }
+  return { success: true, data: service };
 };

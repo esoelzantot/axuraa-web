@@ -1,59 +1,55 @@
-// lib/transformProjects.ts
 import { ProjectItem } from "@/service/Projects/projects";
 import { ServiceItem } from "@/service/Services/services";
+import { Locale, localize } from "@/lib/i18n";
 
 export interface TransformedProject {
   id: string;
   title: string;
   subTitle: string;
-  categories: string[]; // ← array instead of single string
-  category: string; // ← keep for display (first one)
+  /** All service categories of the project (deduplicated). */
+  categories: string[];
+  /** First category, used for the badge. */
+  category: string;
   percentage: string;
   description: string;
   imageUrl: string;
-}
-// Handles both plain strings and LocalizedField objects
-function getString(field: unknown, locale: "en" | "ar"): string {
-  if (!field) return "";
-  if (typeof field === "string") return field;
-  if (typeof field === "object") {
-    const f = field as Record<string, string>;
-    return f[locale] || f["en"] || Object.values(f)[0] || "";
-  }
-  return "";
 }
 
 export function transformProjects(
   projects: ProjectItem[],
   services: ServiceItem[],
-  locale: "en" | "ar" = "en",
+  locale: Locale = "en",
 ): TransformedProject[] {
-  const serviceSubtitleMap = new Map<string, string>();
+  const serviceLabel = new Map<string, string>();
   for (const service of services) {
-    serviceSubtitleMap.set(
+    serviceLabel.set(
       service._id,
-      service.subtitle || service.title || "General",
+      localize(service.subtitle, locale) || localize(service.title, locale) || "General",
     );
   }
 
   return projects.map((project) => {
-    const categories = (project.services || [])
-      .map((s) => {
-        const id = s?.services_id?._id;
-        return id ? serviceSubtitleMap.get(id) || "General" : "General";
-      })
-      .filter((c, i, arr) => arr.indexOf(c) === i); // dedupe
+    const categories = Array.from(
+      new Set(
+        (project.services || []).map((s) => {
+          const id = s?.services_id?._id;
+          return (
+            (id && serviceLabel.get(id)) || localize(s?.services_id?.title, locale) || "General"
+          );
+        }),
+      ),
+    );
+    if (categories.length === 0) categories.push(project.technology_stack?.[0] || "General");
 
+    const firstResult = project.case_study_results?.[0];
     return {
       id: project._id,
-      title: getString(project.title, locale) || "Untitled",
-      subTitle: getString(project.subTitle, locale) || "",
+      title: localize(project.title, locale) || "Untitled",
+      subTitle: localize(project.subTitle, locale),
       categories,
-      category: categories[0] || "General", // for badge display
-      percentage: project.case_study_results?.[0]?.value || "+50%",
-      description:
-        getString(project.case_study_results?.[0]?.description, locale) ||
-        "Project description",
+      category: categories[0],
+      percentage: firstResult?.value || "+50%",
+      description: localize(firstResult?.description, locale) || "Project description",
       imageUrl: project.main_image_url || "/assets/ProjectImage.png",
     };
   });

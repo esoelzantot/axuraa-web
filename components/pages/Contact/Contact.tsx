@@ -128,7 +128,7 @@ const Contact = ({ contactData }: Props) => {
     })) ?? [];
 
   return (
-    <div id="contact-section" className={styles.container}>
+    <div className={styles.container}>
       <HeroSection
         badgeText="CONTACT US"
         title1="Let's build something"
@@ -162,10 +162,10 @@ const Contact = ({ contactData }: Props) => {
         ref={contactFormRef}
       />
       <ContactSection
-        badgeText="GET IN TOUCH"
-        title1="How we help "
-        title2="Businesses Grow?"
-        subtitle="Discover our comprehensive suite of services designed to elevate your digital presence"
+        badgeText="Contact Us"
+        title1="Let's build something"
+        title2="extraordinary."
+        subtitle="Have a project in mind? We'd love to hear about it."
         showLinks={true}
         contactData={contactData}
       />

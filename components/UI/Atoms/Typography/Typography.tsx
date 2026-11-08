@@ -1,6 +1,6 @@
-import React, { JSX } from 'react';
+import React from 'react';
 import styles from './Typography.module.css';
-import { TypographyVariant, TypographyProps } from '@/types/Generals/typographyTypes';
+import { TypographyProps } from '@/types/Generals/typographyTypes';
 
 const Typography: React.FC<TypographyProps> = ({
   variant = 'body1',

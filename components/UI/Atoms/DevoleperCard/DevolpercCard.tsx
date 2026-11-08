@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import styles from './DevolpercCard.module.css';
 
@@ -29,6 +31,7 @@ const DevolperCard: React.FC<DevolperCardProps> = ({
       </div>
       
       <div className={styles.authorContainer}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- avatar URLs come from the CMS (any host) and need onError fallback */}
         <img 
           src={getAvatarSrc()} 
           alt={authorName} 

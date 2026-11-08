@@ -1,190 +1,138 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
-import styles from './ChatBot.module.css';
-import { askChatBot } from '../../../../service/ChatBot/ChatBot';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
+import { X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import styles from "./ChatBot.module.css";
+import { askChatBot } from "@/service/ChatBot/ChatBot";
+import { localeFromPath } from "@/lib/i18n";
 
 interface Message {
   id: string;
   text: string;
-  sender: 'user' | 'bot';
-  timestamp: Date;
+  sender: "user" | "bot";
+  timestamp: number;
 }
 
+const AVATAR = "/assets/chatbot/f23588ca444ab18fb9cc8f5c53c79a764d32ef58.jpg";
+const ERROR_TEXT = "Sorry, I encountered an error. Please try again.";
+
+const SUGGESTIONS = [
+  "Who are Axuraa?",
+  "What services do you offer?",
+  "How can I contact you?",
+  "What is your pricing?",
+  "Do you have a portfolio?",
+  "How long does a project take?",
+];
+
+let messageSeq = 0;
+const createMessage = (text: string, sender: Message["sender"]): Message => ({
+  id: `${Date.now()}-${++messageSeq}`,
+  text,
+  sender,
+  timestamp: Date.now(),
+});
+
+const formatTime = (timestamp: number) =>
+  new Date(timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
 const ChatBot: React.FC = () => {
+  const lang = localeFromPath(usePathname());
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: 'Hello! I\'m your AI assistant. How can I help you today?',
-      sender: 'bot',
-      timestamp: new Date()
-    }
-  ]);
-  const [inputText, setInputText] = useState('');
-  const [showDivider, setShowDivider] = useState(true);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputText, setInputText] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const messageDividerRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const suggestionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isSending]);
 
+  // Vertical wheel scrolls the suggestions row horizontally. Re-attached whenever the
+  // row is mounted (the chat starts closed, so a mount-only effect never found it).
   useEffect(() => {
-    const divider = messageDividerRef.current;
-    if (!divider) return;
-
+    const row = suggestionsRef.current;
+    if (!isOpen || !showSuggestions || !row) return;
     const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
       e.preventDefault();
-      if (messageDividerRef.current) {
-        messageDividerRef.current.scrollLeft += e.deltaY;
-      }
+      row.scrollLeft += e.deltaY;
     };
+    row.addEventListener("wheel", handleWheel, { passive: false });
+    return () => row.removeEventListener("wheel", handleWheel);
+  }, [isOpen, showSuggestions]);
 
-    divider.addEventListener('wheel', handleWheel, { passive: false });
-    
-    return () => {
-      divider.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
-
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
+  const openChat = () => {
+    setIsOpen(true);
+    setMessages((prev) =>
+      prev.length
+        ? prev
+        : [createMessage("Hello! I'm your AI assistant. How can I help you today?", "bot")],
+    );
   };
 
-  const handleDividerClick = async (text: string) => {
-    setShowDivider(false); // Hide divider after click
-    
-    // Create and send message directly
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text: text,
-      sender: 'user',
-      timestamp: new Date()
-    };
-    
-    setMessages(prev => [...prev, newMessage]);
-    
-    // Call API for bot response
-    try {
-      const response = await askChatBot(text, 'en');
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: response.answer,
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: 'Sorry, I encountered an error. Please try again.',
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
-    }
-  };
+  const send = useCallback(
+    async (raw: string) => {
+      const text = raw.trim();
+      if (!text || isSending) return;
 
-  const sendMessage = async () => {
-    if (inputText.trim()) {
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        text: inputText,
-        sender: 'user',
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, newMessage]);
-      setShowDivider(false);
-      setInputText('');
-      
+      setMessages((prev) => [...prev, createMessage(text, "user")]);
+      setShowSuggestions(false);
+      setInputText("");
+      setIsSending(true);
+
       try {
-        // Call the API to get bot response
-        const botResponse = await askChatBot(inputText, 'en');
-        
-        const botMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          text: botResponse.answer,
-          sender: 'bot',
-          timestamp: new Date()
-        };
-        
-        setMessages(prev => [...prev, botMessage]);
-      } catch (error) {
-        console.error('Error getting bot response:', error);
-        
-        // Fallback response
-        const fallbackMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          text: 'Sorry, I encountered an error. Please try again.',
-          sender: 'bot',
-          timestamp: new Date()
-        };
-        
-        setMessages(prev => [...prev, fallbackMessage]);
+        const response = await askChatBot(text, lang);
+        setMessages((prev) => [...prev, createMessage(response.answer, "bot")]);
+      } catch {
+        setMessages((prev) => [...prev, createMessage(ERROR_TEXT, "bot")]);
+      } finally {
+        setIsSending(false);
       }
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      sendMessage();
-    }
-  };
+    },
+    [isSending, lang],
+  );
 
   if (!isOpen) {
     return (
-      <button 
-        className={styles.chatToggle}
-        onClick={toggleChat}
-        aria-label="Open chat"
-      >
-        <img 
-          src="/assets/chatbot/f23588ca444ab18fb9cc8f5c53c79a764d32ef58.jpg" 
-          alt="Chat bot" 
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover',
-            borderRadius: '1234.568px',
-          }}
+      <button className={styles.chatToggle} onClick={openChat} aria-label="Open chat" type="button">
+        <Image
+          src={AVATAR}
+          alt=""
+          width={64}
+          height={64}
+          style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
         />
       </button>
     );
   }
 
   return (
-    <div className={styles.chatContainer}>
+    <div className={styles.chatContainer} role="dialog" aria-label="AI Assistant chat">
       <div className={styles.chatHeader}>
         <div className={styles.headerContent}>
           <div className={styles.botAvatar}>
             <div className={styles.avatarIcon}>
-              <img 
-                src="/assets/chatbot/f23588ca444ab18fb9cc8f5c53c79a764d32ef58.jpg" 
-                alt="Chat bot" 
-                width="30" 
-                height="30" 
-                style={{ 
-                  objectFit: 'cover',
-                  borderRadius: '50%'
-                }}
+              <Image
+                src={AVATAR}
+                alt=""
+                width={30}
+                height={30}
+                style={{ objectFit: "cover", borderRadius: "50%" }}
               />
             </div>
           </div>
           <div className={styles.headerInfo}>
             <h3 className={styles.botName}>AI Assistant</h3>
-            <p className={styles.botStatus}>Online</p>
+            <p className={styles.botStatus}>{isSending ? "Typing…" : "Online"}</p>
           </div>
-          <button 
+          <button
             className={styles.closeButton}
-            onClick={toggleChat}
+            onClick={() => setIsOpen(false)}
             aria-label="Close chat"
             type="button"
           >
@@ -193,96 +141,96 @@ const ChatBot: React.FC = () => {
         </div>
       </div>
 
-      <div className={`${styles.messagesContainer} ${!showDivider ? styles.messagesContainerExpanded : ''}`}>
+      <div
+        className={`${styles.messagesContainer} ${!showSuggestions ? styles.messagesContainerExpanded : ""}`}
+        aria-live="polite"
+      >
         {messages.map((message) => (
-          <div 
-            key={message.id} 
-            className={`${styles.message} ${message.sender === 'user' ? styles.userMessage : styles.botMessage}`}
+          <div
+            key={message.id}
+            className={`${styles.message} ${message.sender === "user" ? styles.userMessage : styles.botMessage}`}
           >
-            {message.sender === 'bot' && (
-              <img 
-                src="/assets/chatbot/f23588ca444ab18fb9cc8f5c53c79a764d32ef58.jpg" 
-                alt="AI Assistant" 
-                width="30" 
-                height="30" 
-                style={{ 
-                  objectFit: 'cover',
-                  borderRadius: '50%',
-                  marginBottom: '0px',
-                  justifyContent: 'end',
-                  alignItems: 'end',
-                  marginRight:'10px'
-                }}
+            {message.sender === "bot" && (
+              <Image
+                src={AVATAR}
+                alt=""
+                width={30}
+                height={30}
+                style={{ objectFit: "cover", borderRadius: "50%", marginRight: "10px" }}
               />
             )}
             <div className={styles.messageContent}>
               <div className={styles.messageTextContainer}>
                 <p className={styles.messageText}>{message.text}</p>
-                <span className={styles.messageTime}>
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
+                <span className={styles.messageTime}>{formatTime(message.timestamp)}</span>
               </div>
             </div>
           </div>
         ))}
+        {isSending && (
+          <div className={`${styles.message} ${styles.botMessage}`}>
+            <div className={styles.messageContent}>
+              <div className={styles.messageTextContainer}>
+                <p className={styles.messageText}>…</p>
+              </div>
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
-      {showDivider && (
-        <div ref={messageDividerRef} className={styles.messageDivider}>
+      {showSuggestions && (
+        <div ref={suggestionsRef} className={styles.messageDivider}>
           <div className={styles.dividerGrid}>
-            {[
-            { text: 'who are Axuraa oofofofoof', key: '1' },
-            { text: 'what services do you offer', key: '2' },
-            { text: 'how can I contact you', key: '3' },
-            { text: 'what is your pricing', key: '4' },
-            { text: 'do you have portfolio', key: '5' },
-            { text: 'how long does it take', key: '6' },
-            ].map(item => (
-              <button 
-                key={item.key} 
+            {SUGGESTIONS.map((text) => (
+              <button
+                key={text}
+                type="button"
                 className={styles.dividerButton}
-                onClick={() => handleDividerClick(item.text)}
+                onClick={() => send(text)}
+                disabled={isSending}
               >
-                {item.text}
+                {text}
               </button>
             ))}
           </div>
         </div>
       )}
 
-      <div className={styles.inputContainer}>
+      <form
+        className={styles.inputContainer}
+        onSubmit={(e) => {
+          e.preventDefault();
+          send(inputText);
+        }}
+      >
         <div className={styles.inputWrapper}>
           <input
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={handleKeyPress}
             placeholder="Type your message..."
             className={styles.messageInput}
             aria-label="Type message"
+            maxLength={1000}
           />
-          <button 
-            onClick={sendMessage}
-            disabled={!inputText.trim()}
+          <button
+            type="submit"
+            disabled={!inputText.trim() || isSending}
             className={styles.sendButton}
             aria-label="Send message"
           >
-           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-              <g clipPath="url(#clip0_1444_2320)">
-                <path d="M17.3654 -0.0550202L0.320516 9.77844C-0.3451 10.1609 -0.260519 11.0876 0.401419 11.3671L4.31053 13.0072L14.8758 3.69596C15.0781 3.51577 15.3649 3.79158 15.1921 4.00119L6.33312 14.7945V17.7548C6.33312 18.6227 7.38119 18.9647 7.89603 18.3358L10.2312 15.4932L14.8133 17.4128C15.3355 17.6334 15.9312 17.3061 16.0268 16.7435L18.6746 0.856984C18.7996 0.114142 18.0016 -0.422764 17.3654 -0.0550202Z" fill="white"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_1444_2320">
-                  <rect width="18.8285" height="18.8285" fill="white"/>
-                </clipPath>
-              </defs>
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true">
+              <path
+                d="M17.3654 -0.0550202L0.320516 9.77844C-0.3451 10.1609 -0.260519 11.0876 0.401419 11.3671L4.31053 13.0072L14.8758 3.69596C15.0781 3.51577 15.3649 3.79158 15.1921 4.00119L6.33312 14.7945V17.7548C6.33312 18.6227 7.38119 18.9647 7.89603 18.3358L10.2312 15.4932L14.8133 17.4128C15.3355 17.6334 15.9312 17.3061 16.0268 16.7435L18.6746 0.856984C18.7996 0.114142 18.0016 -0.422764 17.3654 -0.0550202Z"
+                fill="white"
+              />
             </svg>
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
 
-export default React.memo(ChatBot);
+export default ChatBot;

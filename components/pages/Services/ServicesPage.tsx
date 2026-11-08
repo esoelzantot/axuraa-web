@@ -6,10 +6,11 @@ import styles from "./ServicesPage.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
 import { ServiceItem } from "@/service/Services/services";
+import { Locale, localize } from "@/lib/i18n";
 
 interface Props {
   services: ServiceItem[];
-  locale: "en" | "ar";
+  locale: Locale;
 }
 
 const ServicesPage: React.FC<Props> = ({ services, locale }) => {
@@ -41,22 +42,11 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
         )}
 
         {services.map((service) => {
-          // API returns plain strings — no locale extraction needed
-          const title =
-            typeof service.title === "string"
-              ? service.title
-              : service.title?.[locale] || service.title || "";
-
-          const description =
-            typeof service.description === "string"
-              ? service.description
-              : service.description?.[locale] || service.description || "";
-
-          const features = service.what_we_do?.units
-            ? service.what_we_do.units
-                .map((u) => (typeof u === "string" ? u : u[locale] || u || ""))
-                .filter(Boolean)
-            : [];
+          const title = localize(service.title, locale);
+          const description = localize(service.description, locale);
+          const features = (service.what_we_do?.units ?? [])
+            .map((u) => localize(u, locale))
+            .filter(Boolean);
 
           return (
             <ServiceCard

@@ -5,8 +5,8 @@ import styles from "./layout.module.css";
 import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
 import ChatBot from "@/components/UI/Atoms/ChatBot/ChatBot";
-import { Suspense } from "react";
-import PerLoading from "@/components/UI/Muscles/PreLoading/PreLoading";
+import { DEFAULT_LOCALE } from "@/lib/i18n";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -15,18 +15,16 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Axuraa",
-  description: "project management agency",
-  keywords: ["Axuraa", "project management agency", "Axuraa Agency"],
-  // favicon: "/assets/favicon.ico",
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  keywords: ["Axuraa", "software agency", "web development", "mobile apps", "business solutions"],
+  openGraph: { siteName: SITE_NAME, type: "website" },
 };
-export const dynamic = "force-dynamic";
 
+// No `maximumScale`: users must be able to pinch-zoom (WCAG 1.4.4).
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  minimumScale: 1,
 };
 
 export default function RootLayout({
@@ -35,16 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={styles.html}>
+    <html lang={DEFAULT_LOCALE} className={styles.html}>
       <body className={`${roboto.variable} ${styles.body}`}>
         <div className={styles.wrapper}>
           <Header />
-          <Suspense
-            fallback={<PerLoading />}
-          >
-            <main className={styles.main}>{children}</main>
-            <Footer />
-          </Suspense>
+          <main className={styles.main}>{children}</main>
+          <Footer />
         </div>
         <ChatBot />
       </body>

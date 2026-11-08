@@ -1,4 +1,8 @@
+"use client";
+
 import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { localeFromPath } from "@/lib/i18n";
 import Typography from "@/components/UI/Atoms/Typography/Typography";
 import styles from "./SpecialCard.module.css";
 import Image from "next/image";
@@ -14,6 +18,9 @@ const SpecialCard: React.FC<SpecialCardProps> = ({
   onSecondaryClick,
   className = "",
 }) => {
+  const router = useRouter();
+  const locale = localeFromPath(usePathname());
+
   return (
     <div className={`${styles.specialCard} ${className}`}>
       {/* Animated blur circles background */}
@@ -59,13 +66,15 @@ const SpecialCard: React.FC<SpecialCardProps> = ({
         <div className={styles.buttonGroup}>
           <button
             className={`${styles.button} ${styles.primaryButton}`}
-            onClick={() => (window.location.href = "/en/contact")}
+            type="button"
+            onClick={onPrimaryClick ?? (() => router.push(`/${locale}/contact#contact-form`))}
           >
             {primaryButtonText}
           </button>
           <button
             className={`${styles.button} ${styles.secondaryButton}`}
-            onClick={() => (window.location.href = "/en/portfolio")}
+            type="button"
+            onClick={onSecondaryClick ?? (() => router.push(`/${locale}/portfolio`))}
           >
             {secondaryButtonText}
           </button>

@@ -25,25 +25,16 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({
     return () => window.removeEventListener('resize', updateIconSize);
   }, []);
 
-  const handleClick = () => {
-    window.open(link, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <>
-      {/* SVG gradient definition - hidden but accessible */}
-      <svg width="0" height="0" style={{ position: 'absolute' }}>
-        <defs>
-          <linearGradient id="socialIconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#D04A1D', stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: '#902501', stopOpacity: 1 }} />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      <div 
-        className={styles.card} 
-        onClick={handleClick}
+      {/* The #socialIconGradient fill is defined once in SocialMediaSection. */}
+      <a
+        className={styles.card}
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={label}
+        style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <div className={styles.iconCircle}>
           <IconComponent 
@@ -52,7 +43,7 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({
           />
         </div>
         <span className={styles.label}>{label}</span>
-      </div>
+      </a>
     </>
   );
 };

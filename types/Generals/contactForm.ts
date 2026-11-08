@@ -9,7 +9,8 @@ export interface FormData {
 
 export interface FormErrors {
   full_name?: string;
-  contact?: string;
+  email?: string;
+  phone_number?: string;
   services_interest?: string;
   message?: string;
 }

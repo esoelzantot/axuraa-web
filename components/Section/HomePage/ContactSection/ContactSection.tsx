@@ -10,6 +10,8 @@ import SocialIcon from "@/components/UI/Atoms/SocialIcon/SocialIcon";
 import ContactForm from "@/components/UI/Atoms/ContactForm/ContactForm";
 import { ContactSectionProps } from "@/types/HomePage/contactTypes";
 import { SocialLink } from "@/service/Contact/contactinformation";
+import type { ContactData } from "@/components/pages/Contact/Contact";
+import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from "@/lib/site";
 
 const ICON_MAP: Record<string, string> = {
   facebook: "/assets/SocialMedia/facebook.svg",
@@ -21,7 +23,7 @@ const ICON_MAP: Record<string, string> = {
 };
 
 interface ExtendedContactSectionProps extends ContactSectionProps {
-  contactData?: any; // passed from parent, no fetching needed
+  contactData?: ContactData | null; // passed from the server page, no fetching here
 }
 
 const ContactSection: React.FC<ExtendedContactSectionProps> = ({
@@ -32,6 +34,9 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
   showLinks = true,
   contactData,
 }) => {
+  const phone = contactData?.phone || CONTACT_PHONE;
+  const email = contactData?.emails?.[0]?.email || CONTACT_EMAIL;
+
   const socialIcons = contactData?.socialLinks?.length
     ? contactData.socialLinks.map((link: SocialLink, i: number) => ({
         id: i + 1,
@@ -47,7 +52,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
           id: 1,
           icon: "/assets/SocialMedia/Instagram.svg",
           label: "Instagram",
-          url: "#",
+          url: SOCIAL_LINKS.instagram,
         },
       ];
 
@@ -55,14 +60,14 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
     <section id="contact-section" className={styles.ContactSection}>
       <div className={styles.ContactGrid}>
         <div className={styles.Contantinfo}>
-          <StatusBadge text="Contact Us" style={{}} />
+          <StatusBadge text={badgeText} />
 
           <Typography
             variant="h1"
-            component="h1"
+            component="h2"
             className={`${styles.title} ${styles.mainTitle}`}
           >
-            <span style={{ color: "#FFFFFF" }}>Let's build something</span>
+            <span style={{ color: "#FFFFFF" }}>{title1}</span>
             <span
               style={{
                 color: "#D04A1D",
@@ -71,7 +76,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
                 WebkitTextFillColor: "transparent",
               }}
             >
-              extraordinary.
+              {title2}
             </span>
           </Typography>
 
@@ -81,7 +86,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
               component="p"
               className={styles.subtitle}
             >
-              Have a project in mind? We'd love to hear about it.
+              {subtitle}
             </Typography>
           </div>
 
@@ -90,27 +95,24 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
             <ContactInfoCard
               icon="/assets/PhoneIcon.svg"
               label="Phone"
-              value={contactData?.phone || "+1 (555) 123-4567"}
+              value={phone}
               onClick={() => {
-                window.location.href = `tel:${contactData?.phone || ""}`;
+                window.location.href = `tel:${phone.replace(/[^+\d]/g, "")}`;
               }}
             />
             <ContactInfoCard
               icon="/assets/EmailIcon.svg"
               label="Email"
-              value={contactData?.emails?.[0]?.email || "contact@company.com"}
+              value={email}
               onClick={() => {
-                window.open(
-                  `mailto:${contactData?.emails?.[0]?.email || ""}`,
-                  "_blank",
-                );
+                window.location.href = `mailto:${email}`;
               }}
             />
           </div>
 
           {showLinks && (
             <div className={styles.socialIconsContainer}>
-              {socialIcons.map((social: any) => (
+              {socialIcons.map((social) => (
                 <a
                   key={social.id}
                   href={social.url}
@@ -124,7 +126,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
             </div>
           )}
         </div>
-        {/* ✅ الـ form لوحده */}
+
         <div className={styles.Contantform}>
           <ContactForm />
         </div>

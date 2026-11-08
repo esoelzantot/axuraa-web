@@ -6,11 +6,14 @@ import { ExternalLink, Package } from "lucide-react";
 import styles from "./CaseStudyPage.module.css";
 import ProjectButton from "@/components/UI/Atoms/ProjectButton/ProjectButton";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ProjectItem, Testimonial } from "@/service/Projects/projects";
+import { Locale, localize } from "@/lib/i18n";
 
 interface CaseStudyPageProps {
   project: ProjectItem;
-  locale: "en" | "ar";
+  locale: Locale;
 }
 
 interface TestimonialDisplay {
@@ -19,41 +22,23 @@ interface TestimonialDisplay {
 }
 
 const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
+  const router = useRouter();
   // All data transformation happens here — no fetching, no loading states
   const caseStudy = {
-    title:
-      typeof project.title === "string"
-        ? project.title
-        : project.title?.[locale] || project.title?.en,
-
-    subtitle:
-      typeof project.subTitle === "string"
-        ? project.subTitle
-        : project.subTitle?.[locale] || project.subTitle?.en || "",
-
-    overview:
-      typeof project.overview === "string"
-        ? project.overview
-        : project.overview?.[locale] || project.overview?.en || "",
+    title: localize(project.title, locale) || "Case Study",
+    subtitle: localize(project.subTitle, locale),
+    overview: localize(project.overview, locale),
 
     features:
       project.features?.map((f) => ({
         icon: f.icon || null,
-        title:
-          typeof f.title === "string"
-            ? f.title
-            : f.title?.[locale] || f.title?.en || "",
-        description:
-          typeof f.description === "string"
-            ? f.description
-            : f.description?.[locale] || f.description?.en || "",
+        title: localize(f.title, locale),
+        description: localize(f.description, locale),
       })) || [],
 
-    tags:
-      project.services?.map((s) => {
-        const t = s.services_id.title;
-        return typeof t === "string" ? t : t?.[locale] || t?.en || "";
-      }) || [],
+    tags: (project.services ?? [])
+      .map((s) => localize(s?.services_id?.title, locale))
+      .filter(Boolean),
 
     client: project.client_id?.name || "Client",
     projectManager: project.project_manager || "Project Manager",
@@ -68,15 +53,12 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
 
     results:
       project.case_study_results?.map((r) => ({
-        metric: r.description,
+        metric: localize(r.description, locale),
         value: r.value,
       })) || [],
     testimonials:
       project.testimonials?.map((t: Testimonial) => ({
-        text:
-          typeof t.message === "string"
-            ? t.message
-            : t.message?.[locale] || t.message?.en || "",
+        text: localize(t.message, locale),
         author: t.client_id?.name || "Anonymous",
       })) || [],
 
@@ -91,7 +73,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
       value: caseStudy.client,
     },
     {
-      icon: "/assets/ProjectDetailscard/manager.svg",
+      icon: "/assets/ProjectDetailscard/client.svg", // TODO: add a dedicated manager.svg
       label: "Project Manager:",
       value: caseStudy.projectManager,
     },
@@ -114,11 +96,11 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
 
   const handlePrototype = () => {
     if (caseStudy.url_deployment)
-      window.open(caseStudy.url_deployment, "_blank");
+      window.open(caseStudy.url_deployment, "_blank", "noopener,noreferrer");
   };
 
   const handleContact = () => {
-    window.location.href = `/${locale}/contact#contact-form`;
+    router.push(`/${locale}/contact#contact-form`);
   };
 
   return (
@@ -126,13 +108,13 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <div className={styles.breadcrumbContent}>
-          <a href={`/${locale}`} className={styles.breadcrumbLink}>
+          <Link href={`/${locale}`} className={styles.breadcrumbLink}>
             Home
-          </a>
+          </Link>
           <span className={styles.breadcrumbDivider}>&gt;</span>
-          <a href={`/${locale}/portfolio`} className={styles.breadcrumbLink}>
+          <Link href={`/${locale}/portfolio`} className={styles.breadcrumbLink}>
             Portfolio
-          </a>
+          </Link>
           <span className={styles.breadcrumbDivider}>&gt;</span>
           <span className={styles.currentPage}>{caseStudy.title}</span>
         </div>
@@ -262,7 +244,12 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                   </div>
                 ))}
               </div>
-              <button className={styles.button} onClick={handlePrototype}>
+              <button
+                className={styles.button}
+                onClick={handlePrototype}
+                disabled={!caseStudy.url_deployment}
+                title={caseStudy.url_deployment ? undefined : "Prototype not available"}
+              >
                 Show prototype <ExternalLink className={styles.buttonIcon} />
               </button>
             </div>

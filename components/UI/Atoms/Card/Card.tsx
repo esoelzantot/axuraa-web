@@ -10,7 +10,6 @@
  */
 
 import React, { useState } from 'react';
-import { FiArrowRight } from 'react-icons/fi';
 import styles from './Card.module.css';
 
 import { CardProps } from '@/types/Generals/cardTypes';
@@ -20,7 +19,6 @@ const Card: React.FC<CardProps> = ({
   iconSrc = "/assets/CardIcon.svg",  
   title,
   description,
-  link = "Read more >",
   borderRadius = "0 0 68.087px 0"
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -52,9 +50,10 @@ const Card: React.FC<CardProps> = ({
          
          <div className={styles.iconWrapper}>
            {icon || (
+              // eslint-disable-next-line @next/next/no-img-element -- icon URLs come from the CMS (any host) and need onError fallback
               <img 
                 src={imageError ? "/assets/CardIcon.svg" : (iconSrc || "/assets/CardIcon.svg")} 
-                alt={title || 'Card icon'} 
+                alt="" 
                 className={styles.cardIcon}
                 onError={handleImageError}
               />

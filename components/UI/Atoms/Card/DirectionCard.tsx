@@ -25,7 +25,6 @@ const DirectionCard: React.FC<DirectionCardProps> = ({
   iconSrc = "/assets/DirectionIcon.svg",  
   title,
   description,
-  link = "Read more >",
   borderRadius = "0 0 68.087px 0",
   onClick,
   href
@@ -50,6 +49,12 @@ const DirectionCard: React.FC<DirectionCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
       role="button" // Better accessibility for clickable elements
       aria-label={title} // Better accessibility
       tabIndex={0} // Make focusable for keyboard navigation
@@ -65,9 +70,10 @@ const DirectionCard: React.FC<DirectionCardProps> = ({
          
          <div className={styles.iconWrapper}>
            {icon || (
+              // eslint-disable-next-line @next/next/no-img-element -- icon URLs come from the CMS (any host)
               <img 
                 src={iconSrc || "/assets/DirectionIcon.svg"} 
-                alt={title || 'Card icon'} 
+                alt="" 
                 className={styles.cardIcon}
               />
            )}

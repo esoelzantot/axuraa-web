@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import styles from "./ContactForm.module.css";
-import { ContactRequest } from "@/types/Generals/contactForm";
+import { ContactRequest, FormErrors } from "@/types/Generals/contactForm";
 import { create } from "@/service/Contact/contactServices";
 import Image from "next/image";
 
@@ -31,7 +33,7 @@ const ContactForm = () => {
   });
 
   const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
-  const [errors, setErrors] = useState<Partial<ContactRequest>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
@@ -60,7 +62,7 @@ const ContactForm = () => {
   }, [isDropdownOpen]);
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<ContactRequest> = {};
+    const newErrors: FormErrors = {};
 
     if (!formData.full_name.trim()) {
       newErrors.full_name = "Full name is required";
@@ -75,13 +77,16 @@ const ContactForm = () => {
         newErrors.email = "Please enter a valid email address";
       }
     } else {
+      const digits = formData.phone_number?.replace(/\D/g, "") ?? "";
       if (!formData.phone_number?.trim()) {
         newErrors.phone_number = "Phone number is required";
+      } else if (!/^\+?[\d\s\-().]+$/.test(formData.phone_number) || digits.length < 7 || digits.length > 15) {
+        newErrors.phone_number = "Please enter a valid phone number";
       }
     }
 
     if (formData.services_interest.length === 0) {
-      newErrors.services_interest = ["Please select at least one service"];
+      newErrors.services_interest = "Please select at least one service";
     }
 
     if (!formData.message.trim()) {
@@ -97,7 +102,7 @@ const ContactForm = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof ContactRequest]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
@@ -118,9 +123,6 @@ const ContactForm = () => {
       const newServices = prev.services_interest.includes(serviceValue)
         ? prev.services_interest.filter((s) => s !== serviceValue)
         : [...prev.services_interest, serviceValue];
-
-      console.log("Service toggled:", serviceValue);
-      console.log("New services array:", newServices);
 
       return { ...prev, services_interest: newServices };
     });
@@ -143,23 +145,16 @@ const ContactForm = () => {
     try {
       // Prepare submission data based on contact method
       const submitData: ContactRequest = {
-        full_name: formData.full_name,
+        full_name: formData.full_name.trim(),
         services_interest: formData.services_interest,
-        message: formData.message,
+        message: formData.message.trim(),
       };
 
       if (contactMethod === 'email') {
-        submitData.email = formData.email;
+        submitData.email = formData.email?.trim();
       } else {
-        submitData.phone_number = formData.phone_number;
+        submitData.phone_number = formData.phone_number?.trim();
       }
-
-      console.log("Submitting data:", submitData);
-      console.log("Services being sent:", submitData.services_interest);
-      console.log(
-        "Services detail:",
-        JSON.stringify(submitData.services_interest, null, 2),
-      );
 
       const response = await create(submitData);
 
@@ -177,7 +172,7 @@ const ContactForm = () => {
         });
         setTimeout(() => {
           setSubmitStatus({ type: null, message: "" });
-        }, 2000);
+        }, 5000);
       } else {
         setSubmitStatus({
           type: "error",
@@ -185,7 +180,7 @@ const ContactForm = () => {
             response.error || "Failed to send message. Please try again.",
         });
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus({
         type: "error",
         message: "An unexpected error occurred. Please try again later.",
@@ -214,6 +209,7 @@ const ContactForm = () => {
 
       {submitStatus.type && (
         <div
+          role={submitStatus.type === "success" ? "status" : "alert"}
           className={
             submitStatus.type === "success"
               ? styles.successMessage
@@ -254,8 +250,8 @@ const ContactForm = () => {
         </div>
 
         <div className={styles.formGroup1}>
-          <label className={styles.label}>
-            Preferred Contact Method 
+          <label htmlFor={contactMethod === "email" ? "email" : "phone_number"} className={styles.label}>
+            Preferred Contact Method
           </label>
           <div className={styles.radio}>
             <label className={styles.radioGroup}>
@@ -324,9 +320,9 @@ const ContactForm = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="services" className={styles.label}>
-            Services of Interest 
-          </label>
+          <span id="services-label" className={styles.label}>
+            Services of Interest
+          </span>
           <div className={`${styles.inputWithIcon} ${styles.selectWrapper}`} ref={dropdownRef}>
             <Image 
               src={servicesIcon} 
@@ -335,12 +331,23 @@ const ContactForm = () => {
               height={20} 
               className={styles.inputIcon}
             />
-            <div
+            <button
+              type="button"
+              id="services"
+              aria-haspopup="listbox"
+              aria-expanded={isDropdownOpen}
+              aria-labelledby="services-label services"
+              disabled={isSubmitting}
               className={`${styles.selectField} ${styles.customSelect} ${isDropdownOpen ? styles.selectOpen : ""} ${errors.services_interest ? styles.inputError : ""}`}
-              onClick={() =>
-                !isSubmitting && setIsDropdownOpen(!isDropdownOpen)
-              }
-              style={{ cursor: isSubmitting ? "not-allowed" : "pointer" }}
+              onClick={() => setIsDropdownOpen((open) => !open)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setIsDropdownOpen(false);
+              }}
+              style={{
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+                textAlign: "start",
+                font: "inherit",
+              }}
             >
               <span
                 style={{
@@ -352,16 +359,23 @@ const ContactForm = () => {
               >
                 {getDisplayText()}
               </span>
-            </div>
+            </button>
             <Image 
               src={chooseIcon} 
-              alt="Choose" 
+              alt="" 
               width={20} 
               height={20} 
               className={`${styles.selectArrow} ${isDropdownOpen ? styles.selectArrowOpen : ''}`}
             />
             {isDropdownOpen && (
-              <div className={styles.dropdownMenu}>
+              <div
+                className={styles.dropdownMenu}
+                role="group"
+                aria-labelledby="services-label"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") setIsDropdownOpen(false);
+                }}
+              >
                 {serviceOptions.map((service) => (
                   <label key={service.value} className={styles.dropdownItem}>
                     <input

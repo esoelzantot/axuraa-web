@@ -8,8 +8,9 @@ import Badge from "@/components/UI/Atoms/Badge/Badge";
 import Image from "next/image";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import AnimatedBackground from "@/components/UI/Muscles/AinmatedBackground/AnimatedBackground";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getHomePartners, PartnerItem } from "@/service/partners/partners";
+import { localeFromPath } from "@/lib/i18n";
 
 interface HeroSectionProps {
   title1?: string;
@@ -19,15 +20,16 @@ interface HeroSectionProps {
   badgeText?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
+  /** Defaults to the current locale's contact form. */
   primaryHref?: string;
+  /** Defaults to the current locale's portfolio. */
   secondaryHref?: string;
   backgroundType: "Hexagon" | "Circle" | "Alphabet";
   /**
    * Minimum height of the hero section. This is applied as `minHeight`
    * (not a fixed `height`) so the section can always grow to fit its
    * content — e.g. on mobile landscape where the viewport height is
-   * short but the content (badge + title + subtitle + buttons + trusted
-   * section) is taller than the visible viewport.
+   * short but the content is taller than the visible viewport.
    */
   height?: string;
   showBackgroundDots?: boolean;
@@ -38,41 +40,42 @@ interface HeroSectionProps {
   showPrimaryButton?: boolean;
   showSecondaryButton?: boolean;
   showEllipseDecorations?: boolean;
+  /** Partners fetched on the server. When omitted they are fetched in the browser. */
+  partners?: PartnerItem[];
   onPrimaryClick?: () => void;
   onSecondaryClick?: () => void;
 }
 
-// Cache key for partners
-const PARTNERS_CACHE_KEY = "partners_items_cache";
-const PARTNERS_CACHE_TIMESTAMP_KEY = "partners_items_cache_timestamp";
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const FALLBACK_PARTNERS: PartnerItem[] = [
+  { id: 1, name: "SkyTech", icon: "skytech.svg" },
+  { id: 2, name: "ChainBlock", icon: "chainblock.svg" },
+  { id: 3, name: "NexusPoint", icon: "nexuspoint.svg" },
+  { id: 4, name: "Apex", icon: "apex.svg" },
+  { id: 5, name: "Velocity", icon: "velocity.svg" },
+];
 
-// Function to get cached partners
-const getCachedPartners = (): PartnerItem[] | null => {
-  if (typeof window === "undefined") return null;
-  try {
-    const cachedData = localStorage.getItem(PARTNERS_CACHE_KEY);
-    const cachedTimestamp = localStorage.getItem(PARTNERS_CACHE_TIMESTAMP_KEY);
-    if (cachedData && cachedTimestamp) {
-      if (Date.now() - parseInt(cachedTimestamp) < CACHE_DURATION) {
-        return JSON.parse(cachedData);
-      }
-    }
-  } catch (error) {
-    console.error("Error reading partners cache:", error);
-  }
-  return null;
+// Maps API icon names to local asset filenames
+const ICON_MAPPING: Record<string, string> = {
+  "skytech.svg": "/assets/SkyTecIcon.svg",
+  "chainblock.svg": "/assets/ChicnBlockIcon.svg",
+  "nexuspoint.svg": "/assets/NexusPointIcon.svg",
+  "apex.svg": "/assets/AplexIcon.svg",
+  "velocity.svg": "/assets/VelocityIcon.svg",
 };
 
-// Function to set cached partners
-const setCachedPartners = (items: PartnerItem[]): void => {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(PARTNERS_CACHE_KEY, JSON.stringify(items));
-    localStorage.setItem(PARTNERS_CACHE_TIMESTAMP_KEY, Date.now().toString());
-  } catch (error) {
-    console.error("Error setting partners cache:", error);
-  }
+const toCompany = (partner: PartnerItem) => {
+  const rawIcon = partner.icon || partner.logo || "";
+  const src =
+    ICON_MAPPING[rawIcon.toLowerCase()] ||
+    (rawIcon.startsWith("http") || rawIcon.startsWith("/") ? rawIcon : `/assets/${rawIcon}`);
+  const website = partner.website?.trim();
+  return {
+    src,
+    alt: partner.name,
+    name: partner.name,
+    width: 100,
+    href: website ? (website.startsWith("http") ? website : `https://${website}`) : undefined,
+  };
 };
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -83,8 +86,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   badgeText = "AVAILABLE FOR NEW PROJECTS",
   primaryButtonText = "Start a Project",
   secondaryButtonText = "View Our Work",
-  primaryHref = "/contact#contact-form",
-  secondaryHref = "/en/portfolio",
+  primaryHref: primaryHrefProp,
+  secondaryHref: secondaryHrefProp,
   height = "100dvh",
   showAnimatedCircles = true,
   showBadge = true,
@@ -92,92 +95,57 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   showTrustedSection = true,
   showPrimaryButton = true,
   showSecondaryButton = true,
+  partners: partnersProp,
   onPrimaryClick,
   onSecondaryClick,
   backgroundType = "Hexagon",
 }) => {
   const router = useRouter();
+  const locale = localeFromPath(usePathname());
+  const primaryHref = primaryHrefProp ?? `/${locale}/contact#contact-form`;
+  const secondaryHref = secondaryHrefProp ?? `/${locale}/portfolio`;
+
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [partners, setPartners] = useState<PartnerItem[]>([]);
+  const [fetchedPartners, setFetchedPartners] = useState<PartnerItem[] | null>(null);
 
+  // Start entrance animations after the first paint.
   useEffect(() => {
-    setMounted(true);
-
-    // Initial load from cache
-    const cached = getCachedPartners();
-    if (cached) {
-      setPartners(cached);
-    }
-
-    // Fetch fresh partners data
-    const fetchPartners = async () => {
-      try {
-        const result = await getHomePartners();
-
-        if (result.success && result.data) {
-          const freshPartners = result.data.partners;
-          setPartners(freshPartners);
-          setCachedPartners(freshPartners);
-        } else {
-          // Use fallback data if API fails
-          const fallbackPartners = [
-            { id: 1, name: "SkyTech", icon: "skytech.svg", website: "#" },
-            { id: 2, name: "ChainBlock", icon: "chainblock.svg", website: "#" },
-            { id: 3, name: "NexusPoint", icon: "nexuspoint.svg", website: "#" },
-            { id: 4, name: "Apex", icon: "apex.svg", website: "#" },
-            { id: 5, name: "Velocity", icon: "velocity.svg", website: "#" },
-          ];
-          setPartners(fallbackPartners);
-          setCachedPartners(fallbackPartners);
-        }
-      } catch (error) {
-        console.error("Error fetching partners:", error);
-        // Use fallback data on error
-        const fallbackPartners = [
-          { id: 1, name: "SkyTech", icon: "skytech.svg", website: "#" },
-          { id: 2, name: "ChainBlock", icon: "chainblock.svg", website: "#" },
-          { id: 3, name: "NexusPoint", icon: "nexuspoint.svg", website: "#" },
-          { id: 4, name: "Apex", icon: "apex.svg", website: "#" },
-          { id: 5, name: "Velocity", icon: "velocity.svg", website: "#" },
-        ];
-        setPartners(fallbackPartners);
-        setCachedPartners(fallbackPartners);
-      }
-    };
-
-    fetchPartners();
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
-  // Icon mapping to handle discrepancies between API names and local asset filenames
-  const iconMapping: Record<string, string> = {
-    "skytech.svg": "/assets/SkyTecIcon.svg",
-    "chainblock.svg": "/assets/ChicnBlockIcon.svg",
-    "nexuspoint.svg": "/assets/NexusPointIcon.svg",
-    "apex.svg": "/assets/AplexIcon.svg",
-    "velocity.svg": "/assets/VelocityIcon.svg",
-  };
-
-  // Use API data for Trusted Section
-  const companiesToShow = partners.map((partner) => {
-    const rawIcon = partner.icon || partner.logo || "";
-    const apiIcon = rawIcon.toLowerCase();
-    let iconSrc = iconMapping[apiIcon];
-
-    if (!iconSrc) {
-      iconSrc = rawIcon.startsWith("http") ? rawIcon : `/assets/${rawIcon}`;
-    }
-
-    return {
-      src: iconSrc,
-      alt: partner.name,
-      name: partner.name,
-      width: 100, // Default width
-      href: partner.website.startsWith("http")
-        ? partner.website
-        : `https://${partner.website}`,
+  // Only fetch in the browser when the server did not provide partners.
+  const needsPartners = showTrustedSection && !partnersProp;
+  useEffect(() => {
+    if (!needsPartners) return;
+    let cancelled = false;
+    getHomePartners().then((result) => {
+      if (cancelled) return;
+      setFetchedPartners(
+        result.success && result.data?.partners.length ? result.data.partners : FALLBACK_PARTNERS,
+      );
+    });
+    return () => {
+      cancelled = true;
     };
-  });
+  }, [needsPartners]);
+
+  const partners = partnersProp?.length ? partnersProp : (fetchedPartners ?? []);
+  const companiesToShow = partners.map(toCompany);
+
+  /** Smooth-scrolls when the target is on this page, otherwise client-side navigates (Next scrolls to the hash). */
+  const navigate = (href: string) => {
+    const [path, hash] = href.split("#");
+    if (hash && (!path || path === window.location.pathname)) {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+    router.push(href);
+  };
 
   return (
     <section
@@ -274,52 +242,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             >
               {showPrimaryButton && (
                 <StartButton
-                  onClick={() => {
-                    if (onPrimaryClick) {
-                      onPrimaryClick();
-                    } else if (primaryHref.startsWith("#")) {
-                      const element = document.getElementById(
-                        primaryHref.substring(1),
-                      );
-                      if (element) {
-                        element.scrollIntoView({ behavior: "smooth" });
-                      } else {
-                        router.push(primaryHref);
-                      }
-                    } else {
-                      const [path, hash] = primaryHref.split("#");
-                      router.push(primaryHref);
-
-                      if (hash) {
-                        setTimeout(() => {
-                          const element = document.getElementById(hash);
-                          element?.scrollIntoView({ behavior: "smooth" });
-                        }, 300);
-                      }
-                    }
-                  }}
+                  onClick={() =>
+                    onPrimaryClick ? onPrimaryClick() : navigate(primaryHref)
+                  }
                 >
                   {primaryButtonText}
                 </StartButton>
               )}
               {showSecondaryButton && (
                 <ViewButton
-                  onClick={() => {
-                    if (onSecondaryClick) {
-                      onSecondaryClick();
-                    } else if (secondaryHref.startsWith("#")) {
-                      const element = document.getElementById(
-                        secondaryHref.substring(1),
-                      );
-                      if (element) {
-                        element.scrollIntoView({ behavior: "smooth" });
-                      } else {
-                        router.push(`/${secondaryHref}`);
-                      }
-                    } else {
-                      router.push(secondaryHref);
-                    }
-                  }}
+                  onClick={() =>
+                    onSecondaryClick ? onSecondaryClick() : navigate(secondaryHref)
+                  }
                 >
                   {secondaryButtonText}
                 </ViewButton>
@@ -361,6 +295,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     alt={company.alt}
                     width={company.width}
                     height={24}
+                    // Remote logos may come from any host the backend chooses.
+                    unoptimized={company.src.startsWith("http")}
                   />
                   <Typography
                     variant="body1"

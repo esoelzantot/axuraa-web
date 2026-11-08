@@ -1,11 +1,10 @@
-import Homepage from '@/components/pages/Home/Homepage';
-import { getContactInformation } from '@/service/Contact/contactinformation';
+import Homepage from "@/components/pages/Home/Homepage";
+import { Locale } from "@/lib/i18n";
 
-const LocalePage = async () => {
-   const result = await getContactInformation();
-      const contactData = result.success && result.data ? result.data : null;
-    
-  return <Homepage  contactData={contactData}/>;
-};
+export const revalidate = 60;
 
-export default LocalePage;
+export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
+  // The [locale] layout has already rejected unsupported locales.
+  const { locale } = await params;
+  return <Homepage locale={locale as Locale} />;
+}

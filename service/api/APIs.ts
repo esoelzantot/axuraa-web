@@ -1,40 +1,42 @@
-const API_BASE = 'https://back-end-axuraa.fly.dev/api/v1';
+/**
+ * Single source of truth for the backend URL.
+ * Override with NEXT_PUBLIC_API_URL (e.g. in .env.local) — must include `/api/v1`.
+ */
+export const API_BASE = (
+  process.env.NEXT_PUBLIC_API_URL || "https://back-end-axuraa.fly.dev/api/v1"
+).replace(/\/+$/, "");
+
+const enc = encodeURIComponent;
 
 export const ENDPOINTS = {
-    Home: {
-        partners: `${API_BASE}/site/home/partners` // GET
-
-    },
-    Services: {
-        getAll: `${API_BASE}/services`, // GET
-        getById: (id: string) => `${API_BASE}/services/${id}`, // GET
-    },
-    Projects: {
-        getAll: `${API_BASE}/projects`, // GET
-        getById: (id: string) => `${API_BASE}/projects/${id}`, // GET
-    },
-    BusinessSolutions: {
-
-    },
-    Contact: {
-        create: `${API_BASE}/contact-requests`, // POST
-        getAll: `${API_BASE}/contact-requests`, // GET
-        getById: `${API_BASE}/contact-requests`, // GET
-        update: `${API_BASE}/contact-requests`, // PUT
-        delete: `${API_BASE}/contact-requests`, // DELETE
-    },
-    AboutUs: {
-        history: `${API_BASE}/site/about/history`, // GET
-    },
-    General: {
-        contactInformation: `${API_BASE}/site/contact`, // GET
-        trackRecords: `${API_BASE}/site/track-records` // GET
-    },
-    TeamMembers: {
-        getAll: `${API_BASE}/team-members`, // GET
-        getById: (id: string) => `${API_BASE}/team-members/${id}`, // GET
-    },
-    Clients: {
-        getAll: `${API_BASE}/clients` // GET
-    }
-}
+  Home: {
+    partners: `${API_BASE}/site/home/partners`, // GET
+    trackRecord: `${API_BASE}/site/home/track-record`, // GET
+  },
+  Services: {
+    getAll: `${API_BASE}/services`, // GET
+    getById: (id: string) => `${API_BASE}/services/${enc(id)}`, // GET
+  },
+  Projects: {
+    getAll: `${API_BASE}/projects`, // GET
+    getById: (id: string) => `${API_BASE}/projects/${enc(id)}`, // GET
+  },
+  Contact: {
+    create: `${API_BASE}/contact-requests`, // POST
+  },
+  AboutUs: {
+    history: `${API_BASE}/site/about/history`, // GET
+  },
+  General: {
+    contactInformation: `${API_BASE}/site/contact`, // GET
+  },
+  TeamMembers: {
+    getAll: `${API_BASE}/team-members`, // GET
+  },
+  Clients: {
+    getAll: `${API_BASE}/clients`, // GET
+  },
+  ChatBot: {
+    ask: (lang: string) => `${API_BASE}/bot?lang=${enc(lang)}`, // POST
+  },
+};

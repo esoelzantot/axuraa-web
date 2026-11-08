@@ -1,65 +1,26 @@
-import { ENDPOINTS } from '../api/APIs';
-import { ContactRequest, ContactResponse } from '@/types/Generals/contactForm';
+import { ENDPOINTS } from "../api/APIs";
+import { http } from "../api/http";
+import { ContactRequest, ContactResponse } from "@/types/Generals/contactForm";
 
-/**
- * Create a new contact request
- */
+/** Submits the contact form. The payload holds personal data, so it is never logged. */
 export const create = async (contactData: ContactRequest): Promise<ContactResponse> => {
-    console.log('=== CONTACT FORM API DEBUG ===');
-    console.log('Creating contact request with data:', contactData);
-    console.log('Services array:', contactData.services_interest);
-    console.log('Services detail:', JSON.stringify(contactData.services_interest, null, 2));
-    
-    try {
-    const response = await fetch(ENDPOINTS.Contact.create, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(contactData),
-    });
+  const res = await http<{
+    status?: string;
+    message?: string;
+    data?: { contactRequest?: unknown };
+  }>(ENDPOINTS.Contact.create, { method: "POST", body: contactData });
 
-    console.log('Response status:', response.status, response.ok);
+  if (!res.ok) {
+    return { success: false, error: res.error || "Failed to submit contact request" };
+  }
 
-    const data = await response.json();
-    console.log('Response data:', data);
-    console.log('Response structure:', {
-      status: data?.status,
-      message: data?.message,
-      hasData: !!data?.data,
-      dataKeys: data?.data ? Object.keys(data.data) : 'no data',
-      errors: data?.errors
-    });
-
-    if (!response.ok) {
-      return {
-        success: false,
-        error: data.errors?.join(', ') || data.message || `Failed to submit contact request (${response.status})`,
-      };
-    }
-
-    // Check if the API response matches expected structure
-    if (data.status === 'success' && data.data) {
-      return {
-        success: true,
-        data: data.data.contactRequest || data.data,
-        message: data.message || 'Contact request submitted successfully',
-      };
-    } else {
-      return {
-        success: false,
-        error: data.message || 'Unexpected response format from server',
-      };
-    }
-  } catch (error) {
-    console.error('=== CONTACT FORM API ERROR ===');
-    console.error('Error type:', typeof error);
-    console.error('Error message:', error instanceof Error ? error.message : error);
-    console.error('Full error:', error);
-    
+  if (res.json.status === "success" && res.json.data) {
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'An unexpected error occurred while submitting the contact request',
+      success: true,
+      data: (res.json.data.contactRequest ?? res.json.data) as ContactResponse["data"],
+      message: res.json.message || "Contact request submitted successfully",
     };
   }
+
+  return { success: false, error: res.json.message || "Unexpected response from server" };
 };

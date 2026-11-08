@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import styles from './StatusBadge.module.css';
 import { SectionBadgeProps } from '@/types/HomePage/contactTypes';
 

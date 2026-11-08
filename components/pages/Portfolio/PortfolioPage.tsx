@@ -9,28 +9,22 @@ import ProjectPageButtons from "@/components/Molecules/ProjectPageButtons/Projec
 import { ProjectItem } from "@/service/Projects/projects";
 import { ServiceItem } from "@/service/Services/services";
 import { transformProjects } from "@/lib/transformProjectsFormServices";
+import { Locale, localize } from "@/lib/i18n";
 
 interface Props {
   projects: ProjectItem[];
   services: ServiceItem[];
-  locale: "en" | "ar";
+  locale: Locale;
 }
 
 const PortfolioPage = ({ projects, services, locale }: Props) => {
   const [activeFilter, setActiveFilter] = useState("All");
 
-  // console.log("PortfolioPage received projects:", projects);
-  // console.log("PortfolioPage received services:", services);
-
   // Build filter list from services
   const filters = useMemo(() => {
     const titles = services
-      .map((s) =>
-        typeof s.subtitle === "string"
-          ? s.subtitle
-          : (s.subtitle as any)[locale] || (s.subtitle as any).en,
-      )
-      .filter((t): t is string => typeof t === "string" && t.trim() !== "");
+      .map((s) => localize(s.subtitle, locale) || localize(s.title, locale))
+      .filter((t) => t.trim() !== "");
     return ["All", ...Array.from(new Set(titles))];
   }, [services, locale]);
 

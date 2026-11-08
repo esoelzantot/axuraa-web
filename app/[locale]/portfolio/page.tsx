@@ -1,29 +1,20 @@
-// app/[locale]/portfolio/page.tsx
+import type { Metadata } from "next";
 import { getAllProjects } from "@/service/Projects/projects";
 import { getAllServices } from "@/service/Services/services";
 import PortfolioPage from "@/components/pages/Portfolio/PortfolioPage";
+import { Locale } from "@/lib/i18n";
 
-interface PageProps {
-  params: Promise<{ locale: string }>;
-}
+export const revalidate = 60;
 
-export default async function Portfolio({ params }: PageProps) {
-  const { locale } = await params;
-  const typedLocale = locale as "en" | "ar";
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description: "Case studies and projects delivered by Axuraa.",
+};
 
-  const [projectsResult, servicesResult] = await Promise.all([
-    getAllProjects(typedLocale),
-    getAllServices(typedLocale),
-  ]);
-
-  console.log("Projects Result:", projectsResult);
-  console.log("Services Result:", servicesResult);
-
+export default async function Portfolio({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = (await params).locale as Locale;
+  const [projects, services] = await Promise.all([getAllProjects(locale), getAllServices(locale)]);
   return (
-    <PortfolioPage
-      projects={projectsResult.data ?? []}
-      services={servicesResult.data ?? []}
-      locale={typedLocale}
-    />
+    <PortfolioPage projects={projects.data ?? []} services={services.data ?? []} locale={locale} />
   );
 }

@@ -13,20 +13,12 @@ import ServicePackagesContainer from "@/components/Molecules/ServicePackagesCont
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import { ServiceItem } from "@/service/serviceId/serviceId";
 
-// Helper — handles both plain strings and localized objects
-function getStr(field: unknown, locale: "en" | "ar"): string {
-  if (!field) return "";
-  if (typeof field === "string") return field;
-  if (typeof field === "object") {
-    const f = field as Record<string, string>;
-    return f[locale] || f["en"] || Object.values(f)[0] || "";
-  }
-  return "";
-}
+import { useRouter } from "next/navigation";
+import { Locale, localize as getStr } from "@/lib/i18n";
 
 interface Props {
   service: ServiceItem;
-  locale: "en" | "ar";
+  locale: Locale;
 }
 
 const developmentProcess = [
@@ -122,6 +114,7 @@ const servicePackages = [
 ];
 
 const ServicePage: React.FC<Props> = ({ service, locale }) => {
+  const router = useRouter();
   const features =
     service.features?.map((f, i) => ({
       id: i + 1,
@@ -131,7 +124,11 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
     })) ?? [];
 
   const successStories =
-    service.projects?.map(({ projects_id: p }) => ({
+    service.projects
+      ?.map((sp) => sp.projects_id)
+      // a link can outlive its project; skip dangling references
+      .filter((p): p is NonNullable<typeof p> => Boolean(p?._id))
+      .map((p) => ({
       id: p._id,
       title: getStr(p.title, locale),
       description: getStr(p.overview, locale),
@@ -230,7 +227,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             Features & Capabilities
           </h1>
           <p className={styles.FeaturesCapabilitiesDescription}>
-            {getStr((service as any).description_features, locale) ||
+            {getStr(service.description_features, locale) ||
               "Comprehensive services designed to build and scale your digital presence."}
           </p>
         </div>
@@ -263,12 +260,12 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         <div className={styles.SuccessStoriesContent}>
           <h1 className={styles.SuccessStoriesTitle}>Success Stories</h1>
           <p className={styles.SuccessStoriesDescription}>
-            {getStr((service as any).description_stories, locale) ||
+            {getStr(service.description_stories, locale) ||
               "Real results demonstrating measurable improvements in digital performance."}
           </p>
         </div>
         <div className={styles.SuccessStoriesContainer}>
-          <SuccessStoriesContainer stories={successStories} />
+          <SuccessStoriesContainer stories={successStories} locale={locale} />
         </div>
         <div className={styles.testimonialSection}>
           <div className={styles.testimonialContent}>
@@ -280,9 +277,9 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
               height={30}
             />
             <p className={styles.testimonialText}>
-              "The team completely transformed our online presence. Their design
+              &ldquo;The team completely transformed our online presence. Their design
               sense is brilliant, and the development process was smooth and
-              transparent."
+              transparent.&rdquo;
             </p>
             <div className={styles.testimonialAuthor}>
               <div className={styles.authorIcon}>
@@ -327,9 +324,8 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
           </div>
           <button
             className={styles.ctaButton}
-            onClick={() =>
-              (window.location.href = `/${locale}/contact#contact-form`)
-            }
+            type="button"
+            onClick={() => router.push(`/${locale}/contact#contact-form`)}
           >
             Schedule Free Assessment
           </button>
