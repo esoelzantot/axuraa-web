@@ -805,3 +805,20 @@
     gap: 0.75rem;
   }
 }
+/* === Shared page layout (kept last) ===
+   The hero always clears the fixed header itself and uses the shared
+   side gutter, so it looks the same on every page and needs no wrapper
+   padding (heroes are full-bleed). */
+.hero {
+  padding-top: calc(var(--header-height, 72px) + clamp(1.25rem, 4vw, 3rem));
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    padding-top: calc(var(--header-height, 64px) + 1rem);
+    padding-bottom: 1.5rem;
+  }
+}

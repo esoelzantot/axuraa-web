@@ -1,127 +1,53 @@
+/*
+  Home "Our Projects" section.
+  Content (see-all link + grid) shares one max width, so the link
+  always lines up with the grid's right edge.
+*/
 .ProjectSection {
-  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.0rem;
-  padding: 3.0rem 1rem;
-  background: #191b1f;
+  gap: 1rem;
+  width: 100%;
   margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4rem) var(--page-gutter, 1rem);
+  background: #191b1f;
 }
 
 .ProjectGrid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+  justify-items: center;
+  align-items: stretch;
   width: 100%;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  row-gap: 1.4rem;
-  gap: 25px;
-  margin: 0 auto;
-  padding: 1rem 6rem;
+  max-width: var(--content-max, 75rem);
+  margin: 0.5rem auto 0;
+}
+
+.ProjectGrid > * {
+  min-width: 0;
+  width: 100%;
 }
 
 @media (max-width: 1024px) {
-  .ProjectSection {
-    padding: 2.5rem 1.8rem;
-    gap: 1rem;
-  }
-
   .ProjectGrid {
-    max-width: 44rem;
-    justify-content: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 46rem;
   }
 }
 
-@media (max-width: 768px) {
-  .ProjectSection {
-    padding: 1.875rem 1.25rem;
-    gap: 1rem;
-  }
-
+@media (max-width: 640px) {
   .ProjectGrid {
-    max-width: 25rem;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 26rem;
   }
 }
 
-@media (max-width: 440px) {
-  .ProjectSection {
-    padding: 1.5rem 1rem;
-    gap: 0.875rem;
-  }
-
+/* Phones in landscape: three compact columns */
+@media (orientation: landscape) and (max-height: 480px) and (min-width: 640px) {
   .ProjectGrid {
-    max-width: 25rem;
-    max-width: 21.4rem;
-    gap: 1.4rem;
-    padding: 0.6rem;
-  }
-}
-
-@media (max-width: 375px) {
-  .ProjectSection {
-    padding: 1.25rem 0.75rem;
-    gap: 0.75rem;
-  }
-
-  .ProjectGrid {
-    max-width: 25rem;
-    gap: 1rem;
-  }
-}
-
-/* ════════════════════════════════════════
-   LANDSCAPE — Mobile (height ≤ 480px)
-   ════════════════════════════════════════ */
-@media (orientation: landscape) and (max-height: 480px) {
-  .ProjectSection {
-    margin: 0;
-    padding: 1rem 1rem;
-    gap: 0.75rem;
-    overflow-x: hidden;
-    box-sizing: border-box;
-  }
-
-  .ProjectGrid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(0.5rem, 1.1rem, 1rem);
-    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     max-width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
-  }
-}
-
-@media (orientation: landscape) and (max-height: 480px) and (min-width: 736px) {
-  .ProjectGrid {
-    gap: 1rem;
-  }
-}
-
-/* ════════════════════════════════════════
-   LANDSCAPE — Tablet (height 481px–1024px)
-   ════════════════════════════════════════ */
-@media (orientation: landscape) and (min-height: 481px) and (max-height: 1024px) {
-  .ProjectSection {
-    padding: 1.5rem 2rem;
-    gap: 1rem;
-  }
-
-  .ProjectGrid {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    max-width: 100%;
-    gap: 1rem;
   }
 }

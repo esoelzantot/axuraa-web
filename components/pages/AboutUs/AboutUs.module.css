@@ -57,3 +57,8 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.container {
+  padding: 0;
+}

@@ -1,61 +1,72 @@
-// components/UI/ProjectCard/ProjectCard.tsx
 "use client";
+
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import styles from "./ProjectCart.module.css";
-import Link from "next/link";
-
 import { ProjectCardProps } from "@/types/Generals/cardTypes";
 
+/**
+ * Project card used on the home page and the portfolio grid.
+ * Layout: 16:9 image -> title (2 lines max) -> category tags (2 rows max)
+ * -> key result -> "Read More" pinned to the bottom of the card.
+ */
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   title,
   category,
-  categories = [],  // ← add this prop
+  categories = [],
   percentage,
   description,
   imageUrl,
   locale = "en",
 }) => {
-  const displayCategories = categories.length > 0 ? categories : [category];
+  const tags = categories.length > 0 ? categories : [category];
+  const href = `/${locale || "en"}/case-study/${id}`;
+  const remote = imageUrl.startsWith("http") && !imageUrl.includes("res.cloudinary.com");
 
   return (
-    <div className={styles.card}>
-      <div className={styles.imageContainer}>
+    <article className={styles.card}>
+      <Link href={href} className={styles.imageContainer} tabIndex={-1} aria-hidden="true">
         <Image
           src={imageUrl}
-          alt={title}
-          width={356}
-          height={208}
+          alt=""
+          fill
+          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 380px"
           className={styles.projectImage}
+          unoptimized={remote}
         />
-      </div>
+      </Link>
 
       <div className={styles.content}>
-        <h3 className={styles.title}>{title}</h3>
+        <h3 className={styles.title} title={title}>
+          {title}
+        </h3>
 
-        {/* Replace single badge with mapped badges */}
-        <div className={styles.badgesRow}>
-          {displayCategories.map((cat) => (
-            <span key={cat} className={styles.badge} title={cat}>{cat}</span>
+        <ul className={styles.badgesRow} aria-label="Categories">
+          {tags.map((tag) => (
+            <li key={tag} className={styles.badge} title={tag}>
+              {tag}
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className={styles.statsRow}>
-          <div className={styles.percentage}>{percentage}</div>
-          <p className={styles.description}>{description}</p>
+          <span className={styles.percentage}>{percentage}</span>
+          <p className={styles.description} title={description}>
+            {description}
+          </p>
         </div>
 
-        <Link
-          href={`/${locale || "en"}/case-study/${id}`}
-          className={styles.readMore}
-        >
+        <Link href={href} className={styles.readMore}>
           Read More
-          <FiArrowRight className={styles.arrowIcon} />
+          <FiArrowRight className={styles.arrowIcon} aria-hidden="true" />
+          <span className={styles.srOnly}> about {title}</span>
         </Link>
       </div>
-    </div>
+    </article>
   );
 };
+
 export default ProjectCard;

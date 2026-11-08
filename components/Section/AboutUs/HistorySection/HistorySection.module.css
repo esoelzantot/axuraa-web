@@ -172,3 +172,24 @@
     min-height: 28.125rem;
   }
 }
+/* Phones/tablets: the card wrapper sizes to the card (no fixed 450-500px block) */
+@media (max-width: 48rem) {
+  .card_container {
+    position: static;
+    height: auto;
+    min-height: 0;
+    justify-content: center;
+  }
+}
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.history_section {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}
+
+/* Wide screens: keep the timeline + card at the content width */
+.container {
+  max-width: var(--content-max, 75rem);
+  margin: 0 auto;
+}

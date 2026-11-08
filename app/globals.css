@@ -3,6 +3,10 @@
   --foreground: #ededed;
   /* Height of the fixed header; used for anchor offsets and page top spacing */
   --header-height: 72px;
+  /* Shared page layout: one horizontal gutter + content width for every page.
+     Hero sections stay full-bleed; section content uses these. */
+  --page-gutter: clamp(1rem, 4vw, 2.5rem);
+  --content-max: 75rem; /* 1200px */
   color-scheme: dark;
 }
 

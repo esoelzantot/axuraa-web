@@ -155,3 +155,16 @@
         padding: 0.5rem; /* Tighter padding */
     }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.BusinessPage {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.BusinessContainer {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+  margin-left: auto;
+  margin-right: auto;
+}

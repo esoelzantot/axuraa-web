@@ -1508,3 +1508,174 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ============================================================
+   Project image frame — a branded "browser window":
+   gradient border, address bar with the project's domain,
+   soft glow behind, optional second image floating on a corner.
+   ============================================================ */
+.frame {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: clamp(1.25rem, 3vw, 2rem) auto clamp(1.5rem, 4vw, 2.5rem);
+  isolation: isolate;
+}
+
+.frameGlow {
+  position: absolute;
+  inset: 12% 6% -6%;
+  z-index: -1;
+  border-radius: 40px;
+  background: radial-gradient(60% 60% at 50% 60%, rgba(208, 74, 29, 0.45), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.frameWindow {
+  position: relative;
+  padding: 1px;
+  border-radius: 18px;
+  /* gradient hairline border */
+  background: linear-gradient(135deg, rgba(240, 101, 47, 0.9), rgba(255, 255, 255, 0.08) 45%, rgba(208, 74, 29, 0.6));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.frameBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 17px 17px 0 0;
+  background: #20232a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.frameDots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.frameDots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a3d45;
+}
+
+.frameDots i:first-child {
+  background: #d04a1d;
+}
+
+.frameUrl {
+  flex: 1;
+  min-width: 0;
+  max-width: 320px;
+  margin: 0 auto;
+  height: 24px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.frameScreen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0 0 17px 17px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(208, 74, 29, 0.2), transparent 60%),
+    #15171b;
+}
+
+.frameImage {
+  object-fit: cover;
+}
+
+/* Secondary image floating over the bottom-right corner */
+.frameFloat {
+  position: absolute;
+  right: -28px;
+  bottom: -28px;
+  width: 32%;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(240, 101, 47, 0.6);
+  background: #15171b;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+  transform: rotate(3deg);
+}
+
+@media (max-width: 1100px) {
+  .frameFloat {
+    right: -12px;
+    bottom: -18px;
+  }
+}
+
+/* Phones: simpler frame, no floating image */
+@media (max-width: 640px) {
+  .frameBar {
+    height: 32px;
+    padding: 0 10px;
+  }
+
+  .frameDots i {
+    width: 8px;
+    height: 8px;
+  }
+
+  .frameUrl {
+    height: 20px;
+    font-size: 11px;
+    line-height: 20px;
+  }
+
+  .frameFloat {
+    display: none;
+  }
+
+  .frameGlow {
+    filter: blur(28px);
+  }
+}
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.breadcrumbContent,
+.main {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}
+
+.breadcrumbContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.container {
+  margin-top: var(--header-height, 72px);
+}
+
+/* The secondary image can be a screenshot or a small icon from the CMS:
+   show it whole (contain) on a branded tile so both look intentional. */
+.frameFloat {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(208, 74, 29, 0.35), transparent 65%),
+    #20232a;
+}
+
+.frameFloat .frameImage {
+  object-fit: contain;
+  padding: 12%;
+}

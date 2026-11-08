@@ -45,7 +45,7 @@ const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
           <SectionHeader
             title1=""
             title2=" Our Team"
-            subtitle="Discover our comprehensive suite of services designed to elevate your digital presence"
+            subtitle="The engineers, designers and strategists behind every product we ship"
           />
         </div>
 
@@ -54,7 +54,7 @@ const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
             <TeamCard
               key={member._id}
               name={member.name}
-              role={member.role_id.description || member.role_id.title}
+              role={member.role_id.title || member.role_id.description || ""}
               imageUrl={member.image_url}
               description={member.bio}
             />

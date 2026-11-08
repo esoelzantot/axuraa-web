@@ -69,3 +69,9 @@
     min-height: unset;
   }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.RatingSection {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

@@ -151,3 +151,8 @@
     padding: 0 1rem;
   }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.mainSection {
+  margin-top: 0;
+}

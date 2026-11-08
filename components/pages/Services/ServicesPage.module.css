@@ -123,3 +123,16 @@
     justify-content: center;
     align-items: center;
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.servicesPage {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.servicesContainer {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+  margin-left: auto;
+  margin-right: auto;
+}

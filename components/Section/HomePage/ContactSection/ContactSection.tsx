@@ -101,7 +101,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
               }}
             />
             <ContactInfoCard
-              icon="/assets/EmailIcon.svg"
+              icon="/assets/emailicon.svg"
               label="Email"
               value={email}
               onClick={() => {
