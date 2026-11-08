@@ -1,27 +1,9 @@
 "use client";
 
 import React, { useCallback, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Bot,
-  Calculator,
-  CalendarDays,
-  Check,
-  ClipboardList,
-  Cloud,
-  Code2,
-  GraduationCap,
-  Monitor,
-  Network,
-  Paintbrush,
-  ShoppingCart,
-  Smartphone,
-  Sparkles,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
+import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
 import styles from "./ServiceCard.module.css";
 
 interface ServiceCardProps {
@@ -39,46 +21,7 @@ interface ServiceCardProps {
   onButtonClick?: () => void;
 }
 
-/** The CMS stores some icons as names (Font Awesome style); map them to vector icons. */
-const NAMED_ICONS: Record<string, LucideIcon> = {
-  cloud: Cloud,
-  "cash-register": Calculator,
-  "clipboard-list": ClipboardList,
-  "shopping-cart": ShoppingCart,
-  "calendar-alt": CalendarDays,
-  calendar: CalendarDays,
-  "graduation-cap": GraduationCap,
-  tools: Wrench,
-  wrench: Wrench,
-  "paint-brush": Paintbrush,
-  robot: Bot,
-  sitemap: Network,
-  code: Code2,
-  mobile: Smartphone,
-  desktop: Monitor,
-};
-
 const MAX_FEATURES = 4;
-
-const ServiceIcon = ({ icon, title }: { icon?: string; title: string }) => {
-  const value = icon?.trim() ?? "";
-  if (value.startsWith("http") || value.startsWith("/")) {
-    const remote = value.startsWith("http") && !value.includes("res.cloudinary.com");
-    return (
-      <Image
-        src={value}
-        alt=""
-        fill
-        sizes="56px"
-        className={styles.iconImage}
-        unoptimized={remote}
-        aria-hidden="true"
-      />
-    );
-  }
-  const Icon = NAMED_ICONS[value.toLowerCase()] ?? Sparkles;
-  return <Icon className={styles.iconSvg} aria-label={title} strokeWidth={1.75} />;
-};
 
 /**
  * Service / solution card — dark surface with a cursor-following glow,
@@ -133,7 +76,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
       <div className={styles.top}>
         <div className={styles.iconTile}>
-          <ServiceIcon icon={iconUrl} title={title} />
+          <ServiceIcon
+            icon={iconUrl}
+            title={title}
+            sizes="56px"
+            imageClassName={styles.iconImage}
+            svgClassName={styles.iconSvg}
+          />
         </div>
         <span className={styles.kind}>{variant === "solution" ? "Solution" : "Service"}</span>
       </div>
