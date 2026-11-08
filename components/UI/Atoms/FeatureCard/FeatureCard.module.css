@@ -174,3 +174,14 @@
     height: 8px;
   }
 }
+
+/* Never wider than the grid cell / screen */
+.card {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.title,
+.description {
+  max-width: 100%;
+}

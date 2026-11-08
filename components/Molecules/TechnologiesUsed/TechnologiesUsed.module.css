@@ -106,3 +106,9 @@
     line-height: 18.297px;
   }
 }
+/* Responsive guard: shrink with the screen; height follows the content */
+.container {
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}

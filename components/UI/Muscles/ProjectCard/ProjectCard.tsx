@@ -38,7 +38,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Replace single badge with mapped badges */}
         <div className={styles.badgesRow}>
           {displayCategories.map((cat) => (
-            <span key={cat} className={styles.badge}>{cat}</span>
+            <span key={cat} className={styles.badge} title={cat}>{cat}</span>
           ))}
         </div>
 

@@ -4,7 +4,6 @@
 import React from "react";
 import { ExternalLink, Package } from "lucide-react";
 import styles from "./CaseStudyPage.module.css";
-import ProjectButton from "@/components/UI/Atoms/ProjectButton/ProjectButton";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -133,26 +132,9 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
 
               <div className={styles.tags}>
                 {caseStudy.tags.map((tag, idx) => (
-                  <ProjectButton
-                    key={idx}
-                    variant="outline"
-                    style={{
-                      display: "flex",
-                      padding: "2.167px 8.247px 1.464px 10.26px",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "10px",
-                      border: "0 solid #E5E7EB",
-                      backgroundColor: "#D04A1D",
-                      color: "#FFF",
-                      fontSize: "12.667px",
-                      fontWeight: 400,
-                      lineHeight: "18.297px",
-                      margin: 0,
-                    }}
-                  >
+                  <span key={idx} className={styles.tag}>
                     {tag}
-                  </ProjectButton>
+                  </span>
                 ))}
               </div>
 

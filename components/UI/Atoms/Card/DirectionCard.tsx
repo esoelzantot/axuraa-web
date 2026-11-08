@@ -25,7 +25,7 @@ const DirectionCard: React.FC<DirectionCardProps> = ({
   iconSrc = "/assets/DirectionIcon.svg",  
   title,
   description,
-  borderRadius = "0 0 68.087px 0",
+  borderRadius,
   onClick,
   href
 }) => {
@@ -45,7 +45,7 @@ const DirectionCard: React.FC<DirectionCardProps> = ({
     // Uses CSS modules for styling and applies hover class when isHovered is true
     <div 
       className={`${styles.card} ${isHovered ? styles.hovered : ''} ${(onClick || href) ? styles.clickable : ''}`}
-      style={{ '--card-border-radius': borderRadius } as React.CSSProperties}
+      style={borderRadius ? ({ '--card-border-radius': borderRadius } as React.CSSProperties) : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
@@ -81,7 +81,7 @@ const DirectionCard: React.FC<DirectionCardProps> = ({
 
         {/* Card title and description */}
 
-        <h2 className={styles.title}>{title}</h2>
+        <h3 className={styles.title}>{title}</h3>
 
 
          <p className={styles.description}>{description}</p>

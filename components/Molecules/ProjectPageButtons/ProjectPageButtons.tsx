@@ -21,12 +21,14 @@ const ProjectPageButtons: React.FC<ProjectPageButtonsProps> = ({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <div className={styles.buttonsWrapper}>
+      <div className={styles.buttonsWrapper} role="group" aria-label="Filter projects">
         {filters.map((filter) => (
           <ProjectButton
             key={filter}
             variant={activeFilter === filter ? "primary" : "outline"}
             onClick={() => onFilterChange(filter)}
+            title={filter}
+            pressed={activeFilter === filter}
             className={`${styles.filterButton} ${
               activeFilter === filter ? styles.active : ""
             }`}

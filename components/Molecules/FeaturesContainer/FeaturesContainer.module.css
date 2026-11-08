@@ -111,3 +111,8 @@
     font-size: 16px;
   }
 }
+/* Responsive guard: with min-width 0 the 1fr tracks can shrink below the
+   cards' min-content width, so the existing column counts never overflow */
+.cardsGrid > * {
+  min-width: 0;
+}

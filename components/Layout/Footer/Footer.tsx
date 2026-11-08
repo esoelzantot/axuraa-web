@@ -112,11 +112,7 @@ const Footer = async () => {
                   <ul className={styles.linkList}>
                     {solutionLinks.map((service) => (
                       <li key={service._id}>
-                        <LocalizedLink
-                          href={`/service/${service._id}`}
-                          className={styles.link}
-                          style={{ whiteSpace: "nowrap" }}
-                        >
+                        <LocalizedLink href={`/service/${service._id}`} className={styles.link}>
                           {localize(service.title, locale)}
                         </LocalizedLink>
                       </li>

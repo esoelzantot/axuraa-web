@@ -162,3 +162,34 @@
 html {
   scroll-behavior: smooth;
 }
+/* ============================================================
+   Responsive guard (kept last): tracks may shrink below the
+   cards' min-content width (minmax(0, …)), and the page
+   container already provides the side padding.
+   ============================================================ */
+.projectsGrid {
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+
+.gridItem {
+  min-width: 0;
+}
+
+@media (min-width: 1200px) {
+  .projectsGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .projectsGrid {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 480px) {
+  .projectsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  }
+}

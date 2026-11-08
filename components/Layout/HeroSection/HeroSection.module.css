@@ -13,7 +13,10 @@
   justify-content: center;
   position: relative;
   padding: 5% 1.5rem;
-  overflow: visible;
+  /* Clip the decorative circles sideways only (no horizontal scroll),
+     while letting content and shadows overflow vertically */
+  overflow-x: clip;
+  overflow-y: visible;
   /* was "hidden" — that combined with fixed height/max-height
                          is what was clipping the content in landscape */
   margin-top: 1.5%;
@@ -381,7 +384,7 @@
   }
 
   .badgeContant {
-    font-size: 0.71875rem;
+    font-size: 12px;
     line-height: 0.9375rem;
   }
 
@@ -449,7 +452,7 @@
   }
 
   .badgeContant {
-    font-size: 0.6875rem;
+    font-size: 12px;
     line-height: 0.875rem;
   }
 
@@ -577,7 +580,7 @@
   }
 
   .badgeContant {
-    font-size: 0.625rem;
+    font-size: 12px;
     line-height: 0.8125rem;
     letter-spacing: 0.0125rem;
   }
@@ -634,7 +637,7 @@
   }
 
   .badgeContant {
-    font-size: 0.5625rem;
+    font-size: 12px;
     line-height: 0.75rem;
     letter-spacing: 0.009375rem;
   }
@@ -689,7 +692,7 @@
   }
 
   .badgeContant {
-    font-size: 0.53125rem;
+    font-size: 12px;
     line-height: 0.6875rem;
     letter-spacing: 0.00625rem;
   }
@@ -752,7 +755,7 @@
   }
 
   .badgeContant {
-    font-size: 0.625rem;
+    font-size: 12px;
     line-height: 0.8125rem;
   }
 

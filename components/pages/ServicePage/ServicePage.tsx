@@ -167,7 +167,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
 
       <div className={styles.contentSection1}>
         <div className={styles.contentSection2}>
-          <h1 className={styles.contentSection2Title}>What We Do</h1>
+          <h2 className={styles.contentSection2Title}>What We Do</h2>
           <p className={styles.contentSection2Description}>
             {getStr(service.what_we_do?.description, locale) ||
               "Our experts build exceptional digital experiences."}
@@ -223,9 +223,9 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             text="OUR FEATURES"
             className={styles.FeaturesStatusBadge}
           />
-          <h1 className={styles.FeaturesCapabilitiesTitle}>
+          <h2 className={styles.FeaturesCapabilitiesTitle}>
             Features & Capabilities
-          </h1>
+          </h2>
           <p className={styles.FeaturesCapabilitiesDescription}>
             {getStr(service.description_features, locale) ||
               "Comprehensive services designed to build and scale your digital presence."}
@@ -242,9 +242,9 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             text="OUR PROCESS"
             className={styles.DevelopmentStatusBadge}
           />
-          <h1 className={styles.OurDevelopmentProcessTitle}>
+          <h2 className={styles.OurDevelopmentProcessTitle}>
             Our Development Process
-          </h1>
+          </h2>
           <p className={styles.OurDevelopmentProcessDescription}>
             A systematic approach that ensures a high-quality product through
             discovery, design, implementation, and support.
@@ -258,7 +258,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
       <div className={styles.SuccessStories}>
         <StatusBadge text="OUR STORIES" className={styles.StoriesStatusBadge} />
         <div className={styles.SuccessStoriesContent}>
-          <h1 className={styles.SuccessStoriesTitle}>Success Stories</h1>
+          <h2 className={styles.SuccessStoriesTitle}>Success Stories</h2>
           <p className={styles.SuccessStoriesDescription}>
             {getStr(service.description_stories, locale) ||
               "Real results demonstrating measurable improvements in digital performance."}
@@ -303,7 +303,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
       <div className={styles.ServicePackages}>
         <div className={styles.ServicePackagesContent}>
           <StatusBadge text="OUR PACKAGES" />
-          <h1 className={styles.ServicePackagesTitle}>Service Packages</h1>
+          <h2 className={styles.ServicePackagesTitle}>Service Packages</h2>
           <p className={styles.ServicePackagesDescription}>
             Choose the solution that fits your business needs.
           </p>
@@ -316,7 +316,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         </div>
         <div className={styles.ctaSection}>
           <div className={styles.ctaText}>
-            <h1 className={styles.ctaText1}>Free Project Consultation</h1>
+            <h2 className={styles.ctaText1}>Free Project Consultation</h2>
             <p className={styles.ctaText2}>
               Get a comprehensive evaluation of your project goals with our
               complimentary assessment.
