@@ -101,10 +101,18 @@ a:focus-visible > .card {
   letter-spacing: -0.01em;
   text-align: center;
   overflow-wrap: anywhere;
+  /* Max 2 lines, then ellipsis (full text stays in the DOM for screen readers) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Reserve 2 lines so descriptions line up across a row */
+  min-height: calc(2 * 1.25em);
 }
 
 .description {
-  margin: auto 0 0;
+  margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -167,6 +175,7 @@ a:focus-visible > .card {
     grid-area: title;
     text-align: start;
     font-size: 1.05rem;
+    min-height: 0;
   }
 
   .description {

@@ -53,3 +53,18 @@
   padding-left: var(--page-gutter, 1rem);
   padding-right: var(--page-gutter, 1rem);
 }
+
+/* === Standard alignment: content spans --content-max inside --page-gutter === */
+.servicesSection {
+  max-width: none;
+}
+
+.servicesGrid {
+  max-width: var(--content-max, 70rem);
+}
+
+@media (max-width: 900px) {
+  .servicesGrid {
+    max-width: 40rem;
+  }
+}

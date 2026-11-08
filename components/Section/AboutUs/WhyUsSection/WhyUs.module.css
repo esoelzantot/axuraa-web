@@ -246,3 +246,10 @@
   padding-left: var(--page-gutter, 1rem);
   padding-right: var(--page-gutter, 1rem);
 }
+
+/* === Standard alignment: content spans --content-max inside --page-gutter === */
+.cardsGrid {
+  width: 100%;
+  max-width: var(--content-max, 70rem);
+  margin: 2.5rem auto 0;
+}

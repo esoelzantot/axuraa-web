@@ -55,7 +55,7 @@ const PortfolioPage = ({ projects, services, locale }: Props) => {
         showEllipseDecorations={true}
         showStatusBadge={true}
         backgroundType="Circle"
-        height="75vh"
+        height="70vh"
       />
 
       <div className={styles.projectsSection}>

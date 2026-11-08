@@ -75,3 +75,8 @@
   padding-left: var(--page-gutter, 1rem);
   padding-right: var(--page-gutter, 1rem);
 }
+
+/* The section is full-width; the stats row inside caps at --content-max */
+.RatingSection {
+  max-width: none;
+}

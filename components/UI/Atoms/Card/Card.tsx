@@ -62,10 +62,10 @@ const Card: React.FC<CardProps> = ({
 
         {/* Card title and description */}
 
-        <h3 className={styles.title}>{title}</h3>
+        <h3 className={styles.title} title={title}>{title}</h3>
 
 
-         <p className={styles.description}>{description}</p>
+         <p className={styles.description} title={description}>{description}</p>
 
         {/* Optional link that appears on hover */}
         {/* {link && (

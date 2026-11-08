@@ -6,7 +6,7 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  max-width: var(--content-max, 75rem);
+  max-width: var(--content-max, 70rem);
   margin: 0 auto;
 }
 

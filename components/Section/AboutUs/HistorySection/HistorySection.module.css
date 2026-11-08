@@ -190,6 +190,12 @@
 
 /* Wide screens: keep the timeline + card at the content width */
 .container {
-  max-width: var(--content-max, 75rem);
+  max-width: var(--content-max, 70rem);
   margin: 0 auto;
+}
+
+/* Grid starts at the content edge like every other section */
+.content_wrapper {
+  margin-left: 0;
+  margin-right: 0;
 }

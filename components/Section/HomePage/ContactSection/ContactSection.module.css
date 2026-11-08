@@ -325,3 +325,30 @@
   padding-left: var(--page-gutter, 1rem);
   padding-right: var(--page-gutter, 1rem);
 }
+
+/* === Standard alignment: content spans --content-max inside --page-gutter === */
+.ContactSection {
+  max-width: calc(var(--content-max, 70rem) + 2 * var(--page-gutter, 1rem));
+  min-height: 0;
+  margin: 0 auto;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.ContactGrid {
+  max-width: 100%;
+  min-height: 0;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* Stacked layout: info + form use the full content width, like every other section */
+@media (max-width: 62rem) {
+  .Contantinfo,
+  .Contantform,
+  .contactFormWrapper {
+    width: 100%;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
