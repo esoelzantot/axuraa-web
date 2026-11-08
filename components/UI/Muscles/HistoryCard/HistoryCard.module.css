@@ -345,3 +345,28 @@
     font-size: 0.875rem;
   }
 }
+/* ============================================================
+   Simplified surface (kept last so it wins at every size):
+   solid card + hairline border + soft shadow. The old heavy
+   shadow on a translucent, blurred card produced a dark halo.
+   ============================================================ */
+.history_card {
+  background: linear-gradient(180deg, #23262e 0%, #1d2026 100%);
+  backdrop-filter: none;
+  border: 1px solid rgba(208, 74, 29, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.history_card:hover {
+  border-color: rgba(208, 74, 29, 0.45);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(208, 74, 29, 0.12);
+}
+
+/* Phones: size to content instead of a fixed 450-500px block */
+@media (max-width: 48rem) {
+  .history_card {
+    min-height: 0;
+    max-width: 100%;
+    padding: 2.5rem 1.5rem;
+  }
+}

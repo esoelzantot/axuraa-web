@@ -138,3 +138,9 @@
     /* margin-left: -32%; */
   }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.emailSection {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

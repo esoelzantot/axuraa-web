@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 75rem;
   margin: 0 auto;
-  padding: clamp(2.5rem, 6vw, 4rem) clamp(1rem, 4vw, 2rem);
+  padding: clamp(2.5rem, 6vw, 4rem) var(--page-gutter, 1rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,4 +46,10 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     max-width: 100%;
   }
+}
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.servicesSection {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
 }

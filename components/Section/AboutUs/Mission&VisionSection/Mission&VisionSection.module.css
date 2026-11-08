@@ -160,3 +160,9 @@
     transform: translateY(0);
   }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.section {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

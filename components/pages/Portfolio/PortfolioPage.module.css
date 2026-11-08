@@ -148,3 +148,14 @@
     padding-inline: clamp(1rem, 4vw, 2rem);
     box-sizing: border-box;
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.portfolioPage {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.container {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

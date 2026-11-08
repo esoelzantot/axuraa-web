@@ -142,3 +142,9 @@
     gap: 1rem;
   }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.WorkerSection {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

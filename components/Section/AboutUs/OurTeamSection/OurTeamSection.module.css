@@ -234,7 +234,7 @@
 }
 /* ============================================================
    Responsive team grid (kept last so it wins at every size).
-   Cards keep their designed 11.5rem width and wrap onto new
+   Cards are up to 13rem wide and wrap onto new
    rows; the old single-row flex layout ran off-screen on tablets.
    ============================================================ */
 .teamSection {
@@ -243,7 +243,7 @@
 
 .teamGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(11.5rem, 100%), 11.5rem));
+  grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 13rem));
   justify-content: center;
   align-items: stretch;
   gap: clamp(1rem, 2vw, 1.75rem);
@@ -265,4 +265,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.875rem;
   }
+}
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.teamSection {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
 }

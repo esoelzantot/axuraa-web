@@ -319,3 +319,9 @@
     max-width: 25rem;
   }
 }
+
+/* === Shared page layout (full-bleed heroes + --page-gutter) === */
+.ContactSection {
+  padding-left: var(--page-gutter, 1rem);
+  padding-right: var(--page-gutter, 1rem);
+}

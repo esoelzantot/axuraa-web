@@ -1,124 +1,48 @@
+/*
+  "See all" link row. Spans its container (not the viewport) and aligns
+  the link to the end, so it lines up with the right edge of the grid below.
+*/
 .linkContainer {
-  width: 100vw;
-  height: 28px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: var(--content-max, 75rem);
   margin: 0 auto;
-  align-self: stretch;
-  text-align: right;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  padding-right: 4rem;
 }
 
 .link {
-  color: var(--Primary, #D04A1D);
-  text-decoration-line: underline;
-  text-decoration-style: solid;
-  text-decoration-skip-ink: auto;
-  text-decoration-thickness: auto;
-  text-underline-offset: auto;
-  text-underline-position: from-font;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: color 0.2s ease;
-}
-
-.link:hover {
-  color: #ff6b35;
+  min-height: 40px;
+  color: #d04a1d;
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease, gap 0.2s ease;
 }
 
 .arrowIcon {
+  flex-shrink: 0;
+  width: 1.1em;
+  height: 1.1em;
   transition: transform 0.2s ease;
 }
 
-.link:hover .arrowIcon {
+.link:hover,
+.link:focus-visible {
+  color: #f0652f;
+}
+
+.link:hover .arrowIcon,
+.link:focus-visible .arrowIcon {
   transform: translateX(4px);
 }
 
-@media (width: 1024px) {
+/* Phones: center the link under the section title */
+@media (max-width: 640px) {
   .linkContainer {
-    padding: 0 24px;
-    /* background-color: aqua; */
-  }
-
-  .link {
-    margin-right: 150px;
-    /* background-color: blue; */
-    font-size: clamp(16px, 2vw, 20px);
-  }
-}
-
-/* Tablet */
-@media (width: 768px) {
-  .linkContainer {
-    padding: 0 24px;
-    /* background-color: aqua; */
-  }
-
-  .link {
-    margin-right: 150px;
-    /* background-color: blue; */
-    font-size: clamp(16px, 2vw, 20px);
-  }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .linkContainer {
-    padding: 0 16px;
-    text-align: right;
-  }
-
-  .link {
-    font-size: 14px;
-    text-underline-offset: 3px;
-  }
-
-  .arrowIcon {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-/* Small Mobile */
-@media (max-width: 360px) {
-  .link {
-    font-size: 13px;
-    gap: 4px;
-  }
-
-  .arrowIcon {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-@media (max-width: 600px) {
-  .linkContainer {
-    width: 343px;
-    height: 16px;
-
-  }
-
-  .link {
-    color: var(--Primary, #D04A1D);
-    text-align: right;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    text-decoration-line: underline;
-    text-decoration-style: solid;
-    text-decoration-skip-ink: auto;
-    text-decoration-thickness: auto;
-    text-underline-offset: auto;
-    text-underline-position: from-font;
-  }
-
-  .arrowIcon {
-    width: 20px;
-    height: 20px;
+    justify-content: center;
   }
 }

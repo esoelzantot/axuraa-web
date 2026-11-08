@@ -65,6 +65,17 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
     secondImage: project.second_image_url ?? null,
   };
 
+  // Domain shown in the frame's address bar (falls back to the site's own domain)
+  const frameHost = (() => {
+    try {
+      return caseStudy.url_deployment
+        ? new URL(caseStudy.url_deployment).hostname.replace(/^www\./, "")
+        : "axuraa.com";
+    } catch {
+      return "axuraa.com";
+    }
+  })();
+
   const projectDetails = [
     {
       icon: "/assets/ProjectDetailscard/client.svg",
@@ -139,16 +150,40 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
               </div>
 
               {caseStudy.mainImage && (
-                <div className={styles.preview}>
-                  <Image
-                    src={caseStudy.mainImage}
-                    alt={caseStudy.title ?? "Project image"}
-                    width={1200}
-                    height={600}
-                    className={styles.previewImage}
-                    priority
-                  />
-                </div>
+                <figure className={styles.frame}>
+                  <div className={styles.frameGlow} aria-hidden="true" />
+                  <div className={styles.frameWindow}>
+                    <div className={styles.frameBar} aria-hidden="true">
+                      <span className={styles.frameDots}>
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                      <span className={styles.frameUrl}>{frameHost}</span>
+                    </div>
+                    <div className={styles.frameScreen}>
+                      <Image
+                        src={caseStudy.mainImage}
+                        alt={caseStudy.title ?? "Project image"}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 760px"
+                        className={styles.frameImage}
+                        priority
+                      />
+                    </div>
+                  </div>
+                  {caseStudy.secondImage && (
+                    <div className={styles.frameFloat} aria-hidden="true">
+                      <Image
+                        src={caseStudy.secondImage}
+                        alt=""
+                        fill
+                        sizes="240px"
+                        className={styles.frameImage}
+                      />
+                    </div>
+                  )}
+                </figure>
               )}
             </section>
 
