@@ -1,6 +1,5 @@
-// components/EmailSection/EmailSection.tsx
 import React from "react";
-import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
+import SectionHead from "@/components/Layout/SectionHead/SectionHead";
 import EmailCard from "@/components/UI/Muscles/EmailCard/EmailCard";
 import styles from "./EmailSection.module.css";
 
@@ -12,42 +11,39 @@ interface ContactData {
 }
 
 interface EmailSectionProps {
-  title1?: string;
-  title2?: string;
+  eyebrow?: string;
+  title?: string;
   subtitle?: string;
   contacts: ContactData[];
   className?: string;
 }
 
 const EmailSection: React.FC<EmailSectionProps> = ({
-  title1 = "Contact via",
-  title2 = "email",
-  subtitle = "Choose the appropriate section for your inquiry",
+  eyebrow = "Email Us",
+  title = "Contact via Email",
+  subtitle = "Choose the appropriate section for your inquiry.",
   contacts,
   className = "",
 }) => {
-  return (
-    <section className={`${styles.emailSection} ${className}`}>
-      <div className={styles.header}>
-        <SectionHeader
-          title1={title1}
-          title2={title2}
-          subtitle={subtitle}
-          titleColor="#FFFFFF"
-          textAlign="center"
-        />
-      </div>
+  if (contacts.length === 0) return null;
 
-      <div className={styles.cardsGrid}>
-        {contacts.map((contact, index) => (
-          <EmailCard
-            key={`${contact.email}-${index}`}
-            name={contact.name}
-            email={contact.email}
-            description={contact.description}
-            icon={contact.icon}
-          />
-        ))}
+  return (
+    <section className={`${styles.emailSection} ${className}`} aria-labelledby="contact-email">
+      <div className={styles.container}>
+        <SectionHead id="contact-email" eyebrow={eyebrow} title={title} intro={subtitle} />
+
+        <div className={styles.cardsGrid}>
+          {contacts.map((contact, index) => (
+            <EmailCard
+              key={`${contact.email}-${index}`}
+              index={index}
+              name={contact.name}
+              email={contact.email}
+              description={contact.description}
+              icon={contact.icon}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -50,9 +50,10 @@ const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
         </div>
 
         <div className={styles.teamGrid}>
-          {displayedMembers.map((member) => (
+          {displayedMembers.map((member, i) => (
             <TeamCard
               key={member._id}
+              index={i}
               name={member.name}
               role={member.role_id.title || member.role_id.description || ""}
               imageUrl={member.image_url}

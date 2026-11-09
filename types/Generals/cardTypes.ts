@@ -49,6 +49,8 @@ export interface DevolperCardProps {
   authorName: string;
   authorRole: string;
   avatarSrc: string;
+  /** 1–5 stars from the client's testimonial; hidden when missing. */
+  rating?: number;
 }
 
 /** SpecialCard component props interface from path :

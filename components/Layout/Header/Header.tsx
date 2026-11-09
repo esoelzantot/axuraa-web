@@ -37,6 +37,15 @@ const Header = () => {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  // Slightly raised look once the page has scrolled.
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // While the drawer is open: lock page scroll and close on Escape.
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -87,7 +96,7 @@ const Header = () => {
   ];
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <div className={styles.headerContainer}>
         <Link
           href={homeHref}

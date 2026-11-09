@@ -143,18 +143,9 @@ const Contact = ({ contactData }: Props) => {
         height="70vh"
       />
 
-      <SocialMediaSection
-        title1=""
-        title2="Follow us on social media"
-        platforms={socialPlatforms}
-      />
+      <SocialMediaSection platforms={socialPlatforms} />
 
-      <EmailSection
-        title1=""
-        title2="Contact via email"
-        subtitle="Choose the appropriate section for your inquiry"
-        contacts={contactsData}
-      />
+      <EmailSection contacts={contactsData} />
 
       <div
         id="contact-form"
