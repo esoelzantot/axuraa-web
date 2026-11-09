@@ -1,80 +1,165 @@
 /*
-  Team member card — fluid portrait (3:4).
-  Fills its grid cell up to 13rem; name + role sit on a gradient
-  over the photo, so nothing depends on hover (touch-friendly).
+  Team member card — site card language: dark gradient surface,
+  gradient hairline border, framed 4:5 portrait over a warm glow,
+  numbered tag, name + role underneath. Fills its grid cell (max 14rem).
 */
 .card {
   position: relative;
-  width: 100%;
-  max-width: 13rem;
-  justify-self: center;
-  aspect-ratio: 3 / 4;
-  border-radius: 1.25rem 0 1.25rem 1.25rem;
-  border: 1.5px solid rgba(208, 74, 29, 0.85);
-  background: #1a1d24;
-  overflow: hidden;
   isolation: isolate;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 14rem;
+  justify-self: center;
+  padding: 8px 8px 0;
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 70% at 100% 0%, rgba(208, 74, 29, 0.12), transparent 55%),
+    linear-gradient(180deg, #23262e 0%, #1c1e24 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.media {
+/* Gradient hairline border */
+.card::before {
+  content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(240, 101, 47, 0.55), rgba(255, 255, 255, 0.06) 45%, rgba(208, 74, 29, 0.35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.35s ease;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #17191e;
+}
+
+/* Warm glow behind the subject (visible through transparent / dark photos) */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 55% at 50% 100%, rgba(208, 74, 29, 0.45), transparent 70%),
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.06), transparent 40%);
 }
 
 .image {
   object-fit: cover;
   object-position: center top;
-  transition: transform 0.5s ease;
+  filter: saturate(0.85);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(16, 17, 21, 0.65) 100%);
+  pointer-events: none;
+}
+
+.tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(16, 17, 21, 0.6);
+  border: 1px solid rgba(240, 101, 47, 0.45);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #f6a07a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .info {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 1;
-  padding: 2.5rem 0.875rem 0.875rem;
-  background: linear-gradient(to top, rgba(10, 11, 14, 0.92) 0%, rgba(10, 11, 14, 0.6) 55%, transparent 100%);
+  padding: 0.875rem 0.5rem 1rem;
+  text-align: center;
 }
 
 .name {
   margin: 0;
-  color: #fffdfd;
-  font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.1rem);
+  color: #fff;
+  font-size: clamp(0.98rem, 0.9rem + 0.3vw, 1.1rem);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .role {
-  margin: 0.25rem 0 0;
-  color: #f08a5d;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  margin: 0.4rem 0 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(208, 74, 29, 0.12);
+  color: #f6a07a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
   text-transform: uppercase;
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+}
+
+.roleDot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f0652f;
+  box-shadow: 0 0 0 3px rgba(240, 101, 47, 0.2);
 }
 
 @media (hover: hover) {
   .card:hover {
     transform: translateY(-6px);
-    border-color: #d04a1d;
-    box-shadow: 0 16px 32px rgba(208, 74, 29, 0.25);
+    box-shadow: 0 20px 40px rgba(208, 74, 29, 0.22);
+  }
+
+  .card:hover::before {
+    background: linear-gradient(160deg, #f0652f, rgba(255, 255, 255, 0.1) 45%, #d04a1d);
   }
 
   .card:hover .image {
     transform: scale(1.06);
+    filter: saturate(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 6px 6px 0;
+    border-radius: 18px;
+  }
+
+  .frame {
+    border-radius: 13px;
+  }
+
+  .info {
+    padding: 0.75rem 0.25rem 0.875rem;
+  }
+
+  .role {
+    font-size: 0.62rem;
+    padding: 3px 8px;
   }
 }
 

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import styles from "./SocialMediaSection.module.css";
@@ -21,27 +19,18 @@ const SocialMediaSection: React.FC<SocialMediaSectionProps> = ({
   platforms = [],
   className = "",
 }) => {
+  if (platforms.length === 0) return null;
+
   return (
     <section className={`${styles.section} ${className}`}>
-      {/* Gradient used by every SocialMediaCard icon (defined once to keep ids unique). */}
-      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true" focusable="false">
-        <defs>
-          <linearGradient id="socialIconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#D04A1D" />
-            <stop offset="100%" stopColor="#902501" />
-          </linearGradient>
-        </defs>
-      </svg>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <SectionHeader
-            title1={title1}
-            title2={title2}
-            subtitle={subtitle}
-            titleColor="#FFFFFF"
-            textAlign="center"
-          />
-        </div>
+        <SectionHeader
+          title1={title1}
+          title2={title2}
+          subtitle={subtitle}
+          titleColor="#FFFFFF"
+          textAlign="center"
+        />
 
         <div className={styles.cardsGrid}>
           {platforms.map((platform) => (

@@ -241,9 +241,10 @@
   padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 2rem);
 }
 
+/* Centered wrap: an incomplete last row stays centered */
 .teamGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 13rem));
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
   gap: clamp(1rem, 2vw, 1.75rem);
@@ -254,6 +255,7 @@
 
 .teamGrid > *,
 .teamGrid > *:last-child:nth-child(odd) {
+  flex: 0 1 14rem;
   grid-column: auto;
   max-width: none;
   margin: 0;
@@ -262,8 +264,16 @@
 /* Phones: two equal columns */
 @media (max-width: 480px) {
   .teamGrid {
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.875rem;
+  }
+
+  /* odd last card: center it under the pair above */
+  .teamGrid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: calc((100% - 0.875rem) / 2);
   }
 }
 

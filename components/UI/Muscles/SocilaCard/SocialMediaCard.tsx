@@ -1,50 +1,49 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import styles from './SocialMediaCard.module.css';
-import { SocialMediaCardProps } from '@/types/Generals/cardTypes';
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
+import styles from "./SocialMediaCard.module.css";
+import { SocialMediaCardProps } from "@/types/Generals/cardTypes";
 
-const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ 
-  Icon: IconComponent, 
-  label, 
-  link,
-}) => {
-  const [iconSize, setIconSize] = useState(52);
+// CMS names are lowercase ("linkedin"); show the brands' own spelling.
+const DISPLAY_NAMES: Record<string, string> = {
+  facebook: "Facebook",
+  instagram: "Instagram",
+  linkedin: "LinkedIn",
+  tiktok: "TikTok",
+  twitter: "X (Twitter)",
+  x: "X",
+  youtube: "YouTube",
+  github: "GitHub",
+};
 
-  useEffect(() => {
-    const updateIconSize = () => {
-      if (window.innerWidth <= 480) {
-        setIconSize(20);
-      } else if (window.innerWidth <= 768) {
-        setIconSize(52);
-      } else {
-        setIconSize(60);
-      }
-    };
-    updateIconSize();
-    window.addEventListener('resize', updateIconSize);
-    return () => window.removeEventListener('resize', updateIconSize);
-  }, []);
+/** Social platform card (Contact page): icon tile, platform name, follow CTA. */
+const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ Icon, label, link }) => {
+  const name = DISPLAY_NAMES[label.toLowerCase()] ?? label.charAt(0).toUpperCase() + label.slice(1);
 
   return (
-    <>
-      {/* The #socialIconGradient fill is defined once in SocialMediaSection. */}
-      <a
-        className={styles.card}
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={label}
-        style={{ textDecoration: 'none', color: 'inherit' }}
-      >
-        <div className={styles.iconCircle}>
-          <IconComponent 
-            width={iconSize} 
-            height={iconSize}
-          />
-        </div>
-        <span className={styles.label}>{label}</span>
-      </a>
-    </>
+    <a
+      className={styles.card}
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${name} (opens in a new tab)`}
+    >
+      <span className={styles.glow} aria-hidden="true" />
+      <span className={styles.tile} aria-hidden="true">
+        {typeof Icon === "string" ? (
+          // eslint-disable-next-line @next/next/no-img-element -- small icon from the CMS
+          <img src={Icon} alt="" width={26} height={26} />
+        ) : (
+          <Icon width={26} height={26} />
+        )}
+      </span>
+      <span className={styles.text}>
+        <span className={styles.name}>{name}</span>
+        <span className={styles.hint}>Follow us</span>
+      </span>
+      <span className={styles.arrow} aria-hidden="true">
+        <ArrowUpRight size={16} />
+      </span>
+    </a>
   );
 };
 

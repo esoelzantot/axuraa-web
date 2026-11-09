@@ -1,4 +1,3 @@
-// components/EmailSection/EmailSection.tsx
 import React from "react";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import EmailCard from "@/components/UI/Muscles/EmailCard/EmailCard";
@@ -26,9 +25,11 @@ const EmailSection: React.FC<EmailSectionProps> = ({
   contacts,
   className = "",
 }) => {
+  if (contacts.length === 0) return null;
+
   return (
     <section className={`${styles.emailSection} ${className}`}>
-      <div className={styles.header}>
+      <div className={styles.container}>
         <SectionHeader
           title1={title1}
           title2={title2}
@@ -36,18 +37,19 @@ const EmailSection: React.FC<EmailSectionProps> = ({
           titleColor="#FFFFFF"
           textAlign="center"
         />
-      </div>
 
-      <div className={styles.cardsGrid}>
-        {contacts.map((contact, index) => (
-          <EmailCard
-            key={`${contact.email}-${index}`}
-            name={contact.name}
-            email={contact.email}
-            description={contact.description}
-            icon={contact.icon}
-          />
-        ))}
+        <div className={styles.cardsGrid}>
+          {contacts.map((contact, index) => (
+            <EmailCard
+              key={`${contact.email}-${index}`}
+              index={index}
+              name={contact.name}
+              email={contact.email}
+              description={contact.description}
+              icon={contact.icon}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

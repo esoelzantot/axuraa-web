@@ -24,6 +24,7 @@ const WorkerSection: React.FC<WorkerSectionProps> = ({
     testimonial:
       localize(client.testimonials?.[0]?.message, locale) || client.description || "",
     avatar: client.image_url || "/assets/axuraa.png",
+    rating: client.testimonials?.[0]?.rating,
   }));
 
   if (items.length === 0) return null;
@@ -40,6 +41,7 @@ const WorkerSection: React.FC<WorkerSectionProps> = ({
             authorName={client.name}
             authorRole={client.role}
             avatarSrc={client.avatar}
+            rating={client.rating}
           />
         ))}
       </HorizontalScroll>

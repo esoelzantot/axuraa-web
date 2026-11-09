@@ -1,73 +1,56 @@
-// components/EmailCard/EmailCard.tsx
-import React from 'react';
-import Icon from '@/components/UI/Atoms/Icon/Icon';
-import Typography from '@/components/UI/Atoms/Typography/Typography';
-import styles from './EmailCard.module.css';
+import React from "react";
+import { ArrowUpRight, BadgeDollarSign, Headphones, Info, Mail, type LucideIcon } from "lucide-react";
+import styles from "./EmailCard.module.css";
 
 interface EmailCardProps {
   name: string;
   email: string;
   description: string;
   icon: string;
+  index?: number;
   className?: string;
 }
 
+const ICONS: Record<string, LucideIcon> = {
+  info: Info,
+  support: Headphones,
+  sales: BadgeDollarSign,
+  email: Mail,
+};
+
+/** Department email card (Contact page). The whole card is a mailto link. */
 const EmailCard: React.FC<EmailCardProps> = ({
   name,
   email,
   description,
   icon,
-  className = '',
+  index,
+  className = "",
 }) => {
-  const getIconPath = (iconName: string) => {
-    if (!iconName) return "/assets/Email.svg";
-    const lowerName = iconName.toLowerCase();
-    if (lowerName === 'email') return "/assets/Email.svg";
-    if (lowerName === 'info' || lowerName === 'sales' || lowerName === 'support') {
-        return `/assets/conection/${lowerName}.svg`;
-    }
-    return `/assets/conection/info.svg`; // Fallback
-  };
+  const Icon = ICONS[(icon || name).toLowerCase()] ?? Mail;
 
   return (
-    <div 
-      className={`${styles.emailCard} ${className}`}
-      onClick={() => window.location.href = `mailto:${email}`}
-    >
-      <div className={styles.iconContainer}>
-        <Icon
-          iconSrc={getIconPath(icon)}
-          backgroundColor="var(--color-orange-6010, rgba(255, 107, 53, 0.15))"
-          background_Radius="rounded"
-          color="#D04A1D"
-          width={28}
-          height={28}
-          alt={name}
-          noHover={true}
-        />
-      </div>
-
-      <div className={styles.contentContainer}>
-        <div className={styles.headerRow}>
-          <Typography
-            variant="h6"
-            className={styles.title}
-          >
-            {name}
-          </Typography>
-          <a href={`mailto:${email}`} className={styles.email}>
-            {email}
-          </a>
-        </div>
-        
-        <Typography
-          variant="body1"
-          className={styles.description}
-        >
-          {description}
-        </Typography>
-      </div>
-    </div>
+    <a href={`mailto:${email}`} className={`${styles.card} ${className}`}>
+      {typeof index === "number" && (
+        <span className={styles.num} aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      )}
+      <span className={styles.tile} aria-hidden="true">
+        <Icon size={24} strokeWidth={1.75} />
+      </span>
+      <h3 className={styles.title}>{name}</h3>
+      {description && <p className={styles.description}>{description}</p>}
+      <span className={styles.footer}>
+        <span className={styles.address}>
+          <Mail size={15} aria-hidden="true" />
+          <span>{email}</span>
+        </span>
+        <span className={styles.arrow} aria-hidden="true">
+          <ArrowUpRight size={18} />
+        </span>
+      </span>
+    </a>
   );
 };
 
