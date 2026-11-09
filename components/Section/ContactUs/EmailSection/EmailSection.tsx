@@ -1,5 +1,5 @@
 import React from "react";
-import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
+import SectionHead from "@/components/Layout/SectionHead/SectionHead";
 import EmailCard from "@/components/UI/Muscles/EmailCard/EmailCard";
 import styles from "./EmailSection.module.css";
 
@@ -11,32 +11,26 @@ interface ContactData {
 }
 
 interface EmailSectionProps {
-  title1?: string;
-  title2?: string;
+  eyebrow?: string;
+  title?: string;
   subtitle?: string;
   contacts: ContactData[];
   className?: string;
 }
 
 const EmailSection: React.FC<EmailSectionProps> = ({
-  title1 = "Contact via",
-  title2 = "email",
-  subtitle = "Choose the appropriate section for your inquiry",
+  eyebrow = "Email Us",
+  title = "Contact via Email",
+  subtitle = "Choose the appropriate section for your inquiry.",
   contacts,
   className = "",
 }) => {
   if (contacts.length === 0) return null;
 
   return (
-    <section className={`${styles.emailSection} ${className}`}>
+    <section className={`${styles.emailSection} ${className}`} aria-labelledby="contact-email">
       <div className={styles.container}>
-        <SectionHeader
-          title1={title1}
-          title2={title2}
-          subtitle={subtitle}
-          titleColor="#FFFFFF"
-          textAlign="center"
-        />
+        <SectionHead id="contact-email" eyebrow={eyebrow} title={title} intro={subtitle} />
 
         <div className={styles.cardsGrid}>
           {contacts.map((contact, index) => (

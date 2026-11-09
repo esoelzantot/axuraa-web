@@ -14,11 +14,11 @@ import {
   Quote,
   Rocket,
   Search,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import styles from "./ServicePage.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
+import SectionHead from "@/components/Layout/SectionHead/SectionHead";
 import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
 import { ServiceItem } from "@/service/serviceId/serviceId";
 import { Locale, localize as getStr } from "@/lib/i18n";
@@ -80,36 +80,6 @@ const servicePackages = [
     isPopular: false,
   },
 ];
-
-/** Section heading shared by every block: eyebrow pill, title (last word accented), intro. */
-const SectionHead = ({
-  eyebrow,
-  title,
-  intro,
-  id,
-  align = "center",
-}: {
-  eyebrow: string;
-  title: string;
-  intro?: string;
-  id: string;
-  align?: "center" | "start";
-}) => {
-  const words = title.split(" ");
-  const last = words.pop();
-  return (
-    <header className={`${styles.head} ${align === "start" ? styles.headStart : ""}`}>
-      <span className={styles.eyebrow}>
-        <Sparkles size={13} aria-hidden="true" /> {eyebrow}
-      </span>
-      <h2 id={id} className={styles.headTitle}>
-        {words.length > 0 && <>{words.join(" ")} </>}
-        <span className={styles.accent}>{last}</span>
-      </h2>
-      {intro && <p className={styles.headIntro}>{intro}</p>}
-    </header>
-  );
-};
 
 const ServicePage: React.FC<Props> = ({ service, locale }) => {
   const contactHref = `/${locale}/contact#contact-form`;

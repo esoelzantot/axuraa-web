@@ -20,7 +20,7 @@
     radial-gradient(120% 70% at 0% 0%, rgba(208, 74, 29, 0.16), transparent 60%) padding-box,
     linear-gradient(180deg, #23262e 0%, #1c1e24 100%) padding-box,
     linear-gradient(140deg, #f0652f 0%, rgba(208, 74, 29, 0.35) 35%, rgba(255, 255, 255, 0.06) 60%, #902501 100%) border-box;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
   cursor: grab;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
@@ -68,7 +68,7 @@
   border-radius: 0 0 0 1.25rem;
   background: linear-gradient(135deg, #e0582a, #902501);
   color: #fff;
-  box-shadow: -4px 4px 14px rgba(208, 74, 29, 0.35);
+  box-shadow: none;
 }
 
 .stars {
@@ -154,7 +154,7 @@
 @media (hover: hover) {
   .card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 22px 40px rgba(208, 74, 29, 0.22);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
   }
 
   .card:hover .glow {
