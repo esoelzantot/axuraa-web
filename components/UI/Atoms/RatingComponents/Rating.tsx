@@ -1,17 +1,38 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import {
+  Award,
+  BadgeCheck,
+  CalendarClock,
+  FolderCheck,
+  HeartHandshake,
+  Rocket,
+  Smile,
+  TrendingUp,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import styles from "./Rating.module.css";
-
 import { RatingProps } from "@/types/HomePage/ratingTypes";
 
-const Rating: React.FC<RatingProps> = ({
-  items,
-  duration = 3000,
-  maxValue = 50,
-  // suffix = ''
-}) => {
+// Pick an icon that matches what the number counts (labels come from the CMS).
+const ICON_RULES: [RegExp, LucideIcon][] = [
+  [/launch/i, Rocket],
+  [/project/i, FolderCheck],
+  [/client|customer/i, Smile],
+  [/award|prize/i, Award],
+  [/team|member|expert|engineer/i, Users],
+  [/year|experience/i, CalendarClock],
+  [/retention|satisf|trust/i, HeartHandshake],
+  [/quality|success/i, BadgeCheck],
+];
+
+const iconFor = (label: string): LucideIcon =>
+  ICON_RULES.find(([re]) => re.test(label))?.[1] ?? TrendingUp;
+
+/** Track-record counters: one panel, four cells, numbers count up when scrolled into view. */
+const Rating: React.FC<RatingProps> = ({ items, duration = 3000, maxValue = 50 }) => {
   const [counts, setCounts] = useState<number[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const ratingRef = useRef<HTMLDivElement>(null);
@@ -63,31 +84,25 @@ const Rating: React.FC<RatingProps> = ({
   }, [items, duration, maxValue]);
 
   return (
-    <div className={styles.wrapper} ref={ratingRef}>
-      {items.map((item, index) => (
-        <div
-          key={item.id}
-          className={`${styles.card} ${isVisible ? styles.cardVisible : ""}`}
-          style={{ transitionDelay: `${index * 0.15}s` }}
-        >
-          {item?.showIcon && (
-            <div className={styles.iconBox}>
-              <Image
-                src={item.icon}
-                alt={`${item.label} icon`}
-                width={40}
-                height={40}
-                className={styles.icon}
-              />
+    <div className={`${styles.wrapper} ${isVisible ? styles.visible : ""}`} ref={ratingRef}>
+      {items.map((item, index) => {
+        const Icon = iconFor(item.label);
+        return (
+          <div key={item.id} className={styles.card} style={{ transitionDelay: `${index * 0.12}s` }}>
+            {item.showIcon && (
+              <span className={styles.iconBox} aria-hidden="true">
+                <Icon size={24} strokeWidth={1.75} />
+              </span>
+            )}
+            <div className={styles.number}>
+              <span className={styles.value}>{counts[index] || 0}</span>
+              {item.suffix && <span className={styles.suffix}>{item.suffix}</span>}
             </div>
-          )}
-          <div className={styles.number}>
-            {counts[index] || 0}
-            {item.suffix}
+            <p className={styles.label}>{item.label}</p>
+            <span className={styles.bar} aria-hidden="true" />
           </div>
-          <p className={styles.subtitle}>{item.label}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

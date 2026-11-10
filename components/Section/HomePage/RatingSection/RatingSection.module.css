@@ -80,3 +80,8 @@
 .RatingSection {
   max-width: none;
 }
+
+/* The stats panel sizes itself; the old min-height only left empty space on phones */
+.RatingSection {
+  min-height: 0;
+}

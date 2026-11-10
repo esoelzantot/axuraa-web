@@ -1,101 +1,61 @@
-/* SocialIcon.module.css */
-.socialIconWrapper {
-  display: flex;
+/* Social tile (contact block) — rounded square, brand-tinted, fills on hover. */
+.wrapper {
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 8.436px;
-  width: 71px;
-  height: 71.707px;
-  padding: 12.654px;
-  flex-shrink: 0;
-  border-radius: 44.087px;
-  background: #2e2625;
-  transition: all 0.3s ease;
+  gap: 6px;
 }
 
-.socialIcon {
-  width: 35px;
-  height: 34.913px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  border-radius: 0; /* Removed circular radius to fit icon shape */
-  background: transparent;
+.tile {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(208, 74, 29, 0.2), rgba(208, 74, 29, 0.05));
+  box-shadow: inset 0 0 0 1px rgba(240, 101, 47, 0.3);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Base styles for the icon wrapper layout */
-.iconCircle {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Use masking to colorize the icon to #D04A1D */
-.iconImage {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* Apply orange color using mask */
+.glyph {
+  width: 22px;
+  height: 22px;
+  background-color: #f0652f;
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  -webkit-mask-position: center;
   mask-position: center;
+  -webkit-mask-size: contain;
   mask-size: contain;
-  background-color: #d04a1d;
+  transition: background-color 0.3s ease;
 }
 
-/* Since we are using mask on the image class, we need to hide the original img tag visual 
-   Wait, we can't mask an img tag with itself easily in all browsers without quirks. 
-   Better approach: The TSX needs to render a div with the mask if we want solid color.
-   However, let's try a filter first which is safer for img tags if the source is black/white.
-*/
-
-/* Alternative: If we change SocialIcon.tsx to use div for mask, we use this. 
-   But assuming we stick to img/Image for now, let's use a filter to get close to #D04A1D.
-   Actually, CSS mask on an img element IS supported where it uses the src image as mask.
-   But standard way: -webkit-mask-image: url(...)
-   We need the URL. The img tag has src.
-*/
 .label {
-  color: #fff;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.2;
-  margin: 0;
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
 }
 
-/* Hover effects */
-.socialIconWrapper:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background: #d04a1d;
-  color: #fff;
-}
-
-.socialIconWrapper:hover .iconImage {
-  background-color: #ffffff;
-}
-
-.socialIconWrapper:hover .label {
-  opacity: 1;
-  color: white;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .socialIconWrapper {
-    width: 60px;
-    height: 60px;
-    padding: 10px;
+/* Hover comes from the surrounding link */
+@media (hover: hover) {
+  a:hover > .wrapper .tile {
+    transform: translateY(-3px) rotate(-6deg);
+    background: linear-gradient(135deg, #e0582a, #b83a12);
+    box-shadow: none;
   }
 
-  .label {
-    font-size: 14px;
+  a:hover > .wrapper .glyph {
+    background-color: #fff;
+  }
+}
+
+a:focus-visible > .wrapper .tile {
+  outline: 2px solid #f0652f;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .glyph {
+    transition: none;
   }
 }

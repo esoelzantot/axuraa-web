@@ -96,17 +96,13 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
               icon="/assets/PhoneIcon.svg"
               label="Phone"
               value={phone}
-              onClick={() => {
-                window.location.href = `tel:${phone.replace(/[^+\d]/g, "")}`;
-              }}
+              href={`tel:${phone.replace(/[^+\d]/g, "")}`}
             />
             <ContactInfoCard
               icon="/assets/emailicon.svg"
               label="Email"
               value={email}
-              onClick={() => {
-                window.location.href = `mailto:${email}`;
-              }}
+              href={`mailto:${email}`}
             />
           </div>
 
@@ -119,8 +115,9 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialLink}
+                  aria-label={social.label}
                 >
-                  <SocialIcon icon={social.icon} showLabel alt={social.label} />
+                  <SocialIcon icon={social.icon} alt={social.label} />
                 </a>
               ))}
             </div>

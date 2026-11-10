@@ -1,39 +1,16 @@
-import React from 'react';
-import Image from 'next/image';
-import styles from './ViewButton.module.css';
-import ViewIconButton from '@/public/assets/ViewIconbutton.svg';
-import { ViewButtonProps } from '@/types/Generals/buttonTypes';
+import React from "react";
+import { Play } from "lucide-react";
+import styles from "./ViewButton.module.css";
+import { ViewButtonProps } from "@/types/Generals/buttonTypes";
 
-const ViewButton: React.FC<ViewButtonProps> = ({ 
-  children, 
-  className = '',
-  onClick,
-  ...props 
-}) => {
-  return (
-    <button
-      type="button"
-      className={`${styles.viewButton} ${className}`}
-      onClick={onClick}
-      {...props}
-    >
-      <span className={styles.buttonContent}>
-        <span className={styles.buttonText}>
-          {children}
-        </span>
-        <span className={styles.iconWrapper}>
-          <Image 
-            src={ViewIconButton} 
-            alt="View" 
-            width={20} 
-            height={20} 
-            className={styles.buttonIcon}
-            style={{ width: 'auto', height: 'auto' }}
-          />
-        </span>
-      </span>
-    </button>
-  );
-};
+/** Secondary CTA: glassy surface, gradient hairline border, play tile that fills on hover. */
+const ViewButton: React.FC<ViewButtonProps> = ({ children, className = "", onClick, ...props }) => (
+  <button type="button" className={`${styles.viewButton} ${className}`} onClick={onClick} {...props}>
+    <span className={styles.buttonText}>{children}</span>
+    <span className={styles.iconWrapper} aria-hidden="true">
+      <Play size={15} strokeWidth={2.25} className={styles.playIcon} />
+    </span>
+  </button>
+);
 
 export default React.memo(ViewButton);

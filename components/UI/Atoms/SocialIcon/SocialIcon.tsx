@@ -1,36 +1,20 @@
-import React from 'react';
-import styles from './SocialIcon.module.css';
+import React from "react";
+import styles from "./SocialIcon.module.css";
+import { SocialIconProps } from "@/types/Generals/iconsTypes";
 
-import { SocialIconProps } from '@/types/Generals/iconsTypes';
-
-const SocialIcon: React.FC<SocialIconProps> = ({
-  icon,
-  label,
-  showLabel = false,
-  alt = 'Social icon'
-}) => {
-  
-  return (
-    <div className={styles.socialIconWrapper}>
-      <div className={styles.socialIcon}>
-        <div className={styles.iconCircle}>
-           {/* Render as a masked div to allow coloring */}
-           <div 
-             className={styles.iconImage}
-             style={{
-               maskImage: `url(${icon})`,
-               WebkitMaskImage: `url(${icon})`,
-             }}
-             role="img"
-             aria-label={alt}
-           />
-        </div>
-      </div>
-      {showLabel && label && (
-        <p className={styles.label}>{label}</p>
-      )}
-    </div>
-  );
-};
+/** Social tile: the SVG is used as a mask so it can take the brand colour. */
+const SocialIcon: React.FC<SocialIconProps> = ({ icon, label, showLabel = false, alt = "Social icon" }) => (
+  <span className={styles.wrapper}>
+    <span className={styles.tile}>
+      <span
+        className={styles.glyph}
+        style={{ maskImage: `url(${icon})`, WebkitMaskImage: `url(${icon})` }}
+        role="img"
+        aria-label={alt}
+      />
+    </span>
+    {showLabel && label && <span className={styles.label}>{label}</span>}
+  </span>
+);
 
 export default SocialIcon;

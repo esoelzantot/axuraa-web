@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./Footer.module.css";
-import FooterColumnHeader from "./FooterColumnHeader";
 import LocalizedLink from "@/components/UI/Atoms/LocalizedLink/LocalizedLink";
 import { getAllServices, filterServices } from "@/service/Services/services";
 import { DEFAULT_LOCALE, localize } from "@/lib/i18n";
@@ -20,6 +19,13 @@ const SOCIALS = [
   { icon: "/assets/Xicon.svg", href: SOCIAL_LINKS.twitter, label: "X (Twitter)" },
 ];
 
+const ColumnTitle = ({ title }: { title: string }) => (
+  <h3 className={styles.columnTitle}>
+    <span className={styles.columnMark} aria-hidden="true" />
+    {title}
+  </h3>
+);
+
 /**
  * Server component: services are fetched once on the server (and cached)
  * instead of on every page view in the browser.
@@ -35,6 +41,8 @@ const Footer = async () => {
 
   return (
     <footer className={styles.footer}>
+      <span className={styles.glow} aria-hidden="true" />
+
       <div className={styles.footerMain}>
         <div className={styles.container}>
           <div className={styles.footerGrid}>
@@ -64,12 +72,10 @@ const Footer = async () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Image
-                      src={social.icon}
-                      alt=""
-                      width={24}
-                      height={24}
+                    <span
                       className={styles.socialIcon}
+                      style={{ maskImage: `url(${social.icon})`, WebkitMaskImage: `url(${social.icon})` }}
+                      aria-hidden="true"
                     />
                   </a>
                 ))}
@@ -79,7 +85,7 @@ const Footer = async () => {
             {/* Link columns */}
             <div className={styles.linksSection}>
               <div className={styles.footerColumn}>
-                <FooterColumnHeader title="Company" />
+                <ColumnTitle title="Company" />
                 <ul className={styles.linkList}>
                   {COMPANY_LINKS.map((link) => (
                     <li key={link.href}>
@@ -93,7 +99,7 @@ const Footer = async () => {
 
               {serviceLinks.length > 0 && (
                 <div className={styles.footerColumn}>
-                  <FooterColumnHeader title="Services" />
+                  <ColumnTitle title="Services" />
                   <ul className={styles.linkList}>
                     {serviceLinks.map((service) => (
                       <li key={service._id}>
@@ -108,7 +114,7 @@ const Footer = async () => {
 
               {solutionLinks.length > 0 && (
                 <div className={styles.footerColumn}>
-                  <FooterColumnHeader title="Products" />
+                  <ColumnTitle title="Products" />
                   <ul className={styles.linkList}>
                     {solutionLinks.map((service) => (
                       <li key={service._id}>
@@ -123,6 +129,11 @@ const Footer = async () => {
             </div>
           </div>
         </div>
+
+        {/* Oversized outlined wordmark */}
+        <span className={styles.watermark} aria-hidden="true">
+          AXURAA
+        </span>
       </div>
 
       <div className={styles.footerBottom}>
@@ -133,9 +144,7 @@ const Footer = async () => {
               <LocalizedLink href="/privacy-policy" className={styles.legalLink}>
                 Privacy Policy
               </LocalizedLink>
-              <span className={styles.separator} aria-hidden="true">
-                |
-              </span>
+              <span className={styles.separator} aria-hidden="true" />
               <LocalizedLink href="/terms-of-service" className={styles.legalLink}>
                 Terms of Service
               </LocalizedLink>

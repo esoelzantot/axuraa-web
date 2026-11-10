@@ -1,57 +1,41 @@
+/* Secondary CTA ("View Our Work") */
 .viewButton {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  height: 56px;
-  padding: 0 32px;
-  border-radius: 8px;
-  border: 1px solid #374151;
-  background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(2px);
-  color: white;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  max-width: 240px;
+  min-height: 54px;
+  padding: 0 7px 0 24px;
+  border: none;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
   font-size: 16px;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.2;
   cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 204px;
   z-index: 10;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.viewButton:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #4B5563;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
-              0 4px 6px -4px rgba(0, 0, 0, 0.1);
-}
-
-.viewButton:active {
-  transform: translateY(0);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: none;
-}
-
-.viewButton:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.3);
-  outline-offset: 2px;
-}
-
-.viewButton:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-.buttonContent {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
+/* Gradient hairline border */
+.viewButton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(240, 101, 47, 0.7), rgba(255, 255, 255, 0.12) 50%, rgba(240, 101, 47, 0.45));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.3s ease;
 }
 
 .buttonText {
@@ -59,39 +43,70 @@
 }
 
 .iconWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(208, 74, 29, 0.25), rgba(208, 74, 29, 0.08));
+  box-shadow: inset 0 0 0 1px rgba(240, 101, 47, 0.4);
+  color: #f0652f;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
-.viewButton:hover .iconWrapper {
-  transform: translateX(-2px);
+.playIcon {
+  margin-left: 2px;
+  fill: currentColor;
 }
 
-.buttonIcon {
-  transition: transform 0.3s ease;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .viewButton {
-    max-width: 100%;
-    height: 38px;
-    padding: 0 28px;
-    font-size: 15px;
+@media (hover: hover) {
+  .viewButton:hover {
+    transform: translateY(-2px);
+    background: rgba(208, 74, 29, 0.1);
   }
+
+  .viewButton:hover::before {
+    background: linear-gradient(135deg, #f0652f, rgba(255, 255, 255, 0.2) 50%, #d04a1d);
+  }
+
+  .viewButton:hover .iconWrapper {
+    background: linear-gradient(135deg, #e0582a, #b83a12);
+    box-shadow: none;
+    color: #fff;
+    transform: scale(1.06);
+  }
+}
+
+.viewButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.viewButton:focus-visible {
+  outline: 2px solid #f0652f;
+  outline-offset: 3px;
 }
 
 @media (max-width: 480px) {
   .viewButton {
-    height: 2.5rem;
-    padding: 0 24px;
-    font-size: 0.875rem;
+    max-width: 100%;
+    min-height: 50px;
+    padding: 0 6px 0 20px;
+    border-radius: 14px;
+    font-size: 15px;
   }
-  
+
   .iconWrapper {
-    width: 2rem;
-    height: 2rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewButton,
+  .viewButton::before,
+  .iconWrapper {
+    transition: none;
   }
 }
