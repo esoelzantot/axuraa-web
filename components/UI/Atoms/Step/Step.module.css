@@ -1,187 +1,152 @@
-/* components/UI/Step/Step.module.css */
+/*
+  History milestone — the original layout (dot + line, "year - title", text)
+  refreshed: glowing ring dots, a gradient line that fades out, the year
+  in brand colour and a gentle hover nudge.
+*/
 .step_container {
-  display: flex;
-  gap: 2rem;
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
   position: relative;
-  padding-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: clamp(1rem, 2.5vw, 1.75rem);
 }
 
-.step_container.last {
-  padding-bottom: 0;
-}
-
-/* Timeline Indicator */
 .step_indicator {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  flex-shrink: 0;
+  padding-top: 0.45rem;
 }
 
-.step_circle {
+/* Ring dot */
+.dot {
+  position: relative;
+  flex-shrink: 0;
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: #6B7280;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 2;
+  border: 2px solid rgba(240, 101, 47, 0.7);
+  background: #191b1f;
+  box-shadow: 0 0 0 4px rgba(208, 74, 29, 0.1);
+  transition: transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
 }
 
-.step_circle::before {
-  content: '';
+/* Current milestone: filled dot with a soft pulse */
+.active .dot {
+  border-color: #f0652f;
+  background: radial-gradient(circle, #ffd4bf 0 2px, #f0652f 3px);
+  box-shadow: 0 0 0 5px rgba(208, 74, 29, 0.18), 0 0 16px rgba(240, 101, 47, 0.55);
+}
+
+.active .dot::after {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
+  inset: -7px;
   border-radius: 50%;
-  background-color: rgba(249, 115, 22, 0.3);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(240, 101, 47, 0.55);
+  animation: step-pulse 2.4s ease-out infinite;
 }
 
-.step_container:hover .step_circle {
-  background-color: #F97316;
-  transform: scale(1.2);
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
-}
-
-.step_container:hover::before  {
-  width: 32px;
-  height: 32px;
-}
-
-.step_container.active .step_circle {
-  background-color: #F97316;
-  box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
-}
-
-.step_circle_inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: transparent;
-  transition: all 0.3s ease;
-}
-
-.step_circle:hover .step_circle_inner {
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 6px;
-  height: 6px;
-}
-
-.step_circle.active .step_circle_inner {
-  background-color: rgba(255, 255, 255, 0.6);
-  width: 6px;
-  height: 6px;
+@keyframes step-pulse {
+  from {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
 }
 
 .step_line {
+  flex: 1;
   width: 2px;
-  flex: 1;
-  background: linear-gradient(
-    to bottom,
-    #6B7280 0%,
-    #4B5563 50%,
-    #374151 100%
-  );
-  margin-top: 0.5rem;
-  position: relative;
-  overflow: hidden;
+  min-height: 2rem;
+  margin: 8px 0 4px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(240, 101, 47, 0.7), rgba(255, 255, 255, 0.08));
 }
 
-.step_line::after {
-  content: '';
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #F97316 50%,
-    transparent 100%
-  );
-  animation: shimmer 3s infinite;
-}
-
-/* Content */
 .step_content {
-  flex: 1;
-  padding-top: 0;
+  min-width: 0;
+  padding-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+  transition: transform 0.35s ease;
+}
+
+.last .step_content {
+  padding-bottom: 0;
 }
 
 .step_title {
-  color: #F3F4F6;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  transition: all 0.3s ease;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.5rem;
+  color: #fff;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.step_container:hover .step_title {
-  background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+.year {
+  background: linear-gradient(90deg, #f0652f, #ffb08c);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Short dash between year and title */
+.sep {
+  width: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .step_description {
-  color: #9CA3AF;
+  margin: 0;
+  max-width: 36rem;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
   line-height: 1.7;
-  max-width: 500px;
 }
 
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@media (hover: hover) {
+  .step_container:hover .dot {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 6px rgba(208, 74, 29, 0.18);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes shimmer {
-  0% {
-    top: -100%;
+  .step_container:hover .step_content {
+    transform: translateX(4px);
   }
-  50% {
-    top: 100%;
-  }
-  100% {
-    top: 100%;
+
+  [dir="rtl"] .step_container:hover .step_content {
+    transform: translateX(-4px);
   }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .step_container {
-    gap: 1.5rem;
-    padding-bottom: 2rem;
+    grid-template-columns: 18px minmax(0, 1fr);
+    column-gap: 0.875rem;
   }
 
-  .step_circle {
+  .dot {
     width: 14px;
     height: 14px;
   }
+}
 
-  .step_title {
-    font-size: 1rem;
+@media (prefers-reduced-motion: reduce) {
+  .active .dot::after {
+    animation: none;
   }
 
-  .step_description {
-    font-size: 0.875rem;
+  .dot,
+  .step_content {
+    transition: none;
   }
 }

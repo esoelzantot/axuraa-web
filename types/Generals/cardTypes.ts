@@ -77,6 +77,8 @@ export interface ValueCardProps {
   title: string;
   description: string;
   iconColor?: string;
+  /** Position in the list; shown as an outlined number. */
+  index?: number;
 }
 
 /** SocialMediaCard component props interface from path :

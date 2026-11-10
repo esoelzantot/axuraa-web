@@ -1,372 +1,170 @@
-/* components/UI/HistoryCard/HistoryCard.module.css - FIXED */
+/*
+  "Writing History" card — the original idea (centered icon, title, tagline
+  in a tall card), refreshed: warm glow, dotted texture, gradient hairline,
+  a glowing icon tile with slow orbit rings, shimmering accent word.
+*/
 .history_card {
   position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 30rem;
   min-height: 100%;
-  margin-left: 0; /* Changed from -18% */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  background: var(--color-azure-1730, rgba(31, 41, 55, 0.3));
-  backdrop-filter: blur(0.625rem);
-  border: 0.0625rem solid rgba(255, 255, 255, 0.05);
-  border-radius: 2rem;
-  padding: 4rem 3rem;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 28px;
+  background:
+    radial-gradient(70% 55% at 50% 42%, rgba(208, 74, 29, 0.16), transparent 70%),
+    linear-gradient(180deg, #23262e 0%, #1b1d22 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0.625rem 2.5rem rgba(0, 0, 0, 0.5),
-    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.4s ease;
 }
 
-.history_card:hover {
-  transform: translateY(-0.5rem);
-  box-shadow: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.6), 0 0 2.5rem rgba(249, 115, 22, 0.15),
-    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.08);
-  border-color: rgba(249, 115, 22, 0.2);
-}
-
+/* Gradient hairline border */
 .history_card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(249, 115, 22, 0.08) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(240, 101, 47, 0.55), rgba(255, 255, 255, 0.06) 45%, rgba(208, 74, 29, 0.35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
 }
 
-.history_card:hover::before {
-  opacity: 1;
-}
-
-/* Animated Circles Background */
-.circles_container {
+/* Dotted texture that fades toward the edges */
+.texture {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1.3px);
+  background-size: 18px 18px;
+  -webkit-mask: radial-gradient(circle at 50% 42%, #000 0%, transparent 70%);
+  mask: radial-gradient(circle at 50% 42%, #000 0%, transparent 70%);
   pointer-events: none;
 }
 
-.circle {
-  position: absolute;
-  opacity: 0.04;
-  filter: blur(0.125rem);
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.circle_1 {
-  top: -6.25rem;
-  left: -6.25rem;
-  animation: rotate-float-1 25s infinite;
-}
-
-.circle_2 {
-  bottom: -5rem;
-  right: -5rem;
-  animation: rotate-float-2 30s infinite;
-}
-
-.circle_3 {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: rotate-float-3 35s infinite;
-  opacity: 0.02;
-}
-
-/* Content - FIXED to vertical layout */
 .content {
-  position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
+  gap: 0.75rem;
   text-align: center;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease forwards 0.2s;
 }
 
-/* Icon Container */
-.icon_container {
-  margin-bottom: 3rem;
-  animation: float 3s ease-in-out infinite;
-}
-
-.icon_background {
+/* Icon tile with two slowly rotating dashed orbits */
+.iconWrap {
   position: relative;
-  width: 5rem;
-  height: 5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(249, 115, 22, 0.2) 0%,
-    rgba(234, 88, 12, 0.15) 100%
-  );
-  border-radius: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0.25rem 1.25rem rgba(249, 115, 22, 0.25),
-    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.1);
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 128px;
+  margin-bottom: 0.75rem;
 }
 
-.history_card:hover .icon_background {
-  background: linear-gradient(
-    135deg,
-    rgba(249, 115, 22, 0.3) 0%,
-    rgba(234, 88, 12, 0.25) 100%
-  );
-  box-shadow: 0 0.5rem 1.875rem rgba(249, 115, 22, 0.4),
-    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.15);
-  transform: scale(1.05);
+.orbit {
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  border: 1px dashed rgba(240, 101, 47, 0.35);
+  animation: history-orbit 18s linear infinite;
 }
 
-.icon_background::before {
+.orbitOuter {
+  inset: 0;
+  border-style: solid;
+  border-color: rgba(240, 101, 47, 0.14);
+  animation-duration: 28s;
+  animation-direction: reverse;
+}
+
+/* small "planet" on the outer orbit */
+.orbitOuter::after {
   content: "";
   position: absolute;
-  inset: -0.125rem;
-  border-radius: 1.25rem;
-  padding: 0.125rem;
-  background: linear-gradient(
-    135deg,
-    rgba(249, 115, 22, 0.4) 0%,
-    transparent 50%,
-    rgba(249, 115, 22, 0.4) 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  top: 50%;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: #f0652f;
+  box-shadow: 0 0 10px rgba(240, 101, 47, 0.8);
 }
 
-.history_card:hover .icon_background::before {
-  opacity: 1;
+@keyframes history-orbit {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.icon {
+.icon_container {
   position: relative;
-  z-index: 1;
-  filter: brightness(1.2) saturate(1.3);
-  transition: transform 0.3s ease;
-}
-
-.history_card:hover .icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
-/* Text Content */
-.text_content {
-  max-width: 100%;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #e0582a, #b83a12);
+  box-shadow: 0 8px 24px rgba(208, 74, 29, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: transform 0.4s ease;
 }
 
 .title {
-  font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 0.75rem;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.7rem, 1.25rem + 1.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.15;
   letter-spacing: -0.02em;
-  background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: all 0.3s ease;
 }
 
-.history_card:hover .title {
-  background: linear-gradient(90deg, #fffdfd 0%, #d04a1d 100%);
+.accent {
+  background: linear-gradient(90deg, #f0652f 0%, #ffd4bf 50%, #f0652f 100%);
+  background-size: 200% 100%;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
+  animation: history-shimmer 6s linear infinite;
+}
+
+@keyframes history-shimmer {
+  to {
+    background-position: -200% 0;
+  }
 }
 
 .subtitle {
-  color: #9ca3af;
-  font-size: 1rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 1.02rem;
   line-height: 1.6;
-  transition: color 0.3s ease;
 }
 
-.history_card:hover .subtitle {
-  color: #d1d5db;
-}
+@media (hover: hover) {
+  .history_card:hover {
+    transform: translateY(-6px);
+  }
 
-/* Animations */
-@keyframes rotate-float-1 {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(1.875rem, 1.875rem) rotate(90deg);
-  }
-  50% {
-    transform: translate(0, 3.75rem) rotate(180deg);
-  }
-  75% {
-    transform: translate(-1.875rem, 1.875rem) rotate(270deg);
+  .history_card:hover .icon_container {
+    transform: rotate(-8deg) scale(1.06);
   }
 }
 
-@keyframes rotate-float-2 {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  33% {
-    transform: translate(-2.5rem, -2.5rem) rotate(120deg);
-  }
-  66% {
-    transform: translate(-5rem, 0) rotate(240deg);
-  }
-}
-
-@keyframes rotate-float-3 {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-0.625rem);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(1.875rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 75rem) {
-  .history_card {
-    max-width: 26.25rem;
-  }
-}
-
-@media (max-width: 64rem) {
-  .history_card {
-    max-width: 23.75rem;
-    padding: 3.5rem 2.5rem;
-  }
-  
-  .title {
-    font-size: 1.875rem;
-  }
-}
-
-@media (max-width: 48rem) {
-  .history_card {
-    min-height: 31.25rem;
-    padding: 3rem 2rem;
-    border-radius: 1.5rem;
-    max-width: 25rem;
-    margin-left: 0;
+@media (prefers-reduced-motion: reduce) {
+  .orbit,
+  .accent {
+    animation: none;
   }
 
-  .icon_background {
-    width: 4.375rem;
-    height: 4.375rem;
-    border-radius: 1.125rem;
-  }
-
-  .icon {
-    width: 2.1875rem;
-    height: 2.1875rem;
-  }
-
-  .title {
-    font-size: 1.75rem;
-  }
-
-  .subtitle {
-    font-size: 0.9375rem;
-  }
-}
-
-@media (max-width: 30rem) {
-  .history_card {
-    min-height: 28.125rem;
-    padding: 2.5rem 1.5rem;
-    border-radius: 1.25rem;
-    margin: 0;
-  }
-
+  .history_card,
   .icon_container {
-    margin-bottom: 2rem;
-  }
-
-  .icon_background {
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: 1rem;
-  }
-
-  .icon {
-    width: 1.875rem;
-    height: 1.875rem;
-  }
-
-  .title {
-    font-size: 1.5rem;
-  }
-
-  .subtitle {
-    font-size: 0.875rem;
-  }
-}
-/* ============================================================
-   Simplified surface (kept last so it wins at every size):
-   solid card + hairline border + soft shadow. The old heavy
-   shadow on a translucent, blurred card produced a dark halo.
-   ============================================================ */
-.history_card {
-  background: linear-gradient(180deg, #23262e 0%, #1d2026 100%);
-  backdrop-filter: none;
-  border: 1px solid rgba(208, 74, 29, 0.22);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-}
-
-.history_card:hover {
-  border-color: rgba(208, 74, 29, 0.45);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(208, 74, 29, 0.12);
-}
-
-/* Phones: size to content instead of a fixed 450-500px block */
-@media (max-width: 48rem) {
-  .history_card {
-    min-height: 0;
-    max-width: 100%;
-    padding: 2.5rem 1.5rem;
+    transition: none;
   }
 }
