@@ -828,3 +828,10 @@
 .hero {
   overflow: clip;
 }
+
+/* Stacked hero buttons on phones: room for the arrow / play tile */
+@media (max-width: 640px) {
+  .ctaButtons {
+    max-width: 17.5rem;
+  }
+}

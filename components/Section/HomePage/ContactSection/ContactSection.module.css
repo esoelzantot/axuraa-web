@@ -352,3 +352,26 @@
     margin-right: auto;
   }
 }
+
+/* === Info cards + social tiles (refreshed; kept last so they win at every size) === */
+.contactFormWrapper {
+  width: 100%;
+  max-width: 30rem;
+  gap: 0.875rem;
+}
+
+.socialIconsContainer {
+  width: auto;
+  max-width: 100%;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+}
+
+.socialLink,
+.socialLink:hover {
+  border-radius: 15px;
+  opacity: 1;
+  transform: none;
+}
