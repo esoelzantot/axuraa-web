@@ -6,7 +6,8 @@ import { SectionBadgeProps } from '@/types/HomePage/contactTypes';
 const StatusBadge: React.FC<SectionBadgeProps> = ({ 
   text, 
   style,
-  className = '' 
+  className = '',
+  reveal = true,
 }) => {
   const combinedStyles = { ...style };
 
@@ -14,6 +15,7 @@ const StatusBadge: React.FC<SectionBadgeProps> = ({
     <div 
       className={`${styles.statusBadge} ${className}`} 
       style={combinedStyles}
+      data-reveal={reveal ? "zoom" : undefined}
     >
       <span className={styles.badgeText}>
         {text}

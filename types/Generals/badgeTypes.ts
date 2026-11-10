@@ -10,4 +10,6 @@ export interface BadgeProps {
   style?: React.CSSProperties;
   width?: string | number;
   height?: string | number;
+  /** Animate in on scroll (off for badges inside the hero). */
+  reveal?: boolean;
 }

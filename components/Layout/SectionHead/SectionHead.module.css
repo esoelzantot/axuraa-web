@@ -37,11 +37,44 @@
   letter-spacing: -0.025em;
 }
 
+/* Accented word: gradient that drifts slowly across the letters */
 .accent {
-  background: linear-gradient(90deg, #f0652f 0%, #ffd4bf 100%);
+  background: linear-gradient(90deg, #f0652f 0%, #ffd4bf 50%, #f0652f 100%);
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: accent-shimmer 6s linear infinite;
+}
+
+@keyframes accent-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Eyebrow sparkle twinkles */
+.eyebrow svg {
+  animation: eyebrow-twinkle 2.6s ease-in-out infinite;
+}
+
+@keyframes eyebrow-twinkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25) rotate(20deg);
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accent,
+  .eyebrow svg {
+    animation: none;
+  }
 }
 
 .intro {

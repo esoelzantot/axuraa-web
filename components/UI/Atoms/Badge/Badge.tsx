@@ -8,7 +8,8 @@ const Badge: React.FC<BadgeProps> = ({
   className = '',
   style = {},
   width = 'auto',
-  height = 'auto'
+  height = 'auto',
+  reveal = true,
 }) => {
   if (!show) {
     return null;
@@ -21,7 +22,11 @@ const Badge: React.FC<BadgeProps> = ({
   };
 
   return (
-    <div className={`${styles.badge_container} ${className}`} style={containerStyle}>
+    <div
+      className={`${styles.badge_container} ${className}`}
+      style={containerStyle}
+      data-reveal={reveal ? "zoom" : undefined}
+    >
       <div className={styles.badge}>
         <span className={styles.badgeDot}></span>
         <p className={styles.badgeContent}>{text}</p>

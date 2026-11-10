@@ -47,7 +47,7 @@ const Footer = async () => {
         <div className={styles.container}>
           <div className={styles.footerGrid}>
             {/* Brand & Social */}
-            <div className={styles.brandSection}>
+            <div className={styles.brandSection} data-reveal="up">
               <div className={styles.brand}>
                 <Image
                   src="/assets/FooterLogo.png"
@@ -83,7 +83,7 @@ const Footer = async () => {
             </div>
 
             {/* Link columns */}
-            <div className={styles.linksSection}>
+            <div className={styles.linksSection} data-reveal-stagger>
               <div className={styles.footerColumn}>
                 <ColumnTitle title="Company" />
                 <ul className={styles.linkList}>

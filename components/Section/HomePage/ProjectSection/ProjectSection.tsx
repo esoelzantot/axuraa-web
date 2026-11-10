@@ -31,7 +31,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         titleLayout="column"
       />
       <SeeAll href={`/${locale}/portfolio`}>{seeAllText}</SeeAll>
-      <div className={styles.ProjectGrid}>
+      <div className={styles.ProjectGrid} data-reveal-stagger>
         {items.map((project, index) => (
           <ProjectCard
             key={project.id}

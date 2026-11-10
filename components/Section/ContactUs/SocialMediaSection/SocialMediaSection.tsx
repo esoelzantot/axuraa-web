@@ -26,7 +26,7 @@ const SocialMediaSection: React.FC<SocialMediaSectionProps> = ({
       <div className={styles.container}>
         <SectionHead id="contact-social" eyebrow={eyebrow} title={title} intro={subtitle} />
 
-        <div className={styles.cardsGrid}>
+        <div className={styles.cardsGrid} data-reveal-stagger="zoom">
           {platforms.map((platform) => (
             <SocialMediaCard
               key={platform.name}

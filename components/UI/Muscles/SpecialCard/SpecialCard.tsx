@@ -22,7 +22,7 @@ const SpecialCard: React.FC<SpecialCardProps> = ({
   const locale = localeFromPath(usePathname());
 
   return (
-    <div className={`${styles.specialCard} ${className}`}>
+    <div className={`${styles.specialCard} ${className}`} data-reveal="zoom">
       {/* Animated blur circles background */}
       <div className={styles.blurContainer}>
         <Image

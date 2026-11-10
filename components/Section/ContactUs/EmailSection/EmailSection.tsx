@@ -32,7 +32,7 @@ const EmailSection: React.FC<EmailSectionProps> = ({
       <div className={styles.container}>
         <SectionHead id="contact-email" eyebrow={eyebrow} title={title} intro={subtitle} />
 
-        <div className={styles.cardsGrid}>
+        <div className={styles.cardsGrid} data-reveal-stagger>
           {contacts.map((contact, index) => (
             <EmailCard
               key={`${contact.email}-${index}`}
