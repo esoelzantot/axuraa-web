@@ -50,6 +50,7 @@ const WhyUs: React.FC = () => {
           {values.map((value, index) => (
             <Card
               key={index}
+              index={index}
               icon={value.iconSrc}
               title={value.title}
               description={value.description}

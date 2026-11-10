@@ -199,3 +199,13 @@
   margin-left: 0;
   margin-right: 0;
 }
+
+/* The Writing History card matches the timeline column's height (was a fixed 80vh) */
+.content_wrapper {
+  align-items: stretch;
+}
+
+.card_container {
+  height: auto;
+  min-height: 26rem;
+}

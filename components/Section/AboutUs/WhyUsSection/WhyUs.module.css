@@ -253,3 +253,15 @@
   max-width: var(--content-max, 70rem);
   margin: 2.5rem auto 0;
 }
+
+/* Equal-height value cards */
+.cardsGrid {
+  align-items: stretch;
+}
+
+/* Tablets: 2 × 2 instead of four narrow cards */
+@media (min-width: 481px) and (max-width: 1023.98px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
