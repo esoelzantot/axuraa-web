@@ -27,7 +27,10 @@ const SectionHead: React.FC<SectionHeadProps> = ({
   const last = words.pop();
 
   return (
-    <header className={`${styles.head} ${align === "start" ? styles.start : ""} ${className}`}>
+    <header
+      className={`${styles.head} ${align === "start" ? styles.start : ""} ${className}`}
+      data-reveal="up"
+    >
       <span className={styles.eyebrow}>
         <Sparkles size={13} aria-hidden="true" /> {eyebrow}
       </span>

@@ -46,7 +46,7 @@ const HistoryJourney: React.FC<HistoryJourneyProps> = ({ data }) => {
   return (
     <section className={styles.history_journey}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.header} data-reveal="up">
           <StatusBadge text="OUR HISTORY" className={styles.badge} />
 
           <Typography
@@ -59,7 +59,7 @@ const HistoryJourney: React.FC<HistoryJourneyProps> = ({ data }) => {
           </Typography>
         </div>
 
-        <div className={styles.timeline}>
+        <div className={styles.timeline} data-reveal-stagger="left">
           {journeyData.timeline.map((item, index) => (
             <Step
               key={`${item.year}-${index}`}

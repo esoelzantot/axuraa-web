@@ -49,7 +49,7 @@ const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
           />
         </div>
 
-        <div className={styles.teamGrid}>
+        <div className={styles.teamGrid} data-reveal-stagger>
           {displayedMembers.map((member, i) => (
             <TeamCard
               key={member._id}

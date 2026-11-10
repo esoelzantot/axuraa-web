@@ -20,5 +20,7 @@ export interface SectionBadgeProps {
   text: string;
   style?: React.CSSProperties;
   className?: string;
+  /** Animate in on scroll (off for badges inside the hero). */
+  reveal?: boolean;
 }
 

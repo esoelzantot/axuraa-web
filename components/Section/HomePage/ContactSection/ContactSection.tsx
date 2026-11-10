@@ -58,7 +58,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
 
   return (
     <section id="contact-section" className={styles.ContactSection}>
-      <div className={styles.ContactGrid}>
+      <div className={styles.ContactGrid} data-reveal-stagger>
         <div className={styles.Contantinfo}>
           <StatusBadge text={badgeText} />
 
@@ -91,7 +91,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
           </div>
 
           {/* ✅ نقلهم هنا جوا Contantinfo */}
-          <div className={styles.contactFormWrapper}>
+          <div className={styles.contactFormWrapper} data-reveal-stagger="left">
             <ContactInfoCard
               icon="/assets/PhoneIcon.svg"
               label="Phone"
@@ -107,7 +107,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
           </div>
 
           {showLinks && (
-            <div className={styles.socialIconsContainer}>
+            <div className={styles.socialIconsContainer} data-reveal-stagger="zoom">
               {socialIcons.map((social) => (
                 <a
                   key={social.id}

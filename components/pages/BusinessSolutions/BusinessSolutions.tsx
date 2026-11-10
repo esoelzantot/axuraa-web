@@ -41,7 +41,7 @@ const BusinessSolutions = ({ services, locale }: Props) => {
         backgroundType="Circle"
       />
 
-      <div className={styles.BusinessContainer}>
+      <div className={styles.BusinessContainer} data-reveal-stagger>
         {services.length === 0 ? (
           <div className={styles.sectionError}>No services available.</div>
         ) : (

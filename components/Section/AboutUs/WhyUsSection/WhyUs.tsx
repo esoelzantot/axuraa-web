@@ -36,7 +36,7 @@ const WhyUs: React.FC = () => {
     <section className={styles.whyUsSection} aria-labelledby="why-us-heading">
       <div className={styles.container}>
         {/* Header Section */}
-        <div className={styles.header}>
+        <div className={styles.header} data-reveal="up">
           <StatusBadge text="AXURAA" className={styles.badge} />
           <SectionHeader
             title1=""
@@ -46,7 +46,7 @@ const WhyUs: React.FC = () => {
         </div>
 
         {/* Cards Grid */}
-        <div className={styles.cardsGrid}>
+        <div className={styles.cardsGrid} data-reveal-stagger>
           {values.map((value, index) => (
             <Card
               key={index}

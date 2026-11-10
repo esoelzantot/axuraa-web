@@ -20,7 +20,7 @@ const MissionVisionSection: React.FC = () => {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.cardsGrid}>
+        <div className={styles.cardsGrid} data-reveal-stagger>
           {/* Mission Card */}
           <MVCard
             title={missionData.title}

@@ -97,6 +97,8 @@ const Header = () => {
 
   return (
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
+      {/* Reading progress (CSS scroll-driven; hidden where unsupported) */}
+      <span className={styles.progress} aria-hidden="true" />
       <div className={styles.headerContainer}>
         <Link
           href={homeHref}

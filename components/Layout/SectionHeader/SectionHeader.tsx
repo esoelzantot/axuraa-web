@@ -14,6 +14,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <div 
       className={`${styles.header} ${className}`}
+      data-reveal="up"
       style={{ 
         textAlign: textAlign,
         alignItems: textAlign === 'left' ? 'flex-start' : textAlign === 'right' ? 'flex-end' : 'center'

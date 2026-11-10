@@ -56,7 +56,7 @@ const BusinessSection = ({ services, locale }: BusinessSectionProps) => {
         subtitle="Ready-made products we tailor to the way your business works"
         titleLayout="column"
       />
-      <div className={styles.servicesGrid}>
+      <div className={styles.servicesGrid} data-reveal-stagger>
         {cards.map((card, index) => {
           const content = (
             <HomeServiceCard

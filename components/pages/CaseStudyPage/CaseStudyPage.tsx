@@ -147,7 +147,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
             )}
 
             {caseStudy.mainImage && (
-              <figure className={styles.frame}>
+              <figure className={styles.frame} data-reveal="clip">
                 <span className={styles.frameGlow} aria-hidden="true" />
                 <div className={styles.frameWindow}>
                   <div className={styles.frameBar} aria-hidden="true">
@@ -174,7 +174,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
           </section>
 
           {/* Overview */}
-          <section className={styles.block} aria-labelledby="cs-overview">
+          <section className={styles.block} aria-labelledby="cs-overview" data-reveal="up">
             <div className={styles.blockHead}>
               <span className={styles.blockNum}>01</span>
               <h2 id="cs-overview" className={styles.blockTitle}>
@@ -186,7 +186,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
 
           {/* Key Features */}
           {caseStudy.features.length > 0 && (
-            <section className={styles.block} aria-labelledby="cs-features">
+            <section className={styles.block} aria-labelledby="cs-features" data-reveal="up">
               <div className={styles.blockHead}>
                 <span className={styles.blockNum}>02</span>
                 <h2 id="cs-features" className={styles.blockTitle}>
@@ -197,7 +197,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                 A comprehensive suite of features designed to optimize the experience for merchants
                 and customers alike.
               </p>
-              <div className={styles.features}>
+              <div className={styles.features} data-reveal-stagger>
                 {caseStudy.features.map((feature, idx) => (
                   <article key={idx} className={styles.feature}>
                     <span className={styles.featureIcon}>
@@ -217,14 +217,14 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
         </main>
 
         {/* Sidebar */}
-        <aside className={styles.sidebar}>
+        <aside className={styles.sidebar} data-reveal-stagger>
           {/* Results */}
           <section className={styles.panel} aria-labelledby="cs-results">
             <h2 id="cs-results" className={styles.panelTitle}>
               Case Study Results
             </h2>
             {caseStudy.results.length > 0 && (
-              <div className={styles.results}>
+              <div className={styles.results} data-reveal-stagger="zoom">
                 {caseStudy.results.map((r, idx) => (
                   <div key={idx} className={styles.result}>
                     <span className={styles.resultValue}>{r.value}</span>

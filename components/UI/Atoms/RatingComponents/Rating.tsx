@@ -84,7 +84,7 @@ const Rating: React.FC<RatingProps> = ({ items, duration = 3000, maxValue = 50 }
   }, [items, duration, maxValue]);
 
   return (
-    <div className={`${styles.wrapper} ${isVisible ? styles.visible : ""}`} ref={ratingRef}>
+    <div className={`${styles.wrapper} ${isVisible ? styles.visible : ""}`} ref={ratingRef} data-reveal="zoom">
       {items.map((item, index) => {
         const Icon = iconFor(item.label);
         return (

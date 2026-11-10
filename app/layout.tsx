@@ -5,6 +5,7 @@ import styles from "./layout.module.css";
 import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
 import ChatBot from "@/components/UI/Atoms/ChatBot/ChatBot";
+import RevealObserver from "@/components/Layout/Reveal/RevealObserver";
 import { DEFAULT_LOCALE } from "@/lib/i18n";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang={DEFAULT_LOCALE} className={styles.html}>
       <body className={`${roboto.variable} ${styles.body}`}>
+        <RevealObserver />
         <div className={styles.wrapper}>
           <Header />
           <main className={styles.main}>{children}</main>

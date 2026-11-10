@@ -57,7 +57,7 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
         titleLayout="column"
       />
 
-      <div className={styles.servicesGrid}>
+      <div className={styles.servicesGrid} data-reveal-stagger>
         {cards.map((card, index) => {
           const content = (
             <HomeServiceCard

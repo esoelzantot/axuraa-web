@@ -136,11 +136,11 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         <div className={`${styles.inner} ${styles.whatGrid}`}>
           <div className={styles.whatMain}>
             <SectionHead id="sp-what" eyebrow="Overview" title="What We Do" align="start" />
-            <p className={styles.lead}>
+            <p className={styles.lead} data-reveal="up">
               {getStr(service.what_we_do?.description, locale) ||
                 "Our experts build exceptional digital experiences."}
             </p>
-            <ul className={styles.units}>
+            <ul className={styles.units} data-reveal-stagger="left">
               {(units.length ? units : ["Custom application and platform development"]).map((unit, i) => (
                 <li key={i} className={styles.unit}>
                   <span className={styles.unitCheck} aria-hidden="true">
@@ -153,7 +153,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
           </div>
 
           {technologies.length > 0 && (
-            <aside className={styles.techCard} aria-labelledby="sp-tech">
+            <aside className={styles.techCard} data-reveal="right" aria-labelledby="sp-tech">
               <span className={styles.techGlow} aria-hidden="true" />
               <h3 id="sp-tech" className={styles.techTitle}>
                 Technologies Used
@@ -183,7 +183,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             }
           />
           {features.length > 0 && (
-            <div className={styles.featureGrid}>
+            <div className={styles.featureGrid} data-reveal-stagger>
               {features.map((f, i) => (
                 <article key={i} className={styles.featureCard}>
                   <span className={styles.featureNum} aria-hidden="true">
@@ -216,7 +216,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             title="Our Development Process"
             intro="A systematic approach that ensures a high-quality product through discovery, design, implementation, and support."
           />
-          <ol className={styles.steps}>
+          <ol className={styles.steps} data-reveal-stagger="zoom">
             {developmentProcess.map(({ title, description, icon: Icon }, i) => (
               <li key={title} className={styles.step}>
                 <span className={styles.stepMarker}>
@@ -249,6 +249,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
           {successStories.length > 0 && (
             <div
               className={`${styles.storyGrid} ${successStories.length === 1 ? styles.storySolo : ""}`}
+              data-reveal-stagger
             >
               {successStories.map((story) => (
                 <article key={story.id} className={styles.storyCard}>
@@ -297,7 +298,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             </div>
           )}
 
-          <figure className={styles.testimonial}>
+          <figure className={styles.testimonial} data-reveal="zoom">
             <Quote className={styles.quoteMark} size={36} aria-hidden="true" />
             <blockquote className={styles.quoteText}>
               &ldquo;The team completely transformed our online presence. Their design sense is
@@ -325,7 +326,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             title="Service Packages"
             intro="Choose the solution that fits your business needs."
           />
-          <div className={styles.packages}>
+          <div className={styles.packages} data-reveal-stagger>
             {servicePackages.map((pkg) => (
               <article
                 key={pkg.title}
@@ -351,7 +352,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             ))}
           </div>
 
-          <div className={styles.cta}>
+          <div className={styles.cta} data-reveal="zoom">
             <span className={styles.ctaPattern} aria-hidden="true" />
             <div className={styles.ctaCopy}>
               <h2 className={styles.ctaTitle}>Free Project Consultation</h2>
