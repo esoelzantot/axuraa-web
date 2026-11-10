@@ -375,3 +375,10 @@
   opacity: 1;
   transform: none;
 }
+
+/* The form card sizes itself; visible overflow so the services dropdown never gets clipped */
+.Contantform {
+  min-height: 0;
+  overflow: visible;
+  border-radius: 0;
+}

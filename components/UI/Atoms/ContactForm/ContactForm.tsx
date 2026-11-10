@@ -4,14 +4,18 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./ContactForm.module.css";
 import { ContactRequest, FormErrors } from "@/types/Generals/contactForm";
 import { create } from "@/service/Contact/contactServices";
-import Image from "next/image";
-
-//icons
-import fullNameIcon from "../../../../public/assets/fullname.svg";
-import emailIcon from "../../../../public/assets/Email.svg";
-import servicesIcon from "../../../../public/assets/services.svg";
-import chooseIcon from "../../../../public/assets/chose.svg";
-import sendIcon from "../../../../public/assets/sendbuttom.svg";
+import {
+  AlertCircle,
+  Check,
+  CheckCircle2,
+  ChevronDown,
+  Layers,
+  Loader2,
+  Mail,
+  Phone,
+  Send,
+  User,
+} from "lucide-react";
 
 const ContactForm = () => {
   // Service options with proper backend values matching existing API data
@@ -203,100 +207,106 @@ const ContactForm = () => {
     return `${formData.services_interest.length} services selected`;
   };
 
+  const ContactIcon = contactMethod === "email" ? Mail : Phone;
+
   return (
     <div className={styles.contactForm}>
-      <div className={styles.circleBackground}></div>
+      <span className={styles.circleBackground} aria-hidden="true" />
+      <span className={styles.texture} aria-hidden="true" />
 
       {submitStatus.type && (
         <div
           role={submitStatus.type === "success" ? "status" : "alert"}
-          className={
-            submitStatus.type === "success"
-              ? styles.successMessage
-              : styles.errorMessage
-          }
+          className={submitStatus.type === "success" ? styles.successMessage : styles.errorMessage}
         >
-          {submitStatus.message}
+          {submitStatus.type === "success" ? (
+            <CheckCircle2 size={18} aria-hidden="true" />
+          ) : (
+            <AlertCircle size={18} aria-hidden="true" />
+          )}
+          <span>{submitStatus.message}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} noValidate>
+        {/* Full name */}
         <div className={styles.formGroup}>
           <label htmlFor="full_name" className={styles.label}>
             Full Name
           </label>
-          <div className={styles.inputWithIcon}>
-            <Image
-              src={fullNameIcon}
-              alt="Name"
-              width={20}
-              height={20}
-              className={styles.inputIcon}
-            />
+          <div className={`${styles.control} ${errors.full_name ? styles.controlError : ""}`}>
+            <User className={styles.inputIcon} size={18} aria-hidden="true" />
             <input
               type="text"
               id="full_name"
               name="full_name"
               value={formData.full_name}
               onChange={handleInputChange}
-              className={`${styles.inputField} ${errors.full_name ? styles.inputError : ""}`}
+              className={styles.inputField}
               placeholder="John Doe"
+              autoComplete="name"
               disabled={isSubmitting}
+              aria-invalid={Boolean(errors.full_name)}
             />
           </div>
-          {errors.full_name && (
-            <span className={styles.errorText}>{errors.full_name}</span>
-          )}
+          {errors.full_name && <span className={styles.errorText}>{errors.full_name}</span>}
         </div>
 
-        <div className={styles.formGroup1}>
-          <label htmlFor={contactMethod === "email" ? "email" : "phone_number"} className={styles.label}>
+        {/* Preferred contact method */}
+        <div className={styles.formGroup}>
+          <span className={styles.label} id="contact-method-label">
             Preferred Contact Method
-          </label>
-          <div className={styles.radio}>
-            <label className={styles.radioGroup}>
-              <input 
-                type="radio" 
-                name="contactMethod" 
-                value="email" 
+          </span>
+          <div
+            className={`${styles.segmented} ${contactMethod === "phone" ? styles.segmentedPhone : ""}`}
+            role="radiogroup"
+            aria-labelledby="contact-method-label"
+          >
+            <span className={styles.segmentThumb} aria-hidden="true" />
+            <label className={styles.segment}>
+              <input
+                type="radio"
+                name="contactMethod"
+                value="email"
                 className={styles.radioInput}
-                checked={contactMethod === 'email'}
-                onChange={() => handleContactMethodChange('email')}
+                checked={contactMethod === "email"}
+                onChange={() => handleContactMethodChange("email")}
                 disabled={isSubmitting}
               />
-              <span className={styles.radioLabel}>Email</span>
+              <Mail size={16} aria-hidden="true" />
+              <span>Email</span>
             </label>
-            <label className={styles.radioGroup}>
-              <input 
-                type="radio" 
-                name="contactMethod" 
-                value="phone" 
+            <label className={styles.segment}>
+              <input
+                type="radio"
+                name="contactMethod"
+                value="phone"
                 className={styles.radioInput}
-                checked={contactMethod === 'phone'}
-                onChange={() => handleContactMethodChange('phone')}
+                checked={contactMethod === "phone"}
+                onChange={() => handleContactMethodChange("phone")}
                 disabled={isSubmitting}
               />
-              <span className={styles.radioLabel}>Phone</span>
+              <Phone size={16} aria-hidden="true" />
+              <span>Phone</span>
             </label>
           </div>
-          <div className={styles.inputWithIcon}>
-            <Image
-              src={emailIcon}
-              alt={contactMethod === 'email' ? 'Email' : 'Phone'}
-              width={20}
-              height={20}
-              className={styles.inputIcon}
-            />
-            {contactMethod === 'email' ? (
+          <div
+            className={`${styles.control} ${errors.email || errors.phone_number ? styles.controlError : ""}`}
+          >
+            <ContactIcon className={styles.inputIcon} size={18} aria-hidden="true" />
+            {contactMethod === "email" ? (
               <input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`${styles.inputField} ${errors.email ? styles.inputError : ""}`}
+                className={styles.inputField}
                 placeholder="john.doe@example.com"
+                autoComplete="email"
+                aria-label="Email"
                 disabled={isSubmitting}
+                aria-invalid={Boolean(errors.email)}
               />
             ) : (
               <input
@@ -305,32 +315,25 @@ const ContactForm = () => {
                 name="phone_number"
                 value={formData.phone_number}
                 onChange={handleInputChange}
-                className={`${styles.inputField} ${errors.phone_number ? styles.inputError : ""}`}
+                className={styles.inputField}
                 placeholder="+1 (555) 123-4567"
+                autoComplete="tel"
+                aria-label="Phone number"
                 disabled={isSubmitting}
+                aria-invalid={Boolean(errors.phone_number)}
               />
             )}
           </div>
-          {errors.email && (
-            <span className={styles.errorText}>{errors.email}</span>
-          )}
-          {errors.phone_number && (
-            <span className={styles.errorText}>{errors.phone_number}</span>
-          )}
+          {errors.email && <span className={styles.errorText}>{errors.email}</span>}
+          {errors.phone_number && <span className={styles.errorText}>{errors.phone_number}</span>}
         </div>
 
+        {/* Services of interest */}
         <div className={styles.formGroup}>
           <span id="services-label" className={styles.label}>
             Services of Interest
           </span>
-          <div className={`${styles.inputWithIcon} ${styles.selectWrapper}`} ref={dropdownRef}>
-            <Image 
-              src={servicesIcon} 
-              alt="Services" 
-              width={20} 
-              height={20} 
-              className={styles.inputIcon}
-            />
+          <div className={styles.selectWrapper} ref={dropdownRef}>
             <button
               type="button"
               id="services"
@@ -338,35 +341,27 @@ const ContactForm = () => {
               aria-expanded={isDropdownOpen}
               aria-labelledby="services-label services"
               disabled={isSubmitting}
-              className={`${styles.selectField} ${styles.customSelect} ${isDropdownOpen ? styles.selectOpen : ""} ${errors.services_interest ? styles.inputError : ""}`}
+              className={`${styles.control} ${styles.selectControl} ${isDropdownOpen ? styles.controlOpen : ""} ${errors.services_interest ? styles.controlError : ""}`}
               onClick={() => setIsDropdownOpen((open) => !open)}
               onKeyDown={(e) => {
                 if (e.key === "Escape") setIsDropdownOpen(false);
               }}
-              style={{
-                cursor: isSubmitting ? "not-allowed" : "pointer",
-                textAlign: "start",
-                font: "inherit",
-              }}
             >
+              <Layers className={styles.inputIcon} size={18} aria-hidden="true" />
               <span
-                style={{
-                  color:
-                    formData.services_interest.length === 0
-                      ? "#9CA3AF"
-                      : "#ffffff",
-                }}
+                className={`${styles.selectText} ${formData.services_interest.length === 0 ? styles.placeholder : ""}`}
               >
                 {getDisplayText()}
               </span>
+              {formData.services_interest.length > 1 && (
+                <span className={styles.countBadge}>{formData.services_interest.length}</span>
+              )}
+              <ChevronDown
+                className={`${styles.selectArrow} ${isDropdownOpen ? styles.selectArrowOpen : ""}`}
+                size={18}
+                aria-hidden="true"
+              />
             </button>
-            <Image 
-              src={chooseIcon} 
-              alt="" 
-              width={20} 
-              height={20} 
-              className={`${styles.selectArrow} ${isDropdownOpen ? styles.selectArrowOpen : ''}`}
-            />
             {isDropdownOpen && (
               <div
                 className={styles.dropdownMenu}
@@ -376,21 +371,27 @@ const ContactForm = () => {
                   if (e.key === "Escape") setIsDropdownOpen(false);
                 }}
               >
-                {serviceOptions.map((service) => (
-                  <label key={service.value} className={styles.dropdownItem}>
-                    <input
-                      type="checkbox"
-                      checked={formData.services_interest.includes(
-                        service.value,
-                      )}
-                      onChange={() => handleServiceToggle(service.value)}
-                      disabled={isSubmitting}
-                      className={styles.checkboxInput}
-                    />
-                    <span className={styles.checkmark}></span>
-                    <span className={styles.serviceText}>{service.label}</span>
-                  </label>
-                ))}
+                {serviceOptions.map((service) => {
+                  const checked = formData.services_interest.includes(service.value);
+                  return (
+                    <label
+                      key={service.value}
+                      className={`${styles.dropdownItem} ${checked ? styles.dropdownItemChecked : ""}`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => handleServiceToggle(service.value)}
+                        disabled={isSubmitting}
+                        className={styles.checkboxInput}
+                      />
+                      <span className={styles.checkmark} aria-hidden="true">
+                        <Check size={13} strokeWidth={3} />
+                      </span>
+                      <span className={styles.serviceText}>{service.label}</span>
+                    </label>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -399,38 +400,36 @@ const ContactForm = () => {
           )}
         </div>
 
-        <div className={styles.formGroup2}>
+        {/* Message */}
+        <div className={styles.formGroup}>
           <label htmlFor="message" className={styles.label}>
-            Message 
+            Message
           </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleInputChange}
-            className={`${styles.inputField} ${styles.textarea} ${errors.message ? styles.inputError : ""}`}
-            placeholder="Tell us about your project..."
-            rows={5}
-            disabled={isSubmitting}
-          />
-          {errors.message && (
-            <span className={styles.errorText}>{errors.message}</span>
-          )}
+          <div className={`${styles.control} ${styles.textareaControl} ${errors.message ? styles.controlError : ""}`}>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              className={`${styles.inputField} ${styles.textarea}`}
+              placeholder="Tell us about your project..."
+              rows={5}
+              disabled={isSubmitting}
+              aria-invalid={Boolean(errors.message)}
+            />
+          </div>
+          {errors.message && <span className={styles.errorText}>{errors.message}</span>}
         </div>
 
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Sending..." : "Send Message"}
-          <Image 
-            src={sendIcon} 
-            alt="Send" 
-            width={12.689} 
-            height={10.685} 
-            className={styles.sendIcon}
-          />
+        <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+          <span className={styles.submitLabel}>{isSubmitting ? "Sending..." : "Send Message"}</span>
+          <span className={styles.submitIcon} aria-hidden="true">
+            {isSubmitting ? (
+              <Loader2 size={18} className={styles.spin} />
+            ) : (
+              <Send size={18} className={styles.plane} />
+            )}
+          </span>
         </button>
       </form>
     </div>
