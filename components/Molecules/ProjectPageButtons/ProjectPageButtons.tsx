@@ -9,6 +9,8 @@ interface ProjectPageButtonsProps {
   onFilterChange: (filter: string) => void;
   className?: string;
   filters: string[];
+  /** Accessible name of the filter group. */
+  label?: string;
 }
 
 const ProjectPageButtons: React.FC<ProjectPageButtonsProps> = ({
@@ -16,12 +18,13 @@ const ProjectPageButtons: React.FC<ProjectPageButtonsProps> = ({
   onFilterChange,
   className = "",
   filters = [],
+  label = "Filter projects",
 }) => {
   if (!filters.length) return null;
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <div className={styles.buttonsWrapper} role="group" aria-label="Filter projects">
+      <div className={styles.buttonsWrapper} role="group" aria-label={label}>
         {filters.map((filter) => (
           <ProjectButton
             key={filter}

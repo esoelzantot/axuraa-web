@@ -125,7 +125,7 @@
   }
 
   .card:hover .arrow {
-    transform: rotate(45deg);
+    transform: rotate(calc(45deg * var(--dir, 1)));
   }
 }
 
@@ -148,4 +148,10 @@
   .arrow {
     transition: none;
   }
+}
+
+/* RTL: outlined index moves to the left corner */
+[dir="rtl"] .num {
+  right: auto;
+  left: 1.25rem;
 }

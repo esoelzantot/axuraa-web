@@ -3,51 +3,33 @@ import React from "react";
 import styles from "./HistoryJourney.module.css";
 import Typography from "@/components/UI/Atoms/Typography/Typography";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
+import { cmsText, getDictionary } from "@/lib/dictionaries";
 import Step from "@/components/UI/Atoms/Step/Step";
 import {
   HistoryJourneyProps,
   HistoryJourneyData,
 } from "@/types/AboutUsPage/History/JourneyTypes";
 
-const HistoryJourney: React.FC<HistoryJourneyProps> = ({ data }) => {
-  // Static data - will be replaced with API data in the future
-  const defaultData: HistoryJourneyData = {
-    title: "A Journey of Continuous Evolution",
-    timeline: [
-      {
-        year: "2015",
-        title: "The Beginning",
-        description:
-          "Founded by two engineers in a small garage in San Francisco with a vision to simplify enterprise software.",
-      },
-      {
-        year: "2018",
-        title: "Global Reach",
-        description:
-          "Expanded operations to Europe and closed our 50th major project. Team grew to 20 specialists.",
-      },
-      {
-        year: "2021",
-        title: "Innovation Leap",
-        description:
-          "Launched our proprietary cloud migration framework, helping clients reduce costs by an average of 40%.",
-      },
-      {
-        year: "2024",
-        title: "Industry Leaders",
-        description:
-          "Recognized as a top software solutions provider, serving Fortune 500 clients globally with a dedicated team of 45+ experts.",
-      },
-    ],
-  };
+const HistoryJourney: React.FC<HistoryJourneyProps> = ({ data, locale }) => {
+  const h = getDictionary(locale).about.history;
+  // CMS history (English-only today; known strings are translated) or the static fallback.
+  const journeyData: HistoryJourneyData = data
+    ? {
+        title: cmsText(data.title, locale),
+        timeline: data.timeline.map((item) => ({
+          ...item,
+          title: cmsText(item.title, locale),
+          description: cmsText(item.description, locale),
+        })),
+      }
+    : { title: h.fallbackTitle, timeline: h.fallbackTimeline };
 
-  const journeyData = data || defaultData;
 
   return (
     <section className={styles.history_journey}>
       <div className={styles.container}>
         <div className={styles.header} data-reveal="up">
-          <StatusBadge text="OUR HISTORY" className={styles.badge} />
+          <StatusBadge text={h.badge} className={styles.badge} />
 
           <Typography
             variant="h2"

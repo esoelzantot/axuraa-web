@@ -3,55 +3,38 @@ import styles from "./WhyUs.module.css";
 import Card from "@/components/UI/Muscles/ValueCard/ValueCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
+import { Handshake, Lightbulb, Rocket, ShieldCheck, type LucideIcon } from "lucide-react";
+import { Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
-const WhyUs: React.FC = () => {
-  const values = [
-    {
-      iconSrc: "/assets/psychology.svg",
-      title: "Innovation First",
-      description:
-        "We constantly explore new technologies to keep you ahead of the curve.",
-    },
-    {
-      iconSrc: "/assets/shield.svg",
-      title: "Integrity",
-      description:
-        "Transparency in every step. No hidden costs or surprises, just honest work.",
-    },
-    {
-      iconSrc: "/assets/group.svg",
-      title: "Partnership",
-      description:
-        "We work with you, not just for you. Your business goals become our goals.",
-    },
-    {
-      iconSrc: "/assets/rocket.svg",
-      title: "Agile Execution",
-      description:
-        "Rapid delivery and iterative improvement for faster, better results.",
-    },
-  ];
+// Icons for the four values, in dictionary order.
+const VALUE_ICONS: LucideIcon[] = [Lightbulb, ShieldCheck, Handshake, Rocket];
+const VALUE_IMAGES = ["/assets/psychology.svg", "/assets/shield.svg", "/assets/group.svg", "/assets/rocket.svg"];
+
+const WhyUs: React.FC<{ locale: Locale }> = ({ locale }) => {
+  const w = getDictionary(locale).about.why;
 
   return (
     <section className={styles.whyUsSection} aria-labelledby="why-us-heading">
       <div className={styles.container}>
         {/* Header Section */}
         <div className={styles.header} data-reveal="up">
-          <StatusBadge text="AXURAA" className={styles.badge} />
+          <StatusBadge text={w.badge} className={styles.badge} />
           <SectionHeader
             title1=""
-            title2=" Why Axuraa?"
-            subtitle="Our culture is built on principles that ensure we deliver not just code, but tangible business value."
+            title2={w.title}
+            subtitle={w.subtitle}
           />
         </div>
 
         {/* Cards Grid */}
         <div className={styles.cardsGrid} data-reveal-stagger>
-          {values.map((value, index) => (
+          {w.items.map((value, index) => (
             <Card
               key={index}
               index={index}
-              icon={value.iconSrc}
+              icon={VALUE_IMAGES[index]}
+              lucideIcon={VALUE_ICONS[index]}
               title={value.title}
               description={value.description}
             />

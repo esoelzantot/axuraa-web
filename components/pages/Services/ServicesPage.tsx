@@ -4,6 +4,7 @@
 import React from "react";
 import styles from "./ServicesPage.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
+import { getDictionary } from "@/lib/dictionaries";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
 import { ServiceItem } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
@@ -14,14 +15,15 @@ interface Props {
 }
 
 const ServicesPage: React.FC<Props> = ({ services, locale }) => {
+  const t = getDictionary(locale);
   return (
     <div className={styles.servicesPage}>
       <HeroSection
         primaryHref={`/${locale}/contact#contact-form`}
-        title1="Architecting the Future of"
-        title2="Digital Business."
-        subtitle1="At Axuraa, we don't just write code. We build the digital infrastructure that powers the world's most ambitious companies."
-        badgeText="INNOVATION IN PROGRESS"
+        title1={t.listingHero.title1}
+        title2={t.listingHero.title2}
+        subtitle1={t.listingHero.subtitle}
+        badgeText={t.hero.innovationBadge}
         showBackgroundDots={false}
         showAnimatedCircles={true}
         showEllipseDecorations={true}
@@ -37,7 +39,7 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
       <div className={styles.servicesContainer} data-reveal-stagger>
         {services.length === 0 && (
           <p style={{ color: "#fff", textAlign: "center" }}>
-            No services available.
+            {t.common.noServices}
           </p>
         )}
 
@@ -59,7 +61,6 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
               index={index}
               variant="service"
               locale={locale}
-              buttonText={locale === "ar" ? "عرض التفاصيل" : "Learn More"}
             />
           );
         })}

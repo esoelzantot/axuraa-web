@@ -3,6 +3,7 @@
 
 import React, { useMemo, useState } from "react";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
+import { getDictionary } from "@/lib/dictionaries";
 import ProjectsGrid from "@/components/Section/PortfolioPage/ProjectsGrid.tsx/ProjectsGrid";
 import styles from "./PortfolioPage.module.css";
 import ProjectPageButtons from "@/components/Molecules/ProjectPageButtons/ProjectPageButtons";
@@ -18,15 +19,17 @@ interface Props {
 }
 
 const PortfolioPage = ({ projects, services, locale }: Props) => {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const t = getDictionary(locale);
+  const ALL = t.common.all;
+  const [activeFilter, setActiveFilter] = useState(ALL);
 
   // Build filter list from services
   const filters = useMemo(() => {
     const titles = services
       .map((s) => localize(s.subtitle, locale) || localize(s.title, locale))
       .filter((t) => t.trim() !== "");
-    return ["All", ...Array.from(new Set(titles))];
-  }, [services, locale]);
+    return [ALL, ...Array.from(new Set(titles))];
+  }, [services, locale, ALL]);
 
   const allProjects = useMemo(
     () => transformProjects(projects, services, locale),
@@ -34,18 +37,18 @@ const PortfolioPage = ({ projects, services, locale }: Props) => {
   );
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === "All") return allProjects;
+    if (activeFilter === ALL) return allProjects;
     return allProjects.filter((p) => p.categories.includes(activeFilter));
-  }, [activeFilter, allProjects]);
+  }, [activeFilter, allProjects, ALL]);
 
   return (
     <div className={styles.portfolioPage}>
       <HeroSection
         primaryHref={`/${locale}/contact#contact-form`}
-        title1="Architecting the Future of"
-        title2="Digital Business."
-        subtitle1="At Axuraa, we don't just write code. We build the digital infrastructure that powers the world's most ambitious companies."
-        badgeText="INNOVATION IN PROGRESS"
+        title1={t.listingHero.title1}
+        title2={t.listingHero.title2}
+        subtitle1={t.listingHero.subtitle}
+        badgeText={t.hero.innovationBadge}
         showBackgroundDots={false}
         showAnimatedCircles={true}
         showBadge={false}
@@ -63,10 +66,11 @@ const PortfolioPage = ({ projects, services, locale }: Props) => {
           activeFilter={activeFilter}
           onFilterChange={setActiveFilter}
           filters={filters}
+          label={t.common.filterProjects}
         />
         <div className={styles.container}>
           {filteredProjects.length === 0 ? (
-            <div className={styles.sectionError}>No projects found.</div>
+            <div className={styles.sectionError}>{t.common.noProjects}</div>
           ) : (
             <ProjectsGrid projects={filteredProjects} locale={locale} />
           )}

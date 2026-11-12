@@ -13,8 +13,8 @@ const ICON_RULES: [RegExp, LucideIcon][] = [
 ];
 
 /** "Why Axuraa" value card: numbered, icon tile, title, text, growing accent line. */
-const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description, index }) => {
-  const Icon = ICON_RULES.find(([re]) => re.test(title))?.[1];
+const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description, index, lucideIcon }) => {
+  const Icon = lucideIcon ?? ICON_RULES.find(([re]) => re.test(title))?.[1];
 
   return (
     <article className={styles.card}>

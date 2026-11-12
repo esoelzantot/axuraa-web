@@ -1054,3 +1054,10 @@
     transition: none;
   }
 }
+
+/* Drawer top bar: language switcher next to the close button (always in view) */
+.drawerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

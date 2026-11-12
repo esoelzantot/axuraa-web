@@ -104,7 +104,7 @@
   }
 
   .card:hover .arrow {
-    transform: rotate(45deg);
+    transform: rotate(calc(45deg * var(--dir, 1)));
     border-color: transparent;
     background: linear-gradient(135deg, #e0582a, #902501);
     color: #fff;
@@ -148,5 +148,18 @@
   .tile,
   .arrow {
     transition: none;
+  }
+}
+
+/* RTL: the follow arrow moves to the left corner (the icon tile is on the right) */
+[dir="rtl"] .arrow {
+  right: auto;
+  left: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  [dir="rtl"] .arrow {
+    right: auto;
+    left: 1rem;
   }
 }

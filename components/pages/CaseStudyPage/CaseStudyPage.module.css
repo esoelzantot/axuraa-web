@@ -505,7 +505,7 @@
   }
 
   .ctaBtn:hover .ctaArrow {
-    transform: rotate(45deg);
+    transform: rotate(calc(45deg * var(--dir, 1)));
   }
 }
 

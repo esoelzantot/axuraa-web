@@ -12,6 +12,7 @@ import { ContactSectionProps } from "@/types/HomePage/contactTypes";
 import { SocialLink } from "@/service/Contact/contactinformation";
 import type { ContactData } from "@/components/pages/Contact/Contact";
 import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from "@/lib/site";
+import useDictionary from "@/hooks/useDictionary";
 
 const ICON_MAP: Record<string, string> = {
   facebook: "/assets/SocialMedia/facebook.svg",
@@ -34,6 +35,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
   showLinks = true,
   contactData,
 }) => {
+  const { t } = useDictionary();
   const phone = contactData?.phone || CONTACT_PHONE;
   const email = contactData?.emails?.[0]?.email || CONTACT_EMAIL;
 
@@ -94,13 +96,13 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
           <div className={styles.contactFormWrapper} data-reveal-stagger="left">
             <ContactInfoCard
               icon="/assets/PhoneIcon.svg"
-              label="Phone"
+              label={t.common.phone}
               value={phone}
               href={`tel:${phone.replace(/[^+\d]/g, "")}`}
             />
             <ContactInfoCard
               icon="/assets/emailicon.svg"
-              label="Email"
+              label={t.common.email}
               value={email}
               href={`mailto:${email}`}
             />

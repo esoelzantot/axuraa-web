@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useRef } from "react";
+import useDictionary from "@/hooks/useDictionary";
 import { ArrowRight } from "lucide-react";
 import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
 import styles from "./HomeServiceCard.module.css";
@@ -47,6 +48,7 @@ const HomeServiceCard: React.FC<HomeServiceCardProps> = ({
   corner = "bottom-right",
   interactive = true,
 }) => {
+  const { t } = useDictionary();
   const { ref, onPointerMove } = useSpotlight<HTMLElement>();
   const number = typeof index === "number" ? String(index + 1).padStart(2, "0") : null;
 
@@ -88,7 +90,7 @@ const HomeServiceCard: React.FC<HomeServiceCardProps> = ({
 
       {interactive && (
         <span className={styles.explore} aria-hidden="true">
-          Explore <ArrowRight size={16} strokeWidth={2.25} />
+          {t.common.explore} <ArrowRight size={16} strokeWidth={2.25} />
         </span>
       )}
     </article>

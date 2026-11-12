@@ -4,6 +4,8 @@
 import React from "react";
 import styles from "./BusinessSolutions.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
+import { getDictionary } from "@/lib/dictionaries";
+import type { Locale } from "@/lib/i18n";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
 
 interface ServiceCardData {
@@ -17,18 +19,19 @@ interface ServiceCardData {
 
 interface Props {
   services: ServiceCardData[];
-  locale: string;
+  locale: Locale;
 }
 
 const BusinessSolutions = ({ services, locale }: Props) => {
+  const t = getDictionary(locale);
   return (
     <div className={styles.BusinessPage}>
       <HeroSection
         primaryHref={`/${locale}/contact#contact-form`}
-        title1="Architecting Future of"
-        title2="Digital Business."
-        subtitle1="At Axuraa, we don't just write code. We build digital infrastructure that powers world's most ambitious companies."
-        badgeText="INNOVATION IN PROGRESS"
+        title1={t.listingHero.title1}
+        title2={t.listingHero.title2}
+        subtitle1={t.listingHero.subtitle}
+        badgeText={t.hero.innovationBadge}
         showBackgroundDots={false}
         showAnimatedCircles={true}
         showEllipseDecorations={true}
@@ -43,7 +46,7 @@ const BusinessSolutions = ({ services, locale }: Props) => {
 
       <div className={styles.BusinessContainer} data-reveal-stagger>
         {services.length === 0 ? (
-          <div className={styles.sectionError}>No services available.</div>
+          <div className={styles.sectionError}>{t.common.noServices}</div>
         ) : (
           services.map((service, index) => (
             <ServiceCard

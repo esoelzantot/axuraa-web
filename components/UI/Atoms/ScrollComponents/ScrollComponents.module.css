@@ -477,3 +477,12 @@
     overscroll-behavior: contain;
   }
 }
+/* The carousel's scroll math assumes LTR scrollLeft (RTL makes it negative),
+   so the track always scrolls LTR; each item restores the page direction. */
+.horizontalScroll {
+  direction: ltr;
+}
+
+[dir="rtl"] .horizontalScroll .scrollItem {
+  direction: rtl;
+}

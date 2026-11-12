@@ -7,53 +7,32 @@ import SeeAllCard from "@/components/UI/Atoms/HomeServiceCard/SeeAllCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import { ServiceItem, filterServices } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 interface ServicesSectionProps {
   services: ServiceItem[];
   locale: Locale;
 }
 
-const FALLBACK_SERVICES = [
-  {
-    id: null,
-    title: "Cybersecurity",
-    description: "Protect your digital assets with our comprehensive cybersecurity solutions.",
-    icon: "/assets/CardIcon.svg",
-  },
-  {
-    id: null,
-    title: "Web Development",
-    description: "Custom web applications built with modern technologies to meet your business needs.",
-    icon: "/assets/CardIcon.svg",
-  },
-  {
-    id: null,
-    title: "IT Consulting",
-    description: "Expert advice to optimize your IT infrastructure and strategy.",
-    icon: "/assets/CardIcon.svg",
-  },
-];
-
 const linkStyle: React.CSSProperties = { display: "block", height: "100%", color: "inherit", textDecoration: "none" };
 
 const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
+  const t = getDictionary(locale).home.services;
   const items = filterServices(services, "service").slice(0, 3);
-  const cards = items.length
-    ? items.map((s) => ({
+  const cards = items.map((s) => ({
         id: s._id as string | null,
         title: localize(s.title, locale),
         description: localize(s.description, locale),
         icon: s.icon?.trim() || "",
-      }))
-    : FALLBACK_SERVICES;
+      }));
 
   return (
     <section className={styles.servicesSection}>
-      <Badge text="Our Services" show={true} />
+      <Badge text={t.badge} show={true} />
       <SectionHeader
-        title1="How we help"
-        title2="Businesses Grow?"
-        subtitle="Discover our comprehensive suite of services designed to elevate your digital presence"
+        title1={t.title1}
+        title2={t.title2}
+        subtitle={t.subtitle}
         titleLayout="column"
       />
 
@@ -78,8 +57,8 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
           );
         })}
         <SeeAllCard
-          title="See All Services"
-          description="Explore our full catalog"
+          title={t.seeAllTitle}
+          description={t.seeAllDescription}
           href={`/${locale}/service`}
           corner="bottom-right"
         />

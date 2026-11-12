@@ -11,21 +11,23 @@ import OurTeamSection from "@/components/Section/AboutUs/OurTeamSection/OurTeamS
 import { TeamMember } from "@/service/TeamMembers/TeamMembers";
 import { HistoryJourneyData } from "@/types/AboutUsPage/History/JourneyTypes";
 import { TrackRecordData } from "@/service/TrackRecord/trackrecord";
+import type { Locale } from "@/lib/i18n";
 
 interface Props {
   historyData: HistoryJourneyData | null;
   teamMembers: TeamMember[] | null;
   trackRecord: TrackRecordData | null;
+  locale: Locale;
 }
 
-const AboutUs = ({ historyData, teamMembers, trackRecord }: Props) => {
+const AboutUs = ({ historyData, teamMembers, trackRecord, locale }: Props) => {
   return (
     <div className={styles.container}>
-      <MainSection trackRecord={trackRecord} />
-      <MissionVisionSection />
-      <HistorySection journeyData={historyData ?? undefined} />
-      <WhyUs />
-      <OurTeamSection teamMembers={teamMembers ?? undefined} />
+      <MainSection trackRecord={trackRecord} locale={locale} />
+      <MissionVisionSection locale={locale} />
+      <HistorySection journeyData={historyData ?? undefined} locale={locale} />
+      <WhyUs locale={locale} />
+      <OurTeamSection teamMembers={teamMembers ?? undefined} locale={locale} />
       <SpecialCard />
     </div>
   );

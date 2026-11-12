@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import useDictionary from "@/hooks/useDictionary";
 
 /** Route-level error boundary: keeps the header/footer and offers a retry. */
 export default function Error({
@@ -10,6 +11,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const { t } = useDictionary();
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -28,9 +30,9 @@ export default function Error({
         color: "#ffffff",
       }}
     >
-      <h1 style={{ fontSize: "clamp(1.75rem, 4vw, 2.5rem)", margin: 0 }}>Something went wrong</h1>
+      <h1 style={{ fontSize: "clamp(1.75rem, 4vw, 2.5rem)", margin: 0 }}>{t.error.title}</h1>
       <p style={{ color: "#9CA3AF", maxWidth: 480 }}>
-        We could not load this page. Please try again in a moment.
+        {t.error.text}
       </p>
       <button
         type="button"
@@ -46,7 +48,7 @@ export default function Error({
           cursor: "pointer",
         }}
       >
-        Try again
+        {t.error.retry}
       </button>
     </section>
   );

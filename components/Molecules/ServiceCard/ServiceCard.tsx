@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useRef } from "react";
+import useDictionary from "@/hooks/useDictionary";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
@@ -34,12 +35,14 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   features,
   iconUrl,
-  buttonText = "Learn More",
+  buttonText,
   locale = "en",
   index,
   variant = "service",
   onButtonClick,
 }) => {
+  const { t } = useDictionary();
+  const label = buttonText ?? t.common.learnMore;
   const ref = useRef<HTMLElement>(null);
 
   // Spotlight follows the pointer (desktop pointers only; CSS hides it on touch)
@@ -58,7 +61,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
   const action = (
     <>
-      <span className={styles.ctaLabel}>{buttonText}</span>
+      <span className={styles.ctaLabel}>{label}</span>
       <span className={styles.ctaIcon} aria-hidden="true">
         <ArrowUpRight size={18} strokeWidth={2} />
       </span>
@@ -84,7 +87,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             svgClassName={styles.iconSvg}
           />
         </div>
-        <span className={styles.kind}>{variant === "solution" ? "Solution" : "Service"}</span>
+        <span className={styles.kind}>{variant === "solution" ? t.common.solution : t.common.service}</span>
       </div>
 
       <h3 className={styles.title} title={title}>
@@ -102,7 +105,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               <span>{feature}</span>
             </li>
           ))}
-          {extra > 0 && <li className={`${styles.feature} ${styles.more}`}>+{extra} more</li>}
+          {extra > 0 && <li className={`${styles.feature} ${styles.more}`}>{t.common.moreCount(extra)}</li>}
         </ul>
       )}
 
@@ -112,7 +115,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             {action}
           </button>
         ) : (
-          <Link href={href} className={`${styles.cta} ${styles.stretched}`} aria-label={`${buttonText}: ${title}`}>
+          <Link href={href} className={`${styles.cta} ${styles.stretched}`} aria-label={`${label}: ${title}`}>
             {action}
           </Link>
         )}

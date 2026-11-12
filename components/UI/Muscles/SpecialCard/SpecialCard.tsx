@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { localeFromPath } from "@/lib/i18n";
+import { useRouter } from "next/navigation";
+import useDictionary from "@/hooks/useDictionary";
 import Typography from "@/components/UI/Atoms/Typography/Typography";
 import styles from "./SpecialCard.module.css";
 import Image from "next/image";
@@ -10,16 +10,20 @@ import Image from "next/image";
 import { SpecialCardProps } from "@/types/Generals/cardTypes";
 
 const SpecialCard: React.FC<SpecialCardProps> = ({
-  title = "Ready to Innovate?",
-  subtitle = "Join the list of forward-thinking companies that trust Axuraa to deliver excellence.",
-  primaryButtonText = "Contact Us",
-  secondaryButtonText = "View Case Studies",
+  title: titleProp,
+  subtitle: subtitleProp,
+  primaryButtonText: primaryProp,
+  secondaryButtonText: secondaryProp,
   onPrimaryClick,
   onSecondaryClick,
   className = "",
 }) => {
   const router = useRouter();
-  const locale = localeFromPath(usePathname());
+  const { t, locale } = useDictionary();
+  const title = titleProp ?? t.about.cta.title;
+  const subtitle = subtitleProp ?? t.about.cta.subtitle;
+  const primaryButtonText = primaryProp ?? t.about.cta.primary;
+  const secondaryButtonText = secondaryProp ?? t.about.cta.secondary;
 
   return (
     <div className={`${styles.specialCard} ${className}`} data-reveal="zoom">

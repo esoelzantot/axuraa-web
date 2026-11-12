@@ -1,0 +1,107 @@
+/* Language switcher — pill track with a sliding brand-gradient thumb. */
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 4px 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[dir="rtl"] .switcher {
+  padding: 4px 10px 4px 4px;
+}
+
+.globe {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* the two options are laid out left→right (LTR) regardless of page direction */
+  direction: ltr;
+}
+
+.thumb {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 50%;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e0582a, #b83a12);
+  box-shadow: 0 2px 8px rgba(208, 74, 29, 0.3);
+  transform: translateX(calc(var(--active, 0) * 100%));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.option {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-width: 38px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+/* Arabic letter reads better a touch larger */
+.option[lang="ar"] {
+  font-family: var(--font-arabic), sans-serif;
+  font-size: 1rem;
+}
+
+.option:hover {
+  color: #fff;
+}
+
+.active {
+  color: #fff;
+  pointer-events: none;
+}
+
+.option:focus-visible {
+  outline: 2px solid #f0652f;
+  outline-offset: 2px;
+}
+
+/* Full-width variant for the mobile drawer */
+.full {
+  display: flex;
+  width: 100%;
+  padding: 6px 6px 6px 14px;
+  border-radius: 16px;
+}
+
+[dir="rtl"] .full {
+  padding: 6px 14px 6px 6px;
+}
+
+.full .track {
+  flex: 1;
+}
+
+.full .thumb {
+  border-radius: 12px;
+}
+
+.full .option {
+  height: 42px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    transition: none;
+  }
+}

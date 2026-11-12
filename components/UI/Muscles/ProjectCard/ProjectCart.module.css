@@ -322,7 +322,7 @@
   }
 
   .card:hover .ctaIcon {
-    transform: rotate(45deg) scale(1.05);
+    transform: rotate(calc(45deg * var(--dir, 1))) scale(1.05);
   }
 }
 
@@ -359,4 +359,10 @@
   .index {
     transition: none;
   }
+}
+
+/* RTL: outlined number moves to the left corner */
+[dir="rtl"] .index {
+  right: auto;
+  left: 1rem;
 }

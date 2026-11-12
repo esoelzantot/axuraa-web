@@ -583,3 +583,64 @@
     display: none;
   }
 }
+
+/* =================== RTL: launcher and panel sit bottom-left =================== */
+[dir="rtl"] .chatToggle {
+  right: auto;
+  left: 24px;
+}
+
+[dir="rtl"] .toggleTip {
+  right: auto;
+  left: calc(100% + 12px);
+  transform: translate(-8px, -50%);
+}
+
+[dir="rtl"] .toggleDot {
+  right: auto;
+  left: 3px;
+}
+
+[dir="rtl"] .toggleSpark {
+  right: auto;
+  left: 8px;
+}
+
+[dir="rtl"] .chatContainer {
+  right: auto;
+  left: 24px;
+  transform-origin: bottom left;
+}
+
+[dir="rtl"] .botMessage .messageTextContainer {
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 6px;
+}
+
+[dir="rtl"] .userMessage .messageTextContainer {
+  border-bottom-right-radius: 18px;
+  border-bottom-left-radius: 6px;
+}
+
+[dir="rtl"] .inputWrapper {
+  padding: 5px 16px 5px 5px;
+}
+
+@media (hover: hover) {
+  [dir="rtl"] .chatToggle:hover .toggleTip {
+    transform: translate(0, -50%);
+  }
+}
+
+@media (max-width: 767.98px) {
+  [dir="rtl"] .chatToggle {
+    left: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  [dir="rtl"] .chatContainer {
+    left: 8px;
+    right: 8px;
+  }
+}
