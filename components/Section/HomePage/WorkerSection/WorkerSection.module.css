@@ -15,17 +15,8 @@
 }
 
 .WorkerGrid {
-  display: flex;
   width: 100%;
-  height: auto;
-  padding: 2.5rem 0; /* 40px 0 */
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  row-gap: 1.375rem; /* 22px */
-  column-gap: 1.25rem; /* 20px */
-  flex-wrap: wrap;
-  overflow: visible;
+  padding-top: 1.5rem;
 }
 
 /* ── 1119px ───────────────────────────────────────── */
@@ -33,21 +24,12 @@
   .WorkerSection {
     padding: 0 1.875rem; /* 30px */
   }
-
-  .WorkerGrid {
-    column-gap: 0.9375rem; /* 15px */
-  }
 }
 
 /* ── 1024px ───────────────────────────────────────── */
 @media (max-width: 1024px) {
   .WorkerSection {
     padding: 1.25rem; /* 20px */
-  }
-
-  .WorkerGrid {
-    padding: 1.875rem 0; /* 30px 0 */
-    gap: 1.25rem; /* 20px */
   }
 }
 
@@ -57,21 +39,12 @@
     padding: 2.5rem 1rem; /* 40px 16px */
     gap: 1rem;
   }
-
-  .WorkerGrid {
-    padding: 1.5rem 0; /* 24px 0 */
-    gap: 1rem;
-  }
 }
 
 /* ── 639px ────────────────────────────────────────── */
 @media (max-width: 639px) {
   .WorkerSection {
     padding: 1.25rem 0.75rem; /* 20px 12px */
-  }
-
-  .WorkerGrid {
-    padding: 1.25rem 0; /* 20px 0 */
   }
 }
 
@@ -81,20 +54,12 @@
     padding: 2.5rem 0.625rem; /* 40px 10px */
     gap: 0.75rem;
   }
-
-  .WorkerGrid {
-    padding: 0.9375rem 0; /* 15px 0 */
-  }
 }
 
 /* ── 375px ────────────────────────────────────────── */
 @media (max-width: 375px) {
   .WorkerSection {
     padding: 1.875rem 0.9375rem; /* 30px 15px */
-  }
-
-  .WorkerGrid {
-    padding: 0.75rem 0; /* 12px 0 */
   }
 }
 
@@ -109,21 +74,11 @@
     gap: 0.5rem;
     overflow: hidden;
   }
-
-  .WorkerGrid {
-    padding: 0.75rem 0;
-    flex-wrap: nowrap; /* force single row — الـ HorizontalScroll يتحكم */
-    gap: 0.75rem;
-  }
 }
 
 @media (orientation: landscape) and (max-height: 480px) and (min-width: 736px) {
   .WorkerSection {
     padding: 0.75rem 1.5rem;
-  }
-
-  .WorkerGrid {
-    gap: 1rem;
   }
 }
 
@@ -134,12 +89,6 @@
   .WorkerSection {
     padding: 1rem 2rem;
     gap: 0.75rem;
-  }
-
-  .WorkerGrid {
-    padding: 1rem 0;
-    flex-wrap: nowrap;
-    gap: 1rem;
   }
 }
 

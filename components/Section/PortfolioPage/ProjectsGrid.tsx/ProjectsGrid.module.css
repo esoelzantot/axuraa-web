@@ -198,3 +198,15 @@ html {
 .gridItem:hover {
   transform: none;
 }
+
+/* Cards are capped in width: keep them centred in their cell so the
+   left and right gutters stay equal on every phone / tablet width */
+.gridItem {
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .gridItem > article {
+    max-width: 30rem;
+  }
+}
