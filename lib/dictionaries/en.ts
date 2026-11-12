@@ -8,6 +8,7 @@ export const en = {
   common: {
     brand: "Axuraa",
     logoAlt: "Axuraa logo",
+    loading: "Loading…",
     startProject: "Start a Project",
     viewOurWork: "View Our Work",
     learnMore: "Learn More",

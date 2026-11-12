@@ -50,7 +50,7 @@ const Footer = async ({ locale }: { locale: Locale }) => {
             <div className={styles.brandSection} data-reveal="up">
               <div className={styles.brand}>
                 <Image
-                  src="/assets/FooterLogo.png"
+                  src="/assets/axuraa-logo.png"
                   alt={t.common.logoAlt}
                   width={71}
                   height={71}
