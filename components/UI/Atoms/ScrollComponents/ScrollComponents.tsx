@@ -1,233 +1,243 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
-import styles from './ScrollComponents.module.css';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import styles from "./ScrollComponents.module.css";
+import { ScrollComponentProps } from "@/types/Generals/scrollTypes";
+import useDictionary from "@/hooks/useDictionary";
 
-import { ScrollComponentProps } from '@/types/Generals/scrollTypes';
+const COPIES = 3; // [clone] [real] [clone] → seamless loop in both directions
+const AUTOPLAY_MS = 3500;
+const RESUME_AFTER_MS = 4000; // pause autoplay this long after the user interacts
 
-export const HorizontalScroll: React.FC<ScrollComponentProps> = ({ 
-  children, 
-  className = '',
-  style
-}) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const startPos = useRef(0);
-  const scrollPos = useRef(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const scrollInterval = useRef<NodeJS.Timeout | null>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const isAutoScrolling = useRef(false);
+/**
+ * Infinite card carousel.
+ * - Native horizontal scrolling (touch swipe, trackpad, shift + wheel) with scroll-snap
+ * - Mouse drag on desktop, prev / next buttons, arrow keys
+ * - Autoplay one card at a time; pauses on hover, focus, interaction,
+ *   when off-screen or the tab is hidden, and is off under reduced motion
+ * The track is always laid out LTR (stable scrollLeft maths); items keep the page direction.
+ */
+export const HorizontalScroll: React.FC<ScrollComponentProps> = ({ children, className = "", style }) => {
+  const { t } = useDictionary();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const items = React.Children.toArray(children);
+  const count = items.length;
 
-  // Duplicate the items (5 copies) to create a seamless infinite loop.
-  // Derived during render instead of copied into state from an effect.
-  const items = useMemo(() => {
-    const childrenArray = React.Children.toArray(children);
-    return [...childrenArray, ...childrenArray, ...childrenArray, ...childrenArray, ...childrenArray];
-  }, [children]);
+  const hovered = useRef(false);
+  const visible = useRef(false);
+  const lastInteraction = useRef(0);
+  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null);
+  const [dragging, setDragging] = useState(false);
 
+  /** Width of one full set of cards (distance between the same card in two sets). */
+  const setWidth = useCallback(() => {
+    const vp = viewportRef.current;
+    if (!vp || count === 0) return 0;
+    const cells = vp.querySelectorAll<HTMLElement>("[data-cell]");
+    return cells[count] ? cells[count].offsetLeft - cells[0].offsetLeft : 0;
+  }, [count]);
+
+  /** Distance from one card to the next. */
+  const step = useCallback(() => {
+    const vp = viewportRef.current;
+    const cells = vp?.querySelectorAll<HTMLElement>("[data-cell]");
+    return cells && cells.length > 1 ? cells[1].offsetLeft - cells[0].offsetLeft : 0;
+  }, []);
+
+  /** Instantly move by ±one set so the real (middle) set stays in view. */
+  const recenter = useCallback(() => {
+    const vp = viewportRef.current;
+    const w = setWidth();
+    if (!vp || !w) return;
+    let jump = 0;
+    if (vp.scrollLeft < w * 0.5) jump = w;
+    else if (vp.scrollLeft > w * 1.5) jump = -w;
+    if (jump) vp.scrollTo({ left: vp.scrollLeft + jump, behavior: "instant" });
+  }, [setWidth]);
+
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      const vp = viewportRef.current;
+      if (!vp) return;
+      recenter();
+      vp.scrollBy({ left: dir * step(), behavior: "smooth" });
+    },
+    [recenter, step],
+  );
+
+  const touch = () => {
+    lastInteraction.current = Date.now();
+  };
+
+  // Start on the real (middle) set and keep it centred when the size changes.
   useEffect(() => {
-    cardRefs.current = cardRefs.current.slice(0, items.length);
-  }, [items.length]);
+    const vp = viewportRef.current;
+    if (!vp || count === 0) return;
+    const place = () => vp.scrollTo({ left: setWidth(), behavior: "instant" });
+    place();
+    const ro = new ResizeObserver(place);
+    ro.observe(vp);
+    return () => ro.disconnect();
+  }, [count, setWidth]);
 
-  // Initialize scroll position to the middle set
+  // Loop seamlessly once a scroll settles.
   useEffect(() => {
-    const scroller = scrollRef.current;
-    if (!scroller || items.length === 0) return;
-
-    const childrenCount = items.length / 5;
-    const middleSetIndex = childrenCount * 2; // Start at the 3rd set (middle)
-    
-    // Wait for DOM to render
-    const timer = setTimeout(() => {
-      const card = cardRefs.current[middleSetIndex];
-      if (card) {
-        scroller.scrollLeft = card.offsetLeft - scroller.offsetLeft;
-      }
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [items.length]);
-
-  // Handle infinite scroll repositioning
-  const handleInfiniteScroll = useCallback(() => {
-    const scroller = scrollRef.current;
-    if (!scroller || items.length === 0 || isAutoScrolling.current) return;
-
-    const childrenCount = items.length / 5;
-    const scrollLeft = scroller.scrollLeft;
-    const scrollWidth = scroller.scrollWidth;
-
-    // Calculate card width
-    const totalGap = 22 * (items.length - 1);
-    const totalCardWidth = scrollWidth - totalGap;
-    const cardWidth = totalCardWidth / items.length;
-
-    // Current card index
-    const currentCardIndex = Math.round(scrollLeft / (cardWidth + 22));
-
-    // If we're in the first set, jump to equivalent position in the 3rd set
-    if (currentCardIndex < childrenCount) {
-      const equivalentIndex = currentCardIndex + (childrenCount * 2);
-      const newScrollLeft = equivalentIndex * (cardWidth + 22);
-      scroller.scrollLeft = newScrollLeft;
-    }
-    // If we're in the last set, jump to equivalent position in the 3rd set
-    else if (currentCardIndex >= childrenCount * 4) {
-      const equivalentIndex = currentCardIndex - (childrenCount * 2);
-      const newScrollLeft = equivalentIndex * (cardWidth + 22);
-      scroller.scrollLeft = newScrollLeft;
-    }
-  }, [items.length]);
-
-  // Auto-scroll logic with smooth infinite loop
-  useEffect(() => {
-    const scroller = scrollRef.current;
-    if (!scroller || items.length === 0) return;
-
-    const smoothScrollToNext = () => {
-      if (isDragging.current || isHovered) return;
-
-      isAutoScrolling.current = true;
-      const scrollLeft = scroller.scrollLeft;
-      
-      // Calculate card width
-      const scrollWidth = scroller.scrollWidth;
-      const totalGap = 22 * (items.length - 1);
-      const totalCardWidth = scrollWidth - totalGap;
-      const cardWidth = totalCardWidth / items.length;
-
-      // Scroll to next card
-      const nextScrollPosition = scrollLeft + cardWidth + 22;
-      
-      scroller.scrollTo({
-        left: nextScrollPosition,
-        behavior: 'smooth'
-      });
-
-      // After animation completes, check for infinite scroll reset
-      setTimeout(() => {
-        handleInfiniteScroll();
-        isAutoScrolling.current = false;
-      }, 500); // Match this with scroll animation duration
+    const vp = viewportRef.current;
+    if (!vp) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (!drag.current) recenter();
+      }, 140);
     };
-
-    // Auto-scroll every 3 seconds
-    scrollInterval.current = setInterval(smoothScrollToNext, 3000);
-
+    vp.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      if (scrollInterval.current) {
-        clearInterval(scrollInterval.current);
-      }
+      clearTimeout(timer);
+      vp.removeEventListener("scroll", onScroll);
     };
-  }, [items.length, isHovered, handleInfiniteScroll]);
+  }, [recenter]);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    const scroller = scrollRef.current;
-    if (!scroller) return;
-    
-    isDragging.current = true;
-    startPos.current = e.pageX;
-    scrollPos.current = scroller.scrollLeft;
-    scroller.style.cursor = 'grabbing';
-    scroller.style.scrollBehavior = 'auto';
-  };
-  
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !scrollRef.current) return;
-    
-    const scroller = scrollRef.current;
-    const x = e.pageX;
-    const walk = (startPos.current - x) * 2;
-    scroller.scrollLeft = scrollPos.current + walk;
-  };
-  
-  const handleMouseUp = () => {
-    isDragging.current = false;
-    const scroller = scrollRef.current;
-    if (!scroller) return;
-    
-    scroller.style.cursor = 'grab';
-    scroller.style.scrollBehavior = 'smooth';
-    snapToNearestCard();
+  // Autoplay (only while on screen, idle and allowed).
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp || count < 2) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const io = new IntersectionObserver(([e]) => (visible.current = e.isIntersecting), { threshold: 0.3 });
+    io.observe(vp);
+    const id = setInterval(() => {
+      const idle = Date.now() - lastInteraction.current > RESUME_AFTER_MS;
+      const focused = vp.contains(document.activeElement);
+      if (reduce.matches || document.hidden || !visible.current || hovered.current || focused || drag.current || !idle) return;
+      go(1);
+    }, AUTOPLAY_MS);
+    return () => {
+      clearInterval(id);
+      io.disconnect();
+    };
+  }, [count, go]);
+
+  // Mouse drag (touch and pen use native scrolling).
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse" || e.button !== 0 || !viewportRef.current) return;
+    drag.current = { x: e.clientX, left: viewportRef.current.scrollLeft, moved: false };
+    touch();
   };
 
-  const handleScroll = () => {
-    // Don't reposition during auto-scroll animation
-    if (isAutoScrolling.current) return;
-    
-    // Handle infinite scroll repositioning for manual scrolling
-    handleInfiniteScroll();
+  const onPointerMove = (e: React.PointerEvent) => {
+    const d = drag.current;
+    const vp = viewportRef.current;
+    if (!d || !vp) return;
+    const dx = e.clientX - d.x;
+    if (!d.moved && Math.abs(dx) > 4) {
+      d.moved = true;
+      setDragging(true);
+      vp.setPointerCapture(e.pointerId);
+    }
+    if (d.moved) vp.scrollLeft = d.left - dx;
   };
 
-  const snapToNearestCard = () => {
-    const scroller = scrollRef.current;
-    if (!scroller || items.length === 0) return;
-
-    const scrollWidth = scroller.scrollWidth;
-    const totalGap = 22 * (items.length - 1);
-    const totalCardWidth = scrollWidth - totalGap;
-    const cardWidth = totalCardWidth / items.length;
-    
-    const currentScrollLeft = scroller.scrollLeft;
-    const nearestIndex = Math.round(currentScrollLeft / (cardWidth + 22));
-    const targetScroll = nearestIndex * (cardWidth + 22);
-    
-    scroller.scrollTo({
-      left: targetScroll,
-      behavior: 'smooth'
-    });
-
-    // After snapping, check if we need to reposition for infinite scroll
-    setTimeout(() => {
-      handleInfiniteScroll();
-    }, 300);
+  const endDrag = (e: React.PointerEvent) => {
+    const d = drag.current;
+    const vp = viewportRef.current;
+    drag.current = null;
+    if (!d || !vp) return;
+    if (vp.hasPointerCapture(e.pointerId)) vp.releasePointerCapture(e.pointerId);
+    if (!d.moved) return;
+    setDragging(false);
+    // Snap to the nearest card in the drag direction.
+    const s = step();
+    const moved = vp.scrollLeft - d.left;
+    const cards = Math.abs(moved) < s * 0.15 ? 0 : Math.sign(moved) * Math.max(1, Math.round(Math.abs(moved) / s));
+    vp.scrollTo({ left: d.left + cards * s, behavior: "smooth" });
+    touch();
   };
 
-  // Handle card hover
-  const handleCardMouseEnter = () => {
-    setIsHovered(true);
+  // A click that ends a drag must not open links inside the cards.
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (dragging) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   };
 
-  const handleCardMouseLeave = () => {
-    setIsHovered(false);
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      touch();
+      go(e.key === "ArrowRight" ? 1 : -1);
+    }
   };
 
-  // Update card refs
-  const setCardRef = (el: HTMLDivElement | null, index: number) => {
-    cardRefs.current[index] = el;
-  };
+  if (count === 0) return null;
 
   return (
-    <div
-      ref={scrollRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onScroll={handleScroll}
-      className={`${styles.horizontalScroll} ${className}`}
-      style={style}
-    >
-      <div 
-        ref={contentRef}
-        style={{
-          display: 'flex',
-          gap: '22px',
-        }}
+    <div className={`${styles.carousel} ${className}`} style={style}>
+      <div
+        ref={viewportRef}
+        className={`${styles.viewport} ${dragging ? styles.dragging : ""}`}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={t.common.carousel}
+        tabIndex={0}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onClickCapture={onClickCapture}
+        onKeyDown={onKeyDown}
+        onMouseEnter={() => (hovered.current = true)}
+        onMouseLeave={() => (hovered.current = false)}
+        onTouchStart={touch}
+        onWheel={touch}
       >
-        {items.map((child, index) => (
-          <div 
-            key={index} 
-            ref={el => setCardRef(el, index)}
-            className={styles.scrollItem}
-            onMouseEnter={handleCardMouseEnter}
-            onMouseLeave={handleCardMouseLeave}
-          >
-            {child}
-          </div>
-        ))}
+        <div className={styles.track}>
+          {Array.from({ length: COPIES }, (_, copy) =>
+            items.map((child, i) => {
+              const clone = copy !== 1;
+              return (
+                <div
+                  key={`${copy}-${i}`}
+                  data-cell
+                  className={styles.item}
+                  aria-hidden={clone || undefined}
+                  inert={clone || undefined}
+                >
+                  {child}
+                </div>
+              );
+            }),
+          )}
+        </div>
       </div>
+
+      {count > 1 && (
+        <div className={styles.controls} dir="ltr">
+          <button
+            type="button"
+            className={styles.navBtn}
+            aria-label={t.common.previous}
+            onClick={() => {
+              touch();
+              go(-1);
+            }}
+          >
+            <ChevronLeft size={18} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className={styles.navBtn}
+            aria-label={t.common.next}
+            onClick={() => {
+              touch();
+              go(1);
+            }}
+          >
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
