@@ -169,3 +169,9 @@
     transition: none;
   }
 }
+
+/* RTL: number tag on the reading start */
+[dir="rtl"] .tag {
+  left: auto;
+  right: 10px;
+}

@@ -8,9 +8,9 @@ import Badge from "@/components/UI/Atoms/Badge/Badge";
 import Image from "next/image";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import AnimatedBackground from "@/components/UI/Muscles/AinmatedBackground/AnimatedBackground";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import useDictionary from "@/hooks/useDictionary";
 import { getHomePartners, PartnerItem } from "@/service/partners/partners";
-import { localeFromPath } from "@/lib/i18n";
 
 interface HeroSectionProps {
   title1?: string;
@@ -79,13 +79,13 @@ const toCompany = (partner: PartnerItem) => {
 };
 
 const HeroSection: React.FC<HeroSectionProps> = ({
-  title1 = "Scalable Software. ",
-  title2 = "Intelligent Solutions.",
-  subtitle1 = "We transform complex business challenges into streamlined digital experiences.",
-  subtitle2 = "TRUSTED BY FORWARD-THINKING COMPANIES",
-  badgeText = "AVAILABLE FOR NEW PROJECTS",
-  primaryButtonText = "Start a Project",
-  secondaryButtonText = "View Our Work",
+  title1: title1Prop,
+  title2: title2Prop,
+  subtitle1: subtitle1Prop,
+  subtitle2: subtitle2Prop,
+  badgeText: badgeTextProp,
+  primaryButtonText: primaryButtonTextProp,
+  secondaryButtonText: secondaryButtonTextProp,
   primaryHref: primaryHrefProp,
   secondaryHref: secondaryHrefProp,
   height = "100dvh",
@@ -101,7 +101,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   backgroundType = "Hexagon",
 }) => {
   const router = useRouter();
-  const locale = localeFromPath(usePathname());
+  const { t, locale } = useDictionary();
+  // Page-supplied text wins; otherwise the localized defaults.
+  const title1 = title1Prop ?? t.hero.defaultTitle1;
+  const title2 = title2Prop ?? t.hero.defaultTitle2;
+  const subtitle1 = subtitle1Prop ?? t.hero.defaultSubtitle;
+  const subtitle2 = subtitle2Prop ?? t.hero.trustedBy;
+  const badgeText = badgeTextProp ?? t.hero.availableBadge;
+  const primaryButtonText = primaryButtonTextProp ?? t.common.startProject;
+  const secondaryButtonText = secondaryButtonTextProp ?? t.common.viewOurWork;
   const primaryHref = primaryHrefProp ?? `/${locale}/contact#contact-form`;
   const secondaryHref = secondaryHrefProp ?? `/${locale}/portfolio`;
 
@@ -175,7 +183,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             className={mounted ? styles.fadeInUp : ""}
           >
             {showBadge && <Badge text={badgeText} show={true} reveal={false} />}
-            {showStatusBadge && <StatusBadge text="WHO WE ARE" reveal={false} />}
+            {showStatusBadge && <StatusBadge text={t.hero.whoWeAre} reveal={false} />}
           </div>
 
           {/* Title */}

@@ -585,3 +585,9 @@
     animation: none;
   }
 }
+
+/* Labels, errors and banners align to the reading start (the block around the
+   form centers its text on small screens). */
+.contactForm {
+  text-align: start;
+}

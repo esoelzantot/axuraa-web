@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./ContactForm.module.css";
 import { ContactRequest, FormErrors } from "@/types/Generals/contactForm";
 import { create } from "@/service/Contact/contactServices";
+import useDictionary from "@/hooks/useDictionary";
 import {
   AlertCircle,
   Check,
@@ -17,16 +18,13 @@ import {
   User,
 } from "lucide-react";
 
+// Backend values for "Services of Interest" (labels come from the dictionary).
+const SERVICE_VALUES = ["ERP", "E_commerce", "Website", "Mobile_App", "Cloud_Migration", "AI_Integration"] as const;
+
 const ContactForm = () => {
-  // Service options with proper backend values matching existing API data
-  const serviceOptions = [
-    { value: "ERP", label: "ERP" },
-    { value: "E_commerce", label: "E-commerce" },
-    { value: "Website", label: "Website" },
-    { value: "Mobile_App", label: "Mobile App" },
-    { value: "Cloud_Migration", label: "Cloud Migration" },
-    { value: "AI_Integration", label: "AI Integration" },
-  ];
+  const { t } = useDictionary();
+  const f = t.form;
+  const serviceOptions = SERVICE_VALUES.map((value) => ({ value, label: f.serviceOptions[value] }));
 
   const [formData, setFormData] = useState<ContactRequest>({
     full_name: "",
@@ -69,32 +67,32 @@ const ContactForm = () => {
     const newErrors: FormErrors = {};
 
     if (!formData.full_name.trim()) {
-      newErrors.full_name = "Full name is required";
+      newErrors.full_name = f.errors.fullName;
     }
 
     // Validate based on selected contact method
     if (contactMethod === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!formData.email?.trim()) {
-        newErrors.email = "Email is required";
+        newErrors.email = f.errors.email;
       } else if (!emailRegex.test(formData.email)) {
-        newErrors.email = "Please enter a valid email address";
+        newErrors.email = f.errors.emailInvalid;
       }
     } else {
       const digits = formData.phone_number?.replace(/\D/g, "") ?? "";
       if (!formData.phone_number?.trim()) {
-        newErrors.phone_number = "Phone number is required";
+        newErrors.phone_number = f.errors.phone;
       } else if (!/^\+?[\d\s\-().]+$/.test(formData.phone_number) || digits.length < 7 || digits.length > 15) {
-        newErrors.phone_number = "Please enter a valid phone number";
+        newErrors.phone_number = f.errors.phoneInvalid;
       }
     }
 
     if (formData.services_interest.length === 0) {
-      newErrors.services_interest = "Please select at least one service";
+      newErrors.services_interest = f.errors.services;
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
+      newErrors.message = f.errors.message;
     }
 
     setErrors(newErrors);
@@ -165,7 +163,7 @@ const ContactForm = () => {
       if (response.success) {
         setSubmitStatus({
           type: "success",
-          message: "Thank you! Your message has been sent successfully.",
+          message: f.success,
         });
         setFormData({
           full_name: "",
@@ -181,13 +179,13 @@ const ContactForm = () => {
         setSubmitStatus({
           type: "error",
           message:
-            response.error || "Failed to send message. Please try again.",
+            f.failure,
         });
       }
     } catch {
       setSubmitStatus({
         type: "error",
-        message: "An unexpected error occurred. Please try again later.",
+        message: f.unexpected,
       });
     } finally {
       setIsSubmitting(false);
@@ -196,7 +194,7 @@ const ContactForm = () => {
 
   const getDisplayText = () => {
     if (formData.services_interest.length === 0) {
-      return "Select services";
+      return f.selectServices;
     }
     if (formData.services_interest.length === 1) {
       const service = serviceOptions.find(
@@ -204,7 +202,7 @@ const ContactForm = () => {
       );
       return service?.label || formData.services_interest[0];
     }
-    return `${formData.services_interest.length} services selected`;
+    return f.servicesSelected(formData.services_interest.length);
   };
 
   const ContactIcon = contactMethod === "email" ? Mail : Phone;
@@ -232,7 +230,7 @@ const ContactForm = () => {
         {/* Full name */}
         <div className={styles.formGroup}>
           <label htmlFor="full_name" className={styles.label}>
-            Full Name
+            {f.fullName}
           </label>
           <div className={`${styles.control} ${errors.full_name ? styles.controlError : ""}`}>
             <User className={styles.inputIcon} size={18} aria-hidden="true" />
@@ -243,7 +241,7 @@ const ContactForm = () => {
               value={formData.full_name}
               onChange={handleInputChange}
               className={styles.inputField}
-              placeholder="John Doe"
+              placeholder={f.fullNamePlaceholder}
               autoComplete="name"
               disabled={isSubmitting}
               aria-invalid={Boolean(errors.full_name)}
@@ -255,7 +253,7 @@ const ContactForm = () => {
         {/* Preferred contact method */}
         <div className={styles.formGroup}>
           <span className={styles.label} id="contact-method-label">
-            Preferred Contact Method
+            {f.contactMethod}
           </span>
           <div
             className={`${styles.segmented} ${contactMethod === "phone" ? styles.segmentedPhone : ""}`}
@@ -274,7 +272,7 @@ const ContactForm = () => {
                 disabled={isSubmitting}
               />
               <Mail size={16} aria-hidden="true" />
-              <span>Email</span>
+              <span>{f.email}</span>
             </label>
             <label className={styles.segment}>
               <input
@@ -287,7 +285,7 @@ const ContactForm = () => {
                 disabled={isSubmitting}
               />
               <Phone size={16} aria-hidden="true" />
-              <span>Phone</span>
+              <span>{f.phone}</span>
             </label>
           </div>
           <div
@@ -302,9 +300,9 @@ const ContactForm = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 className={styles.inputField}
-                placeholder="john.doe@example.com"
+                placeholder={f.emailPlaceholder}
                 autoComplete="email"
-                aria-label="Email"
+                aria-label={f.email}
                 disabled={isSubmitting}
                 aria-invalid={Boolean(errors.email)}
               />
@@ -316,9 +314,9 @@ const ContactForm = () => {
                 value={formData.phone_number}
                 onChange={handleInputChange}
                 className={styles.inputField}
-                placeholder="+1 (555) 123-4567"
+                placeholder={f.phonePlaceholder}
                 autoComplete="tel"
-                aria-label="Phone number"
+                aria-label={f.phoneNumber}
                 disabled={isSubmitting}
                 aria-invalid={Boolean(errors.phone_number)}
               />
@@ -331,7 +329,7 @@ const ContactForm = () => {
         {/* Services of interest */}
         <div className={styles.formGroup}>
           <span id="services-label" className={styles.label}>
-            Services of Interest
+            {f.services}
           </span>
           <div className={styles.selectWrapper} ref={dropdownRef}>
             <button
@@ -403,7 +401,7 @@ const ContactForm = () => {
         {/* Message */}
         <div className={styles.formGroup}>
           <label htmlFor="message" className={styles.label}>
-            Message
+            {f.message}
           </label>
           <div className={`${styles.control} ${styles.textareaControl} ${errors.message ? styles.controlError : ""}`}>
             <textarea
@@ -412,7 +410,7 @@ const ContactForm = () => {
               value={formData.message}
               onChange={handleInputChange}
               className={`${styles.inputField} ${styles.textarea}`}
-              placeholder="Tell us about your project..."
+              placeholder={f.messagePlaceholder}
               rows={5}
               disabled={isSubmitting}
               aria-invalid={Boolean(errors.message)}
@@ -422,7 +420,7 @@ const ContactForm = () => {
         </div>
 
         <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          <span className={styles.submitLabel}>{isSubmitting ? "Sending..." : "Send Message"}</span>
+          <span className={styles.submitLabel}>{isSubmitting ? f.sending : f.send}</span>
           <span className={styles.submitIcon} aria-hidden="true">
             {isSubmitting ? (
               <Loader2 size={18} className={styles.spin} />

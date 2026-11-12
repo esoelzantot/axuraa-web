@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n";
 import { ENDPOINTS } from "../api/APIs";
 import { http } from "../api/http";
 
@@ -31,9 +32,9 @@ export interface TeamMember {
 
 type TeamMembersResult = { success: boolean; data?: TeamMember[]; error?: string };
 
-export const getAllTeamMembers = async (): Promise<TeamMembersResult> => {
+export const getAllTeamMembers = async (lang: Locale = "en"): Promise<TeamMembersResult> => {
   const res = await http<{ status?: string; message?: string; data?: TeamMember[] }>(
-    ENDPOINTS.TeamMembers.getAll,
+    `${ENDPOINTS.TeamMembers.getAll}?lang=${lang}`,
   );
   if (!res.ok) return { success: false, error: res.error };
   if (res.json.status !== "success" || !Array.isArray(res.json.data)) {
@@ -43,8 +44,8 @@ export const getAllTeamMembers = async (): Promise<TeamMembersResult> => {
 };
 
 /** Active members only. */
-export const getActiveTeamMembers = async (): Promise<TeamMembersResult> => {
-  const result = await getAllTeamMembers();
+export const getActiveTeamMembers = async (lang: Locale = "en"): Promise<TeamMembersResult> => {
+  const result = await getAllTeamMembers(lang);
   if (!result.success || !result.data) return result;
   return {
     success: true,

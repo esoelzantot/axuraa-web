@@ -96,7 +96,7 @@
   }
 
   .contactCard:hover .arrow {
-    transform: rotate(45deg);
+    transform: rotate(calc(45deg * var(--dir, 1)));
     border-color: transparent;
     background: linear-gradient(135deg, #e0582a, #902501);
     color: #fff;

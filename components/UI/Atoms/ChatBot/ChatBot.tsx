@@ -3,10 +3,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { MessagesSquare, Send, Sparkles, X } from "lucide-react";
-import { usePathname } from "next/navigation";
 import styles from "./ChatBot.module.css";
 import { askChatBot } from "@/service/ChatBot/ChatBot";
-import { localeFromPath } from "@/lib/i18n";
+import useDictionary from "@/hooks/useDictionary";
 
 interface Message {
   id: string;
@@ -16,17 +15,6 @@ interface Message {
 }
 
 const AVATAR = "/assets/chatbot/f23588ca444ab18fb9cc8f5c53c79a764d32ef58.jpg";
-const ERROR_TEXT = "Sorry, I encountered an error. Please try again.";
-
-const SUGGESTIONS = [
-  "Who are Axuraa?",
-  "What services do you offer?",
-  "How can I contact you?",
-  "What is your pricing?",
-  "Do you have a portfolio?",
-  "How long does a project take?",
-];
-
 let messageSeq = 0;
 const createMessage = (text: string, sender: Message["sender"]): Message => ({
   id: `${Date.now()}-${++messageSeq}`,
@@ -35,8 +23,11 @@ const createMessage = (text: string, sender: Message["sender"]): Message => ({
   timestamp: Date.now(),
 });
 
-const formatTime = (timestamp: number) =>
-  new Date(timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+const formatTime = (timestamp: number, locale: string) =>
+  new Date(timestamp).toLocaleTimeString(locale === "ar" ? "ar-EG" : "en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
 const BotAvatar = ({ size }: { size: number }) => (
   <span className={styles.avatar} style={{ width: size, height: size }}>
@@ -45,7 +36,8 @@ const BotAvatar = ({ size }: { size: number }) => (
 );
 
 const ChatBot: React.FC = () => {
-  const lang = localeFromPath(usePathname());
+  const { t, locale: lang } = useDictionary();
+  const c = t.chat;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
@@ -87,7 +79,7 @@ const ChatBot: React.FC = () => {
     setMessages((prev) =>
       prev.length
         ? prev
-        : [createMessage("Hello! I'm your AI assistant. How can I help you today?", "bot")],
+        : [createMessage(c.greeting, "bot")],
     );
   };
 
@@ -105,17 +97,17 @@ const ChatBot: React.FC = () => {
         const response = await askChatBot(text, lang);
         setMessages((prev) => [...prev, createMessage(response.answer, "bot")]);
       } catch {
-        setMessages((prev) => [...prev, createMessage(ERROR_TEXT, "bot")]);
+        setMessages((prev) => [...prev, createMessage(c.error, "bot")]);
       } finally {
         setIsSending(false);
       }
     },
-    [isSending, lang],
+    [isSending, lang, c.error],
   );
 
   if (!isOpen) {
     return (
-      <button className={styles.chatToggle} onClick={openChat} aria-label="Open chat" type="button">
+      <button className={styles.chatToggle} onClick={openChat} aria-label={c.open} type="button">
         <span className={styles.toggleRing} aria-hidden="true" />
         <span className={styles.togglePing} aria-hidden="true" />
         <span className={styles.toggleCore} aria-hidden="true">
@@ -124,14 +116,14 @@ const ChatBot: React.FC = () => {
         </span>
         <span className={styles.toggleDot} aria-hidden="true" />
         <span className={styles.toggleTip} aria-hidden="true">
-          Ask our AI
+          {c.tooltip}
         </span>
       </button>
     );
   }
 
   return (
-    <div className={styles.chatContainer} role="dialog" aria-label="AI Assistant chat">
+    <div className={styles.chatContainer} role="dialog" aria-label={c.dialog}>
       <div className={styles.chatHeader}>
         <span className={styles.headerGlow} aria-hidden="true" />
         <div className={styles.headerContent}>
@@ -141,14 +133,14 @@ const ChatBot: React.FC = () => {
           </div>
           <div className={styles.headerInfo}>
             <h3 className={styles.botName}>
-              AI Assistant <Sparkles size={14} className={styles.nameSpark} aria-hidden="true" />
+              {c.name} <Sparkles size={14} className={styles.nameSpark} aria-hidden="true" />
             </h3>
-            <p className={styles.botStatus}>{isSending ? "Typing…" : "Online · replies instantly"}</p>
+            <p className={styles.botStatus}>{isSending ? c.typing : c.online}</p>
           </div>
           <button
             className={styles.closeButton}
             onClick={() => setIsOpen(false)}
-            aria-label="Close chat"
+            aria-label={c.close}
             type="button"
           >
             <X className={styles.closeIcon} />
@@ -167,7 +159,7 @@ const ChatBot: React.FC = () => {
               <div className={styles.messageTextContainer}>
                 <p className={styles.messageText}>{message.text}</p>
               </div>
-              <span className={styles.messageTime}>{formatTime(message.timestamp)}</span>
+              <span className={styles.messageTime}>{formatTime(message.timestamp, lang)}</span>
             </div>
           </div>
         ))}
@@ -175,7 +167,7 @@ const ChatBot: React.FC = () => {
           <div className={`${styles.message} ${styles.botMessage}`}>
             <BotAvatar size={28} />
             <div className={styles.messageContent}>
-              <div className={`${styles.messageTextContainer} ${styles.typing}`} aria-label="Assistant is typing">
+              <div className={`${styles.messageTextContainer} ${styles.typing}`} aria-label={c.typingLabel}>
                 <i />
                 <i />
                 <i />
@@ -189,7 +181,7 @@ const ChatBot: React.FC = () => {
       {showSuggestions && (
         <div ref={suggestionsRef} className={styles.messageDivider}>
           <div className={styles.dividerGrid}>
-            {SUGGESTIONS.map((text) => (
+            {c.suggestions.map((text) => (
               <button
                 key={text}
                 type="button"
@@ -216,16 +208,16 @@ const ChatBot: React.FC = () => {
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Type your message..."
+            placeholder={c.placeholder}
             className={styles.messageInput}
-            aria-label="Type message"
+            aria-label={c.inputLabel}
             maxLength={1000}
           />
           <button
             type="submit"
             disabled={!inputText.trim() || isSending}
             className={styles.sendButton}
-            aria-label="Send message"
+            aria-label={c.send}
           >
             <Send size={18} aria-hidden="true" />
           </button>

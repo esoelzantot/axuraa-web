@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
-import { DEFAULT_LOCALE } from "@/lib/i18n";
+import useDictionary from "@/hooks/useDictionary";
 
-export const metadata = { title: "Page not found" };
-
+/** Localized 404 (not-found pages get no params, so the locale comes from the URL). */
 export default function NotFound() {
+  const { t, locale } = useDictionary();
+
   return (
     <section
       style={{
@@ -18,13 +21,12 @@ export default function NotFound() {
         color: "#ffffff",
       }}
     >
+      <title>{t.notFound.title}</title>
       <p style={{ color: "#D04A1D", fontWeight: 700, letterSpacing: "0.1em" }}>404</p>
-      <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", margin: 0 }}>Page not found</h1>
-      <p style={{ color: "#9CA3AF", maxWidth: 480 }}>
-        The page you are looking for does not exist or has been moved.
-      </p>
+      <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", margin: 0 }}>{t.notFound.title}</h1>
+      <p style={{ color: "#9CA3AF", maxWidth: 480 }}>{t.notFound.text}</p>
       <Link
-        href={`/${DEFAULT_LOCALE}`}
+        href={`/${locale}`}
         style={{
           marginTop: "1rem",
           padding: "0.75rem 1.5rem",
@@ -35,7 +37,7 @@ export default function NotFound() {
           fontWeight: 600,
         }}
       >
-        Back to home
+        {t.notFound.back}
       </Link>
     </section>
   );

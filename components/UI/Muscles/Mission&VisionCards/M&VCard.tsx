@@ -7,8 +7,8 @@ import styles from "./M&VCard.module.css";
  * Mission / Vision card: icon tile, title, statement.
  * Decorated with concentric glow rings and an accent bar.
  */
-const MVCard: React.FC<MVCardProps> = ({ title, description, className = "" }) => {
-  const isVision = /vision/i.test(title);
+const MVCard: React.FC<MVCardProps> = ({ title, description, variant, kind, className = "" }) => {
+  const isVision = variant === "vision";
   const Icon = isVision ? Eye : Target;
 
   return (
@@ -23,7 +23,7 @@ const MVCard: React.FC<MVCardProps> = ({ title, description, className = "" }) =
         <span className={styles.iconTile} aria-hidden="true">
           <Icon size={26} strokeWidth={1.75} />
         </span>
-        <span className={styles.kind}>{isVision ? "Where we're going" : "Why we exist"}</span>
+        <span className={styles.kind}>{kind}</span>
       </div>
 
       <h3 className={styles.title}>{title}</h3>

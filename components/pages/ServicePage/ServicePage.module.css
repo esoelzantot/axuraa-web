@@ -507,7 +507,7 @@
   }
 
   .storyCard:hover .storyArrow {
-    transform: rotate(45deg);
+    transform: rotate(calc(45deg * var(--dir, 1)));
   }
 }
 
@@ -777,7 +777,7 @@
   }
 
   .ctaBtn:hover .ctaArrow {
-    transform: rotate(45deg);
+    transform: rotate(calc(45deg * var(--dir, 1)));
   }
 }
 
@@ -898,5 +898,24 @@
   .ctaArrow,
   .techChip {
     transition: none;
+  }
+}
+
+/* ================= RTL ================= */
+[dir="rtl"] .featureNum {
+  right: auto;
+  left: 1rem;
+}
+
+[dir="rtl"] .stepNum {
+  right: auto;
+  left: -8px;
+}
+
+/* phone timeline: the markers sit on the right in RTL */
+@media (max-width: 640px) {
+  [dir="rtl"] .steps::before {
+    left: auto;
+    right: 31px;
   }
 }

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import styles from "./ProjectsGrid.module.css";
 import ProjectCard from "@/components/UI/Muscles/ProjectCard/ProjectCard";
 import React from "react";
+import { getDictionary } from "@/lib/dictionaries";
 
 interface Project {
   id: string;
@@ -34,7 +35,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, locale }) => {
   if (!projects.length) {
     return (
       <div className={styles.noProjects}>
-        No projects found for this filter.
+        {getDictionary(locale).common.noProjectsForFilter}
       </div>
     );
   }

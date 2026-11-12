@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import useDictionary from "@/hooks/useDictionary";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -28,6 +29,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   locale = "en",
   index,
 }) => {
+  const { t } = useDictionary();
   const { ref, onPointerMove } = useSpotlight<HTMLElement>();
   const tags = categories.length > 0 ? categories : category ? [category] : [];
   const shown = tags.slice(0, MAX_TAGS);
@@ -61,7 +63,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         <div className={styles.top}>
           {percentage && <div className={styles.resultTile}>{percentage}</div>}
-          <span className={styles.kind}>Case Study</span>
+          <span className={styles.kind}>{t.common.caseStudy}</span>
         </div>
 
         <h3 className={styles.title} title={title}>
@@ -74,7 +76,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
 
         {shown.length > 0 && (
-          <ul className={styles.tags} aria-label="Categories">
+          <ul className={styles.tags} aria-label={t.common.categories}>
             {shown.map((tag) => (
               <li key={tag} className={styles.tag} title={tag}>
                 <span className={styles.dot} aria-hidden="true" />
@@ -87,7 +89,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         <div className={styles.footer}>
           <Link href={href} className={styles.cta}>
-            <span className={styles.ctaLabel}>View case study</span>
+            <span className={styles.ctaLabel}>{t.common.viewCaseStudy}</span>
             <span className={styles.ctaIcon} aria-hidden="true">
               <ArrowUpRight size={18} strokeWidth={2} />
             </span>

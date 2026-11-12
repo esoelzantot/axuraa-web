@@ -79,6 +79,8 @@ export interface ValueCardProps {
   iconColor?: string;
   /** Position in the list; shown as an outlined number. */
   index?: number;
+  /** Explicit icon (wins over matching the title, which only works in English). */
+  lucideIcon?: import("lucide-react").LucideIcon;
 }
 
 /** SocialMediaCard component props interface from path :

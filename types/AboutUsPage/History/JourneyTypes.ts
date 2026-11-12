@@ -22,6 +22,7 @@ export interface HistoryJourneyData {
  */
 export interface HistoryJourneyProps {
   data?: HistoryJourneyData;
+  locale: import("@/lib/i18n").Locale;
   className?: string;
   onItemClick?: (item: TimelineItem, index: number) => void;
 }
@@ -52,6 +53,7 @@ export interface HistoryCardData {
  */
 export interface HistorySectionProps {
   journeyData?: HistoryJourneyData;
+  locale: import("@/lib/i18n").Locale;
   cardData?: HistoryCardData;
   className?: string;
 }

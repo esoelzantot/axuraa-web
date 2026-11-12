@@ -3,16 +3,17 @@ import Image from "next/image";
 import styles from "./Footer.module.css";
 import LocalizedLink from "@/components/UI/Atoms/LocalizedLink/LocalizedLink";
 import { getAllServices, filterServices } from "@/service/Services/services";
-import { DEFAULT_LOCALE, localize } from "@/lib/i18n";
+import { Locale, localize } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 import { SOCIAL_LINKS } from "@/lib/site";
 
 const COMPANY_LINKS = [
-  { name: "About Us", href: "/aboutus" },
-  { name: "Portfolio", href: "/portfolio" },
-  { name: "Services", href: "/service" },
-  { name: "Business Solutions", href: "/businessSolutions" },
-  { name: "Contact", href: "/contact" },
-];
+  { key: "about", href: "/aboutus" },
+  { key: "portfolio", href: "/portfolio" },
+  { key: "services", href: "/service" },
+  { key: "businessSolutions", href: "/businessSolutions" },
+  { key: "contact", href: "/contact" },
+] as const;
 
 const SOCIALS = [
   { icon: "/assets/linkeninicon.svg", href: SOCIAL_LINKS.linkedin, label: "LinkedIn" },
@@ -30,10 +31,9 @@ const ColumnTitle = ({ title }: { title: string }) => (
  * Server component: services are fetched once on the server (and cached)
  * instead of on every page view in the browser.
  */
-const Footer = async () => {
+const Footer = async ({ locale }: { locale: Locale }) => {
   const currentYear = new Date().getFullYear();
-  // The root layout has no locale param; only one locale is shipped for now.
-  const locale = DEFAULT_LOCALE;
+  const t = getDictionary(locale);
   const { data: services } = await getAllServices(locale);
 
   const serviceLinks = filterServices(services, "service");
@@ -51,7 +51,7 @@ const Footer = async () => {
               <div className={styles.brand}>
                 <Image
                   src="/assets/FooterLogo.png"
-                  alt="Axuraa logo"
+                  alt={t.common.logoAlt}
                   width={71}
                   height={71}
                   className={styles.logo}
@@ -59,8 +59,7 @@ const Footer = async () => {
                 <p className={styles.brantlogo}>AXURAA</p>
               </div>
               <p className={styles.description}>
-                We transform your digital vision into reality through innovative web development,
-                mobile apps, UI/UX design, and digital marketing solutions.
+                {t.footer.description}
               </p>
               <div className={styles.socialLinks}>
                 {SOCIALS.map((social) => (
@@ -85,12 +84,12 @@ const Footer = async () => {
             {/* Link columns */}
             <div className={styles.linksSection} data-reveal-stagger>
               <div className={styles.footerColumn}>
-                <ColumnTitle title="Company" />
+                <ColumnTitle title={t.footer.company} />
                 <ul className={styles.linkList}>
                   {COMPANY_LINKS.map((link) => (
                     <li key={link.href}>
                       <LocalizedLink href={link.href} className={styles.link}>
-                        {link.name}
+                        {t.footer.links[link.key]}
                       </LocalizedLink>
                     </li>
                   ))}
@@ -99,7 +98,7 @@ const Footer = async () => {
 
               {serviceLinks.length > 0 && (
                 <div className={styles.footerColumn}>
-                  <ColumnTitle title="Services" />
+                  <ColumnTitle title={t.footer.services} />
                   <ul className={styles.linkList}>
                     {serviceLinks.map((service) => (
                       <li key={service._id}>
@@ -114,7 +113,7 @@ const Footer = async () => {
 
               {solutionLinks.length > 0 && (
                 <div className={styles.footerColumn}>
-                  <ColumnTitle title="Products" />
+                  <ColumnTitle title={t.footer.products} />
                   <ul className={styles.linkList}>
                     {solutionLinks.map((service) => (
                       <li key={service._id}>
@@ -139,14 +138,14 @@ const Footer = async () => {
       <div className={styles.footerBottom}>
         <div className={styles.container}>
           <div className={styles.bottomContent}>
-            <p className={styles.bottomContentTitle}>© {currentYear} AXURAA. All rights reserved.</p>
+            <p className={styles.bottomContentTitle}>{t.footer.rights(currentYear)}</p>
             <div className={styles.legalLinks}>
               <LocalizedLink href="/privacy-policy" className={styles.legalLink}>
-                Privacy Policy
+                {t.footer.privacy}
               </LocalizedLink>
               <span className={styles.separator} aria-hidden="true" />
               <LocalizedLink href="/terms-of-service" className={styles.legalLink}>
-                Terms of Service
+                {t.footer.terms}
               </LocalizedLink>
             </div>
           </div>

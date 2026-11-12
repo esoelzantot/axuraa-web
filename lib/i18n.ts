@@ -1,20 +1,31 @@
-/** Languages the backend can return content in. */
+/** Languages the site and the backend support. */
 export type Locale = "en" | "ar";
 
-/**
- * Locales the site actually ships translations for (see public/locales/*).
- * Add "ar" here once public/locales/ar/*.json exists and the RTL styles are ready.
- */
-export const SUPPORTED_LOCALES: readonly Locale[] = ["en"];
+/** Locales the site ships (UI dictionaries live in lib/dictionaries). */
+export const SUPPORTED_LOCALES: readonly Locale[] = ["en", "ar"];
 export const DEFAULT_LOCALE: Locale = "en";
+
+/** Cookie that remembers the visitor's language choice (read by proxy.ts). */
+export const LOCALE_COOKIE = "NEXT_LOCALE";
 
 export const isSupportedLocale = (value: unknown): value is Locale =>
   typeof value === "string" && (SUPPORTED_LOCALES as readonly string[]).includes(value);
+
+/** Text direction for a locale. */
+export const localeDir = (locale: Locale): "rtl" | "ltr" => (locale === "ar" ? "rtl" : "ltr");
 
 /** Reads the locale from the first path segment, falling back to the default. */
 export const localeFromPath = (pathname: string | null | undefined): Locale => {
   const segment = pathname?.split("/")[1];
   return isSupportedLocale(segment) ? segment : DEFAULT_LOCALE;
+};
+
+/** Same page in another language: swaps (or adds) the locale prefix of a path. */
+export const pathForLocale = (pathname: string, locale: Locale): string => {
+  const segments = (pathname || "/").split("/");
+  if (isSupportedLocale(segments[1])) segments[1] = locale;
+  else segments.splice(1, 0, locale);
+  return segments.join("/").replace(/\/$/, "") || `/${locale}`;
 };
 
 /**

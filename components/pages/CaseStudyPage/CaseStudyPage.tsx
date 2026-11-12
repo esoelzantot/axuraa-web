@@ -20,6 +20,7 @@ import {
 import styles from "./CaseStudyPage.module.css";
 import { ProjectItem, Testimonial } from "@/service/Projects/projects";
 import { Locale, localize } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 interface CaseStudyPageProps {
   project: ProjectItem;
@@ -45,9 +46,11 @@ const QUOTES_PREVIEW = 2;
 
 const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
   const [showAllQuotes, setShowAllQuotes] = useState(false);
+  const t = getDictionary(locale);
+  const c = t.caseStudy;
   // All data transformation happens here — no fetching, no loading states
   const caseStudy = {
-    title: localize(project.title, locale) || "Case Study",
+    title: localize(project.title, locale) || c.fallbackTitle,
     subtitle: localize(project.subTitle, locale),
     overview: localize(project.overview, locale),
     features:
@@ -62,12 +65,12 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
     client: project.client_id?.name || "—",
     projectManager: project.project_manager || "—",
     timeframe: project.start_work
-      ? new Date(project.start_work).toLocaleDateString(locale === "ar" ? "ar-EG" : "en-US", {
+      ? new Date(project.start_work).toLocaleDateString(c.dateLocale, {
           year: "numeric",
           month: "short",
         })
       : "—",
-    team: `${project.team_members?.length || 0} team members`,
+    team: c.teamMembers(project.team_members?.length || 0),
     location: project.location || "—",
     url: project.url_deployment || null,
     results:
@@ -76,10 +79,10 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
         value: r.value,
       })) || [],
     testimonials:
-      project.testimonials?.map((t: Testimonial) => ({
-        text: localize(t.message, locale),
-        author: t.client_id?.name || "Anonymous",
-        company: t.client_id?.company_name || "",
+      project.testimonials?.map((q: Testimonial) => ({
+        text: localize(q.message, locale),
+        author: q.client_id?.name || c.anonymous,
+        company: q.client_id?.company_name || "",
       })) || [],
     mainImage: project.main_image_url ?? null,
   };
@@ -94,11 +97,11 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
   })();
 
   const details: { icon: LucideIcon; label: string; value: string }[] = [
-    { icon: UserRound, label: "Client", value: caseStudy.client },
-    { icon: Briefcase, label: "Project manager", value: caseStudy.projectManager },
-    { icon: CalendarDays, label: "Started", value: caseStudy.timeframe },
-    { icon: UsersRound, label: "Team", value: caseStudy.team },
-    { icon: MapPin, label: "Location", value: caseStudy.location },
+    { icon: UserRound, label: c.client, value: caseStudy.client },
+    { icon: Briefcase, label: c.projectManager, value: caseStudy.projectManager },
+    { icon: CalendarDays, label: c.started, value: caseStudy.timeframe },
+    { icon: UsersRound, label: c.team, value: caseStudy.team },
+    { icon: MapPin, label: c.location, value: caseStudy.location },
   ];
 
   const { lead, last } = splitTitle(caseStudy.title);
@@ -112,10 +115,10 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
     <div className={styles.page}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumbBar}>
-        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-          <Link href={`/${locale}`}>Home</Link>
+        <nav className={styles.breadcrumb} aria-label={c.breadcrumb}>
+          <Link href={`/${locale}`}>{t.nav.home}</Link>
           <ChevronRight size={14} aria-hidden="true" />
-          <Link href={`/${locale}/portfolio`}>Portfolio</Link>
+          <Link href={`/${locale}/portfolio`}>{t.nav.portfolio}</Link>
           <ChevronRight size={14} aria-hidden="true" />
           <span aria-current="page">{caseStudy.title}</span>
         </nav>
@@ -128,7 +131,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
           <section className={styles.hero}>
             <span className={styles.heroGlow} aria-hidden="true" />
             <span className={styles.eyebrow}>
-              <Sparkles size={14} aria-hidden="true" /> Case Study
+              <Sparkles size={14} aria-hidden="true" /> {t.common.caseStudy}
             </span>
             <h1 className={styles.title}>
               {lead && <>{lead} </>}
@@ -137,7 +140,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
             {caseStudy.subtitle && <p className={styles.subtitle}>{caseStudy.subtitle}</p>}
 
             {caseStudy.tags.length > 0 && (
-              <ul className={styles.tags} aria-label="Services">
+              <ul className={styles.tags} aria-label={t.nav.services}>
                 {caseStudy.tags.map((tag) => (
                   <li key={tag} className={styles.tag}>
                     {tag}
@@ -178,7 +181,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
             <div className={styles.blockHead}>
               <span className={styles.blockNum}>01</span>
               <h2 id="cs-overview" className={styles.blockTitle}>
-                Overview
+                {c.overview}
               </h2>
             </div>
             <p className={styles.overview}>{caseStudy.overview}</p>
@@ -190,13 +193,10 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
               <div className={styles.blockHead}>
                 <span className={styles.blockNum}>02</span>
                 <h2 id="cs-features" className={styles.blockTitle}>
-                  Key Features
+                  {c.keyFeatures}
                 </h2>
               </div>
-              <p className={styles.blockIntro}>
-                A comprehensive suite of features designed to optimize the experience for merchants
-                and customers alike.
-              </p>
+              <p className={styles.blockIntro}>{c.featuresIntro}</p>
               <div className={styles.features} data-reveal-stagger>
                 {caseStudy.features.map((feature, idx) => (
                   <article key={idx} className={styles.feature}>
@@ -221,7 +221,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
           {/* Results */}
           <section className={styles.panel} aria-labelledby="cs-results">
             <h2 id="cs-results" className={styles.panelTitle}>
-              Case Study Results
+              {c.results}
             </h2>
             {caseStudy.results.length > 0 && (
               <div className={styles.results} data-reveal-stagger="zoom">
@@ -240,15 +240,15 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                 rel="noopener noreferrer"
                 className={styles.panelBtn}
               >
-                Show prototype <ExternalLink size={18} aria-hidden="true" />
+                {c.showPrototype} <ExternalLink size={18} aria-hidden="true" />
               </a>
             ) : (
               <span
                 className={`${styles.panelBtn} ${styles.disabled}`}
                 aria-disabled="true"
-                title="Prototype not available"
+                title={c.prototypeUnavailable}
               >
-                Prototype not available
+                {c.prototypeUnavailable}
               </span>
             )}
           </section>
@@ -257,14 +257,11 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
           <section className={styles.cta} aria-labelledby="cs-cta">
             <span className={styles.ctaPattern} aria-hidden="true" />
             <h2 id="cs-cta" className={styles.ctaTitle}>
-              Free Project Consultation
+              {c.ctaTitle}
             </h2>
-            <p className={styles.ctaText}>
-              Get a comprehensive evaluation of your project goals and digital strategy with our
-              complimentary assessment.
-            </p>
+            <p className={styles.ctaText}>{c.ctaText}</p>
             <Link href={contactHref} className={styles.ctaBtn}>
-              Schedule free assessment
+              {c.ctaButton}
               <span className={styles.ctaArrow} aria-hidden="true">
                 <ArrowUpRight size={18} />
               </span>
@@ -275,7 +272,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
           {caseStudy.testimonials.length > 0 && (
             <section className={styles.panel} aria-labelledby="cs-testimonials">
               <h2 id="cs-testimonials" className={styles.panelTitle}>
-                Client Testimonials
+                {c.testimonials}
               </h2>
               <div className={styles.quotes}>
                 {quotes.map((t, idx) => (
@@ -301,7 +298,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
                   aria-expanded={showAllQuotes}
                   onClick={() => setShowAllQuotes((v) => !v)}
                 >
-                  {showAllQuotes ? "Show less" : `Show ${hiddenQuotes} more`}
+                  {showAllQuotes ? c.showLess : c.showMore(hiddenQuotes)}
                 </button>
               )}
             </section>
@@ -310,7 +307,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
           {/* Project Details */}
           <section className={styles.panel} aria-labelledby="cs-details">
             <h2 id="cs-details" className={styles.panelTitle}>
-              Project Details
+              {c.details}
             </h2>
             <dl className={styles.details}>
               {details.map(({ icon: Icon, label, value }) => (

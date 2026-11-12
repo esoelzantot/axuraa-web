@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { getDictionary } from "@/lib/dictionaries";
 import { getAllServices, filterServices } from "@/service/Services/services";
 import BusinessSolutions from "@/components/pages/BusinessSolutions/BusinessSolutions";
 import { Locale, localize } from "@/lib/i18n";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Business Solutions",
-  description: "Ready-made business solutions from Axuraa, tailored to the way you work.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return getDictionary(locale as Locale).meta.businessSolutions;
+}
 
 export default async function BusinessSolutionsPage({
   params,

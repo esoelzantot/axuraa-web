@@ -9,6 +9,8 @@ import { SocialMediaPlatform } from "@/types/Generals/socialTypes";
 import ContactSection from "@/components/Section/HomePage/ContactSection/ContactSection";
 import EmailSection from "@/components/Section/ContactUs/EmailSection/EmailSection";
 import { ContactEmail, SocialLink } from "@/service/Contact/contactinformation";
+import useDictionary from "@/hooks/useDictionary";
+import { cmsText } from "@/lib/dictionaries";
 
 // ── Icons ──────────────────────────────────────────────────────────────────
 const FacebookIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -98,6 +100,8 @@ const FALLBACK_PLATFORMS: SocialMediaPlatform[] = [
 
 // ── Component ──────────────────────────────────────────────────────────────
 const Contact = ({ contactData }: Props) => {
+  const { t, locale } = useDictionary();
+  const c = t.contactPage;
   // Transform social links → SocialMediaPlatform[]
   const socialPlatforms: SocialMediaPlatform[] = contactData?.socialLinks
     ?.length
@@ -121,19 +125,19 @@ const Contact = ({ contactData }: Props) => {
   // Transform email contacts
   const contactsData =
     contactData?.emails?.map((email: ContactEmail) => ({
-      name: email.name,
+      name: cmsText(email.name, locale),
       email: email.email,
-      description: email.description,
+      description: cmsText(email.description, locale),
       icon: email.icon,
     })) ?? [];
 
   return (
     <div className={styles.container}>
       <HeroSection
-        badgeText="CONTACT US"
-        title1="Let's build something"
-        title2="extraordinary."
-        subtitle1="Have a project in mind? We'd love to hear about it."
+        badgeText={c.hero.badge}
+        title1={c.hero.title1}
+        title2={c.hero.title2}
+        subtitle1={c.hero.subtitle}
         subtitle2=""
         backgroundType="Circle"
         showTrustedSection={false}
@@ -143,9 +147,19 @@ const Contact = ({ contactData }: Props) => {
         height="70vh"
       />
 
-      <SocialMediaSection platforms={socialPlatforms} />
+      <SocialMediaSection
+        platforms={socialPlatforms}
+        eyebrow={c.social.eyebrow}
+        title={c.social.title}
+        subtitle={c.social.subtitle}
+      />
 
-      <EmailSection contacts={contactsData} />
+      <EmailSection
+        contacts={contactsData}
+        eyebrow={c.email.eyebrow}
+        title={c.email.title}
+        subtitle={c.email.subtitle}
+      />
 
       <div
         id="contact-form"
@@ -153,10 +167,10 @@ const Contact = ({ contactData }: Props) => {
         ref={contactFormRef}
       />
       <ContactSection
-        badgeText="Contact Us"
-        title1="Let's build something"
-        title2="extraordinary."
-        subtitle="Have a project in mind? We'd love to hear about it."
+        badgeText={c.block.badge}
+        title1={c.block.title1}
+        title2={c.block.title2}
+        subtitle={c.block.subtitle}
         showLinks={true}
         contactData={contactData}
       />

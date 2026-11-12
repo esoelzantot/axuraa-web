@@ -5,12 +5,15 @@ import TeamCard from "@/components/UI/Muscles/TeamCard/TeamCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import { TeamMember } from "@/service/TeamMembers/TeamMembers";
+import { Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 interface TeamSectionProps {
   teamMembers?: TeamMember[];
+  locale: Locale;
 }
 
-function processTeamMembers(members: TeamMember[]): TeamMember[] {
+function processTeamMembers(members: TeamMember[], founderSuffix: string): TeamMember[] {
   return members
     .filter((m) => m.is_displayed_in_website)
     .map((member) => {
@@ -23,7 +26,7 @@ function processTeamMembers(members: TeamMember[]): TeamMember[] {
           ...member,
           role_id: {
             ...member.role_id,
-            title: `${member.role_id.title} & Founder`,
+            title: `${member.role_id.title}${founderSuffix}`,
           },
         };
       }
@@ -31,8 +34,9 @@ function processTeamMembers(members: TeamMember[]): TeamMember[] {
     });
 }
 
-const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
-  const displayedMembers = processTeamMembers(teamMembers);
+const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [], locale }) => {
+  const t = getDictionary(locale).about.team;
+  const displayedMembers = processTeamMembers(teamMembers, t.founderSuffix);
 
   // Don't render the section at all if no members
   if (displayedMembers.length === 0) return null;
@@ -41,11 +45,11 @@ const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
     <section className={styles.teamSection}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <StatusBadge text="AXURAA" className={styles.badge} />
+          <StatusBadge text={t.badge} className={styles.badge} />
           <SectionHeader
             title1=""
-            title2=" Our Team"
-            subtitle="The engineers, designers and strategists behind every product we ship"
+            title2={t.title}
+            subtitle={t.subtitle}
           />
         </div>
 

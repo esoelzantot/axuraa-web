@@ -1,0 +1,160 @@
+/* Language switch transition: a brand circle grows from the switcher, then fades away. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at var(--x, 50%) var(--y, 0%), rgba(240, 101, 47, 0.45), transparent 45%),
+    radial-gradient(120% 90% at 50% 120%, rgba(208, 74, 29, 0.35), transparent 60%),
+    #15171b;
+  clip-path: circle(150vmax at var(--x, 50%) var(--y, 0%));
+  pointer-events: all;
+}
+
+/* Fine dotted texture */
+.overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1.3px);
+  background-size: 18px 18px;
+  -webkit-mask: radial-gradient(circle at 50% 50%, #000, transparent 70%);
+  mask: radial-gradient(circle at 50% 50%, #000, transparent 70%);
+}
+
+.enter {
+  animation: lt-grow 0.52s cubic-bezier(0.7, 0, 0.25, 1) both;
+}
+
+.covered {
+  clip-path: circle(150vmax at var(--x, 50%) var(--y, 0%));
+}
+
+.leave {
+  animation: lt-fade 0.56s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes lt-grow {
+  from {
+    clip-path: circle(0px at var(--x, 50%) var(--y, 0%));
+  }
+  to {
+    clip-path: circle(150vmax at var(--x, 50%) var(--y, 0%));
+  }
+}
+
+@keyframes lt-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Target language name */
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.glyph {
+  font-size: clamp(2.75rem, 2rem + 4vw, 5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(90deg, #f0652f 0%, #ffd4bf 50%, #f0652f 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: lt-word 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.18s both, lt-shimmer 2s linear infinite;
+}
+
+.content[lang="ar"] .glyph {
+  font-family: var(--font-arabic), sans-serif;
+}
+
+.leave .glyph {
+  animation: lt-word-out 0.5s ease both;
+}
+
+/* Progress bar that fills while the new page loads */
+.bar {
+  position: relative;
+  width: 120px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #b83a12, #f0652f, #ffd4bf);
+  transform-origin: left center;
+  animation: lt-bar 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.content[dir="rtl"] .bar::after {
+  transform-origin: right center;
+}
+
+@keyframes lt-word {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+    filter: blur(8px);
+  }
+}
+
+@keyframes lt-word-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.04);
+    filter: blur(6px);
+  }
+}
+
+@keyframes lt-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes lt-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* Reduced motion: no growing circle or moving text, just a short cross-fade */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    clip-path: none;
+  }
+
+  .enter {
+    animation: lt-fade-in 0.25s ease both;
+  }
+
+  .leave {
+    animation: lt-fade 0.3s ease both;
+  }
+
+  .glyph,
+  .leave .glyph,
+  .bar::after {
+    animation: none;
+  }
+}
+
+@keyframes lt-fade-in {
+  from {
+    opacity: 0;
+  }
+}

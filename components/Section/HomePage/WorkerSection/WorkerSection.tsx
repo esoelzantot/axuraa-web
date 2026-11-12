@@ -6,6 +6,7 @@ import DevolpercCard from "@/components/UI/Atoms/DevoleperCard/DevolpercCard";
 import { HorizontalScroll } from "@/components/UI/Atoms/ScrollComponents/ScrollComponents";
 import { WorkerSectionProps } from "@/types/HomePage/workerTypes";
 import { localize } from "@/lib/i18n";
+import { cmsText } from "@/lib/dictionaries";
 
 /** Client testimonials ("Our Clients") on the home page. */
 const WorkerSection: React.FC<WorkerSectionProps> = ({
@@ -19,7 +20,7 @@ const WorkerSection: React.FC<WorkerSectionProps> = ({
   const items = clients.slice(0, 6).map((client) => ({
     id: client._id,
     name: client.name,
-    role: client.company_name || client.country,
+    role: client.company_name || cmsText(client.country, locale),
     // Prefer the client's first testimonial, fall back to their description.
     testimonial:
       localize(client.testimonials?.[0]?.message, locale) || client.description || "",

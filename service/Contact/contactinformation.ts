@@ -27,8 +27,10 @@ export interface ContactInformationResponse {
   error?: string;
 }
 
-export const getContactInformation = async (): Promise<ContactInformationResponse> => {
-  const res = await http(ENDPOINTS.General.contactInformation);
+export const getContactInformation = async (
+  lang: import("@/lib/i18n").Locale = "en",
+): Promise<ContactInformationResponse> => {
+  const res = await http(`${ENDPOINTS.General.contactInformation}?lang=${lang}`);
   if (!res.ok) return { success: false, error: res.error };
   return { success: true, data: unwrap<ContactInformation>(res.json) };
 };

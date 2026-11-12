@@ -22,67 +22,22 @@ import SectionHead from "@/components/Layout/SectionHead/SectionHead";
 import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
 import { ServiceItem } from "@/service/serviceId/serviceId";
 import { Locale, localize as getStr } from "@/lib/i18n";
+import { getDictionary } from "@/lib/dictionaries";
 
 interface Props {
   service: ServiceItem;
   locale: Locale;
 }
 
-const developmentProcess: { title: string; description: string; icon: LucideIcon }[] = [
-  { title: "Discovery", description: "We analyze your requirements and create a detailed project plan.", icon: Search },
-  { title: "Design", description: "Our designers create wireframes and UI/UX designs for your approval.", icon: PenTool },
-  { title: "Development", description: "Our developers bring the design to life with clean, efficient code.", icon: Code2 },
-  { title: "Testing", description: "We thoroughly test all features to ensure quality and performance.", icon: FlaskConical },
-  { title: "Launch & Support", description: "We deploy your project and provide ongoing support and maintenance.", icon: Rocket },
-];
-
-const servicePackages = [
-  {
-    title: "Starter Package",
-    description: "Perfect for small businesses",
-    features: [
-      "5 pages website",
-      "Mobile responsive",
-      "Basic SEO",
-      "Contact form",
-      "1 month support",
-      "E-commerce integration",
-      "Analytics dashboard",
-    ],
-    isPopular: false,
-  },
-  {
-    title: "Professional Package",
-    description: "Ideal for growing businesses",
-    features: [
-      "10 pages website",
-      "Mobile responsive",
-      "Advanced SEO",
-      "Contact form",
-      "3 months support",
-      "E-commerce integration",
-      "Analytics dashboard",
-    ],
-    isPopular: true,
-  },
-  {
-    title: "Enterprise Package",
-    description: "For large scale businesses",
-    features: [
-      "Unlimited pages",
-      "Mobile responsive",
-      "Premium SEO",
-      "Advanced forms",
-      "6 months support",
-      "E-commerce integration",
-      "Analytics dashboard",
-    ],
-    isPopular: false,
-  },
-];
+// Step icons, in the order of t.serviceDetail.steps
+const STEP_ICONS: LucideIcon[] = [Search, PenTool, Code2, FlaskConical, Rocket];
+// Which package is highlighted (index into t.serviceDetail.packages)
+const POPULAR_PACKAGE = 1;
 
 const ServicePage: React.FC<Props> = ({ service, locale }) => {
   const contactHref = `/${locale}/contact#contact-form`;
+  const t = getDictionary(locale);
+  const d = t.serviceDetail;
 
   const features =
     service.features?.map((f) => ({
@@ -115,10 +70,10 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
     <div className={styles.page}>
       <HeroSection
         primaryHref={contactHref}
-        title1={getStr(service.title, locale) || "Service"}
+        title1={getStr(service.title, locale) || d.fallbackTitle}
         title2=""
-        subtitle1={getStr(service.description, locale) || "Service description"}
-        badgeText="INNOVATION IN PROGRESS"
+        subtitle1={getStr(service.description, locale) || d.fallbackDescription}
+        badgeText={t.hero.innovationBadge}
         showBackgroundDots={false}
         showAnimatedCircles={true}
         showBadge={false}
@@ -135,13 +90,13 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
       <section className={styles.section} aria-labelledby="sp-what">
         <div className={`${styles.inner} ${styles.whatGrid}`}>
           <div className={styles.whatMain}>
-            <SectionHead id="sp-what" eyebrow="Overview" title="What We Do" align="start" />
+            <SectionHead id="sp-what" eyebrow={d.overview} title={d.whatWeDo} align="start" />
             <p className={styles.lead} data-reveal="up">
               {getStr(service.what_we_do?.description, locale) ||
-                "Our experts build exceptional digital experiences."}
+                d.whatWeDoFallback}
             </p>
             <ul className={styles.units} data-reveal-stagger="left">
-              {(units.length ? units : ["Custom application and platform development"]).map((unit, i) => (
+              {(units.length ? units : [d.unitFallback]).map((unit, i) => (
                 <li key={i} className={styles.unit}>
                   <span className={styles.unitCheck} aria-hidden="true">
                     <Check size={14} strokeWidth={2.75} />
@@ -156,7 +111,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             <aside className={styles.techCard} data-reveal="right" aria-labelledby="sp-tech">
               <span className={styles.techGlow} aria-hidden="true" />
               <h3 id="sp-tech" className={styles.techTitle}>
-                Technologies Used
+                {d.technologies}
               </h3>
               <ul className={styles.techList}>
                 {technologies.map((tech) => (
@@ -175,11 +130,11 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         <div className={styles.inner}>
           <SectionHead
             id="sp-features"
-            eyebrow="Our Features"
-            title="Features & Capabilities"
+            eyebrow={d.featuresEyebrow}
+            title={d.featuresTitle}
             intro={
               getStr(service.description_features, locale) ||
-              "Comprehensive services designed to build and scale your digital presence."
+              d.featuresIntro
             }
           />
           {features.length > 0 && (
@@ -212,12 +167,14 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         <div className={styles.inner}>
           <SectionHead
             id="sp-process"
-            eyebrow="Our Process"
-            title="Our Development Process"
-            intro="A systematic approach that ensures a high-quality product through discovery, design, implementation, and support."
+            eyebrow={d.processEyebrow}
+            title={d.processTitle}
+            intro={d.processIntro}
           />
           <ol className={styles.steps} data-reveal-stagger="zoom">
-            {developmentProcess.map(({ title, description, icon: Icon }, i) => (
+            {d.steps.map(({ title, description }, i) => {
+              const Icon = STEP_ICONS[i] ?? Rocket;
+              return (
               <li key={title} className={styles.step}>
                 <span className={styles.stepMarker}>
                   <span className={styles.stepIcon} aria-hidden="true">
@@ -228,7 +185,8 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
                 <h3 className={styles.stepTitle}>{title}</h3>
                 <p className={styles.stepText}>{description}</p>
               </li>
-            ))}
+              );
+            })}
           </ol>
         </div>
       </section>
@@ -238,11 +196,11 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         <div className={styles.inner}>
           <SectionHead
             id="sp-stories"
-            eyebrow="Our Stories"
-            title="Success Stories"
+            eyebrow={d.storiesEyebrow}
+            title={d.storiesTitle}
             intro={
               getStr(service.description_stories, locale) ||
-              "Real results demonstrating measurable improvements in digital performance."
+              d.storiesIntro
             }
           />
 
@@ -287,7 +245,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
                       </dl>
                     )}
                     <Link href={`/${locale}/case-study/${story.id}`} className={styles.storyLink}>
-                      View case study
+                      {t.common.viewCaseStudy}
                       <span className={styles.storyArrow} aria-hidden="true">
                         <ArrowUpRight size={18} />
                       </span>
@@ -301,16 +259,15 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
           <figure className={styles.testimonial} data-reveal="zoom">
             <Quote className={styles.quoteMark} size={36} aria-hidden="true" />
             <blockquote className={styles.quoteText}>
-              &ldquo;The team completely transformed our online presence. Their design sense is
-              brilliant, and the development process was smooth and transparent.&rdquo;
+              &ldquo;{d.testimonial.quote}&rdquo;
             </blockquote>
             <figcaption className={styles.quoteAuthor}>
               <span className={styles.avatar} aria-hidden="true">
-                SJ
+                {d.testimonial.name.split(" ").map((w) => w.charAt(0)).slice(0, 2).join("")}
               </span>
               <span>
-                <strong>Sarah Johnson</strong>
-                <span className={styles.authorRole}>CEO, TechStart Inc.</span>
+                <strong>{d.testimonial.name}</strong>
+                <span className={styles.authorRole}>{d.testimonial.role}</span>
               </span>
             </figcaption>
           </figure>
@@ -322,17 +279,17 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
         <div className={styles.inner}>
           <SectionHead
             id="sp-packages"
-            eyebrow="Our Packages"
-            title="Service Packages"
-            intro="Choose the solution that fits your business needs."
+            eyebrow={d.packagesEyebrow}
+            title={d.packagesTitle}
+            intro={d.packagesIntro}
           />
           <div className={styles.packages} data-reveal-stagger>
-            {servicePackages.map((pkg) => (
+            {d.packages.map((pkg, pkgIndex) => (
               <article
                 key={pkg.title}
-                className={`${styles.pkg} ${pkg.isPopular ? styles.pkgPopular : ""}`}
+                className={`${styles.pkg} ${pkgIndex === POPULAR_PACKAGE ? styles.pkgPopular : ""}`}
               >
-                {pkg.isPopular && <span className={styles.popular}>Most Popular</span>}
+                {pkgIndex === POPULAR_PACKAGE && <span className={styles.popular}>{t.common.mostPopular}</span>}
                 <h3 className={styles.pkgTitle}>{pkg.title}</h3>
                 <p className={styles.pkgText}>{pkg.description}</p>
                 <ul className={styles.pkgList}>
@@ -346,7 +303,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
                   ))}
                 </ul>
                 <Link href={contactHref} className={styles.pkgBtn}>
-                  Get Started <ArrowRight size={18} aria-hidden="true" />
+                  {t.common.getStarted} <ArrowRight size={18} aria-hidden="true" />
                 </Link>
               </article>
             ))}
@@ -355,14 +312,11 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
           <div className={styles.cta} data-reveal="zoom">
             <span className={styles.ctaPattern} aria-hidden="true" />
             <div className={styles.ctaCopy}>
-              <h2 className={styles.ctaTitle}>Free Project Consultation</h2>
-              <p className={styles.ctaText}>
-                Get a comprehensive evaluation of your project goals with our complimentary
-                assessment.
-              </p>
+              <h2 className={styles.ctaTitle}>{d.ctaTitle}</h2>
+              <p className={styles.ctaText}>{d.ctaText}</p>
             </div>
             <Link href={contactHref} className={styles.ctaBtn}>
-              Schedule Free Assessment
+              {d.ctaButton}
               <span className={styles.ctaArrow} aria-hidden="true">
                 <ArrowUpRight size={18} />
               </span>

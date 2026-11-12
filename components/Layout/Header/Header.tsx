@@ -11,17 +11,18 @@ import {
   Phone,
   MessageSquare,
 } from "lucide-react";
-import { LanguageButton } from "@/components/UI/Atoms/Button/LanguageButton";
+import LanguageSwitcher from "@/components/UI/Atoms/LanguageSwitcher/LanguageSwitcher";
 import styles from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import useClientTranslation from "@/hooks/useClientTranslation";
+import useDictionary from "@/hooks/useDictionary";
 import { SUPPORTED_LOCALES, isSupportedLocale, localeFromPath } from "@/lib/i18n";
+import type { Dictionary } from "@/lib/dictionaries";
 import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from "@/lib/site";
 
 const Header = () => {
-  const { t } = useClientTranslation("navlink");
+  const { t } = useDictionary();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const currentLocale = localeFromPath(pathname);
@@ -61,7 +62,7 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
-  const navLinks = [
+  const navLinks: { key: keyof Dictionary["nav"]; segment: string; href: string; icon: React.ReactNode }[] = [
     { key: "home", segment: "", href: homeHref, icon: <Home size={20} /> },
     {
       key: "services",
@@ -104,11 +105,11 @@ const Header = () => {
           href={homeHref}
           className={styles.logo}
           onClick={closeMenu}
-          aria-label="Go to homepage"
+          aria-label={t.nav.goHome}
         >
           <Image
             src="/assets/logo2.svg"
-            alt="Axuraa logo"
+            alt={t.common.logoAlt}
             className={styles.logoImage}
             width={150}
             height={60}
@@ -122,30 +123,33 @@ const Header = () => {
           onClick={() => setIsMenuOpen(false)}
         />
 
-        <nav className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ""}`}>
+        <nav className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ""}`} aria-label={t.nav.mainNav}>
           {/* Mobile Drawer Header */}
           <div className={styles.mobileDrawerHeader}>
             <Link
               href={homeHref}
               onClick={closeMenu}
-              aria-label="Go to homepage"
+              aria-label={t.nav.goHome}
             >
               <Image
                 src="/assets/logo2.svg"
-                alt="Axuraa logo"
+                alt={t.common.logoAlt}
                 className={styles.logoImage}
                 width={120}
                 height={48}
                 priority
               />
             </Link>
-            <button
-              className={styles.closeToggle}
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Close menu"
-            >
-              <X size={20} />
-            </button>
+            <div className={styles.drawerActions}>
+              {SUPPORTED_LOCALES.length > 1 && <LanguageSwitcher onSwitch={closeMenu} />}
+              <button
+                className={styles.closeToggle}
+                onClick={() => setIsMenuOpen(false)}
+                aria-label={t.nav.closeMenu}
+              >
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
           <div className={styles.scrollableContainer}>
@@ -165,19 +169,10 @@ const Header = () => {
                     onClick={closeMenu}
                   >
                     <span className={styles.navIcon}>{link.icon}</span>
-                    {t(link.key)}
+                    {t.nav[link.key]}
                   </Link>
                 </li>
               ))}
-              {SUPPORTED_LOCALES.length > 1 && (
-                <li
-                  className={`${styles.mobileLanguageItem} ${isMenuOpen ? styles.visible : ""}`}
-                >
-                  <div className={styles.mobileLanguageButton}>
-                    <LanguageButton />
-                  </div>
-                </li>
-              )}
             </ul>
 
             {/* Mobile Drawer Footer (Visible only on mobile) */}
@@ -196,7 +191,7 @@ const Header = () => {
                 }}
               >
                 <MessageSquare size={18} className={styles.btnIcon} />
-                {t("start_project", "Start a Project")}
+                {t.common.startProject}
               </Link>
 
               <div className={styles.contactCards}>
@@ -217,7 +212,7 @@ const Header = () => {
                     </svg>
                   </div>
                   <div className={styles.contactInfo}>
-                    <span className={styles.contactLabel}>Call us</span>
+                    <span className={styles.contactLabel}>{t.nav.callUs}</span>
                     <span className={styles.contactValue}>{CONTACT_PHONE}</span>
                   </div>
                 </a>
@@ -240,7 +235,7 @@ const Header = () => {
                     </svg>
                   </div>
                   <div className={styles.contactInfo}>
-                    <span className={styles.contactLabel}>Email us</span>
+                    <span className={styles.contactLabel}>{t.nav.emailUs}</span>
                     <span className={styles.contactValue}>{CONTACT_EMAIL}</span>
                   </div>
                 </a>
@@ -348,13 +343,13 @@ const Header = () => {
         </nav>
 
         <div className={styles.desktopLanguageBtn}>
-          {SUPPORTED_LOCALES.length > 1 && <LanguageButton />}
+          {SUPPORTED_LOCALES.length > 1 && <LanguageSwitcher />}
         </div>
 
         <button
           className={styles.menuToggle}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
+          aria-label={t.nav.toggleMenu}
           aria-expanded={isMenuOpen}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}

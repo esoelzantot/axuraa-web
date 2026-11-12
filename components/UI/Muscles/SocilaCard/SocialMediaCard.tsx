@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import styles from "./SocialMediaCard.module.css";
 import { SocialMediaCardProps } from "@/types/Generals/cardTypes";
+import useDictionary from "@/hooks/useDictionary";
 
 // CMS names are lowercase ("linkedin"); show the brands' own spelling.
 const DISPLAY_NAMES: Record<string, string> = {
@@ -17,6 +20,7 @@ const DISPLAY_NAMES: Record<string, string> = {
 
 /** Social platform card (Contact page): icon tile, platform name, follow CTA. */
 const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ Icon, label, link }) => {
+  const { t } = useDictionary();
   const name = DISPLAY_NAMES[label.toLowerCase()] ?? label.charAt(0).toUpperCase() + label.slice(1);
 
   return (
@@ -25,7 +29,7 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ Icon, label, link }) 
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${name} (opens in a new tab)`}
+      aria-label={`${name} ${t.common.opensInNewTab}`}
     >
       <span className={styles.glow} aria-hidden="true" />
       <span className={styles.tile} aria-hidden="true">
@@ -38,7 +42,7 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ Icon, label, link }) 
       </span>
       <span className={styles.text}>
         <span className={styles.name}>{name}</span>
-        <span className={styles.hint}>Follow us</span>
+        <span className={styles.hint}>{t.common.followUs}</span>
       </span>
       <span className={styles.arrow} aria-hidden="true">
         <ArrowUpRight size={16} />

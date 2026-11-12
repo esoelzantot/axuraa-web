@@ -14,15 +14,16 @@ import { getAllClients } from "@/service/Clients/Clients";
 import { getHomePartners } from "@/service/partners/partners";
 import { getHomeTrackRecord, toRatingItems } from "@/service/TrackRecord/trackrecord";
 import { Locale } from "@/lib/i18n";
+import { cmsText, getDictionary } from "@/lib/dictionaries";
 
 /**
- * Home page, rendered on the server for both `/` and `/[locale]`.
+ * Home page (`/[locale]`), rendered on the server.
  * All sections get their data from here (one parallel round of requests,
  * cached by the data cache) instead of each section fetching in the browser.
  */
 const Homepage = async ({ locale }: { locale: Locale }) => {
   const [contact, services, projects, clients, partners, trackRecord] = await Promise.all([
-    getContactInformation(),
+    getContactInformation(locale),
     getAllServices(locale),
     getAllProjects(locale),
     getAllClients(),
@@ -31,15 +32,21 @@ const Homepage = async ({ locale }: { locale: Locale }) => {
   ]);
 
   const serviceList = services.data ?? [];
+  const t = getDictionary(locale);
+  // Track-record labels only come back in English from the CMS; translate the known ones.
+  const ratingItems = toRatingItems(trackRecord.data?.records).map((item) => ({
+    ...item,
+    label: cmsText(item.label, locale),
+  }));
 
   return (
     <div className={styles.homePage}>
       <HeroSection
         primaryHref={`/${locale}#contact-home-form`}
-        title1="Welcome to Axuraa"
-        title2="Building Digital Excellence"
-        subtitle1="Transforming ideas into powerful digital experiences."
-        badgeText="INNOVATION IN PROGRESS"
+        title1={t.home.hero.title1}
+        title2={t.home.hero.title2}
+        subtitle1={t.home.hero.subtitle}
+        badgeText={t.hero.innovationBadge}
         showStatusBadge={false}
         backgroundType="Hexagon"
         height="100vh"
@@ -51,29 +58,29 @@ const Homepage = async ({ locale }: { locale: Locale }) => {
       <BusinessSection services={serviceList} locale={locale} />
 
       <RatingSection
-        badgeText="Our Achievements"
-        title1="Our Track Record"
-        title2="in Numbers"
-        subtitle={trackRecord.data?.title || "Results we have delivered for our clients"}
-        ratingItems={toRatingItems(trackRecord.data?.records)}
+        badgeText={t.home.trackRecord.badge}
+        title1={t.home.trackRecord.title1}
+        title2={t.home.trackRecord.title2}
+        subtitle={cmsText(trackRecord.data?.title, locale) || t.home.trackRecord.subtitle}
+        ratingItems={ratingItems}
       />
 
       <ProjectSection
-        badgeText="Our Projects"
-        title1="A Showcase of"
-        title2="Our Recent Work"
-        subtitle="Explore some of the projects we've delivered for our clients"
-        seeAllText="View All Projects"
+        badgeText={t.home.projects.badge}
+        title1={t.home.projects.title1}
+        title2={t.home.projects.title2}
+        subtitle={t.home.projects.subtitle}
+        seeAllText={t.home.projects.seeAll}
         projects={projects.data ?? []}
         services={serviceList}
         locale={locale}
       />
 
       <WorkerSection
-        badgeText="Our Clients"
-        title1="What Our"
-        title2="Clients Say"
-        subtitle="Hear from the businesses we have partnered with"
+        badgeText={t.home.clients.badge}
+        title1={t.home.clients.title1}
+        title2={t.home.clients.title2}
+        subtitle={t.home.clients.subtitle}
         clients={clients.data ?? []}
         locale={locale}
       />
@@ -82,10 +89,10 @@ const Homepage = async ({ locale }: { locale: Locale }) => {
       <div id="contact-home-form" style={{ margin: 0, padding: 0, height: 0 }} />
 
       <ContactSection
-        badgeText="Contact Us"
-        title1="Let's Build"
-        title2="Something Great Together"
-        subtitle="Reach out to discuss your next project with our team"
+        badgeText={t.home.contact.badge}
+        title1={t.home.contact.title1}
+        title2={t.home.contact.title2}
+        subtitle={t.home.contact.subtitle}
         contactData={contact.data ?? null}
       />
     </div>

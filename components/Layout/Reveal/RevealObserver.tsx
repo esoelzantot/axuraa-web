@@ -71,19 +71,33 @@ const RevealObserver = () => {
     if (typeof Element.prototype.animate !== "function") return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const rtl = document.documentElement.dir === "rtl";
     // Content on screen during the first moments of a full page load stays put.
     const initialLoad = performance.now() < 4000;
     const startedAt = performance.now();
 
     const targets = new WeakMap<Element, Target>();
+    // Every hold this engine created, so teardown (e.g. a language switch that
+    // remounts the layout) can release them — otherwise content stays invisible.
+    const holds = new Set<Animation>();
+
+    /** Drops any paused "hold" on the element, including one left by an earlier engine. */
+    const releaseHolds = (el: Element) => {
+      el.getAnimations().forEach((a) => {
+        if (a.playState === "paused") {
+          a.cancel();
+          holds.delete(a);
+        }
+      });
+    };
 
     const reveal = (el: Element) => {
       const t = targets.get(el);
       if (!t) return;
-      t.hold?.cancel();
+      releaseHolds(el);
       t.hold = undefined;
       let variant = t.variant;
+      // read at reveal time: the language (and so the direction) can change without a reload
+      const rtl = document.documentElement.dir === "rtl";
       if (rtl && (variant === "left" || variant === "right")) variant = variant === "left" ? "right" : "left";
       el.animate(reduced ? FRAMES.fade : FRAMES[variant], {
         duration: reduced ? 600 : variant === "clip" ? 1100 : 900,
@@ -113,8 +127,10 @@ const RevealObserver = () => {
         targets.set(el, { variant, delay });
         return;
       }
+      releaseHolds(el);
       const hold = el.animate([{ opacity: 0 }, { opacity: 0 }], { duration: 1000, fill: "forwards" });
       hold.pause();
+      holds.add(hold);
       targets.set(el, { variant, delay, hold });
       io.observe(el);
     };
@@ -144,6 +160,8 @@ const RevealObserver = () => {
       cancelAnimationFrame(frame);
       mo.disconnect();
       io.disconnect();
+      holds.forEach((a) => a.cancel());
+      holds.clear();
     };
   }, []);
 

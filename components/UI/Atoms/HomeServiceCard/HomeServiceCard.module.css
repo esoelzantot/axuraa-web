@@ -332,3 +332,16 @@ a:focus-visible > .card {
     animation: none;
   }
 }
+
+/* RTL: the small index follows the reading start */
+[dir="rtl"] .index {
+  left: auto;
+  right: 16px;
+}
+
+@media (max-width: 640px) {
+  [dir="rtl"] .index {
+    right: auto;
+    left: 18px;
+  }
+}

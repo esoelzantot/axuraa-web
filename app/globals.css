@@ -92,3 +92,35 @@ textarea {
     animation: none;
   }
 }
+
+/* =========================================================
+   Arabic / RTL
+   ========================================================= */
+/* Arabic pages use the Arabic face; Latin words and digits fall back to Roboto. */
+html[lang="ar"] body {
+  font-family: var(--font-arabic), var(--font-roboto), sans-serif;
+}
+
+/* Letter-spacing breaks Arabic letter joining, and uppercase means nothing in Arabic. */
+html[lang="ar"] body * {
+  letter-spacing: normal !important;
+}
+
+/* Direction multiplier for hover rotations / nudges in module CSS:
+   rotate(calc(45deg * var(--dir))) turns the other way in RTL. */
+:root {
+  --dir: 1;
+}
+
+html[dir="rtl"] {
+  --dir: -1;
+}
+
+/* Directional arrow icons point the reading direction in RTL. */
+html[dir="rtl"] .lucide-arrow-right,
+html[dir="rtl"] .lucide-arrow-up-right,
+html[dir="rtl"] .lucide-chevron-right,
+html[dir="rtl"] .lucide-send,
+html[dir="rtl"] .lucide-arrow-left {
+  transform: scaleX(-1);
+}
