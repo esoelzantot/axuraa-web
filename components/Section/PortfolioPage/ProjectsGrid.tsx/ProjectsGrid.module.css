@@ -35,7 +35,7 @@
 .noProjects {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: var(--text-faint);
   font-size: 1.2rem;
   grid-column: 1 / -1;
   width: 100%;

@@ -6,7 +6,7 @@
   right: 0;
   /* Opaque background, so no backdrop-filter: it had no visible effect and it made
      the header the containing block of the fixed mobile drawer (drawer rendered blank). */
-  background: #191b1f;
+  background: var(--bg);
   border-bottom: 1px solid rgba(210, 105, 30, 0.2);
   padding: 0.5rem 2rem;
   z-index: 1000;
@@ -187,7 +187,14 @@
 }
 
 .desktopLanguageBtn {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Theme toggle in the phone header bar (desktop has it next to the language switcher) */
+.mobileThemeToggle {
+  display: none !important;
 }
 
 .mobileLanguageItem {
@@ -346,6 +353,15 @@
     display: none;
   }
 
+  .mobileThemeToggle {
+    display: grid !important;
+    margin-inline-start: auto;
+  }
+
+  .headerContainer {
+    gap: 10px;
+  }
+
   .mobileLanguageItem {
     display: block;
     padding: 1rem 1.5rem;
@@ -359,7 +375,7 @@
     left: auto;
     width: min(420px, 100%);
     max-width: 100%;
-    background: #15171a;
+    background: var(--surface-0);
     border-left: 1px solid rgba(210, 105, 30, 0.2);
     border-bottom: none;
     padding: 0;
@@ -374,7 +390,7 @@
     height: 100dvh;
     max-height: 100dvh;
     overflow: hidden;
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 0 25px rgb(var(--shade) / calc(0.5 * var(--shade-k)));
   }
 
   /* RTL Support for drawer */
@@ -384,7 +400,7 @@
     border-left: none;
     border-right: 1px solid rgba(210, 105, 30, 0.2);
     transform: translateX(-100%);
-    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 0 25px rgb(var(--shade) / calc(0.5 * var(--shade-k)));
   }
 
   .navOpen {
@@ -479,7 +495,7 @@
     width: 100%;
     font-size: 16px;
     height: auto;
-    color: #fff;
+    color: var(--text);
     border-radius: 12px;
     transition: all 0.2s ease;
   }
@@ -530,6 +546,13 @@
   }
 
   .startProjectBtn {
+  /* Orange surface: its content stays white in both themes */
+  --ink: 255 255 255;
+  --text: #ffffff;
+  --text-soft: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.85);
+  --accent-soft: #ffd4bf;
+  --accent-pale: #ffd4bf;
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #d04a1d 0%, #e85a2a 100%);
@@ -557,7 +580,7 @@
     height: 100%;
     background: linear-gradient(90deg,
         transparent,
-        rgba(255, 255, 255, 0.2),
+        rgb(var(--ink) / 0.2),
         transparent);
     transition: 0.5s;
   }
@@ -592,8 +615,8 @@
     align-items: center;
     gap: 1rem;
     padding: 1.125rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgb(var(--ink) / 0.03);
+    border: 1px solid rgb(var(--ink) / 0.05);
     border-radius: 12px;
     width: 100%;
     text-decoration: none;
@@ -622,13 +645,13 @@
 
   .contactLabel {
     font-size: 0.75rem;
-    color: #888;
+    color: var(--text-muted);
     margin-bottom: 0.25rem;
   }
 
   .contactValue {
     font-size: 0.875rem;
-    color: #fff;
+    color: var(--text);
     font-weight: 500;
   }
 
@@ -643,9 +666,9 @@
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #aaa;
+    background: rgb(var(--ink) / 0.05);
+    border: 1px solid rgb(var(--ink) / 0.08);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -845,7 +868,7 @@
 }
 
 .scrolled {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 4px 14px rgb(var(--shade) / calc(0.16 * var(--shade-k)));
 }
 
 .scrolled::after {
@@ -891,15 +914,15 @@
     gap: 4px;
     padding: 5px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgb(var(--ink) / 0.03);
+    border: 1px solid rgb(var(--ink) / 0.08);
   }
 
   .navLink {
     height: auto;
     padding: 0.5rem 1rem;
     border-radius: 999px;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgb(var(--ink) / 0.72);
     font-size: 15px;
     font-weight: 500;
     line-height: 1.2;
@@ -912,8 +935,8 @@
   }
 
   .navLink:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    background: rgb(var(--ink) / 0.06);
     text-shadow: none;
     transform: none;
   }
@@ -957,21 +980,21 @@
   .closeToggle:hover {
     background: rgba(208, 74, 29, 0.16);
     border-color: #f0652f;
-    color: #fff;
+    color: var(--text);
   }
 
   .navLink {
     position: relative;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgb(var(--ink) / 0.85);
   }
 
   .navLink:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgb(var(--ink) / 0.04);
   }
 
   /* active: tinted row, accent bar and gradient icon tile */
   .navLink.active {
-    color: #fff;
+    color: var(--text);
     background: linear-gradient(90deg, rgba(208, 74, 29, 0.16), rgba(208, 74, 29, 0.02));
   }
 
@@ -1023,7 +1046,7 @@
     bottom: 0;
     z-index: 1;
     height: 2px;
-    background: linear-gradient(90deg, #b83a12, #f0652f 60%, #ffd4bf);
+    background: linear-gradient(90deg, #b83a12, #f0652f 60%, var(--accent-pale));
     transform-origin: 0 50%;
     transform: scaleX(0);
     animation: scroll-progress linear both;
@@ -1060,4 +1083,17 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* One logo per theme (the light one has dark ink where the dark one is white) */
+.logoForLight {
+  display: none;
+}
+
+:global(html[data-theme="light"]) .logoForDark {
+  display: none;
+}
+
+:global(html[data-theme="light"]) .logoForLight {
+  display: block;
 }

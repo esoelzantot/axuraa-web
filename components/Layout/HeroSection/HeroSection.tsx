@@ -204,7 +204,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             >
               <span
                 style={{
-                  background: "#ffffff",
+                  background: "var(--text)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -216,7 +216,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <span
                 style={{
                   background:
-                    "linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%)",
+                    "linear-gradient(90deg, #d04a1d 0%, var(--hero-grad-end) 100%)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -234,7 +234,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               variant="body1"
               component="p"
               animation={mounted ? "textUp" : undefined}
-              color="var(--color-azure-65, #9CA3AF)"
+              color="var(--text-muted)"
               align="center"
               stagger={1}
             >
@@ -279,7 +279,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             <Typography
               variant="body2"
               component="p"
-              color="var(--color-grey-46, #6B7280)"
+              color="var(--text-faint)"
               align="center"
               style={{
                 fontWeight: 600,
@@ -309,7 +309,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   <Typography
                     variant="body1"
                     component="span"
-                    color="var(--color-azure-84, #D1D5DB)"
+                    color="var(--text-soft)"
                     style={{
                       fontWeight: 700,
                       marginLeft: "8px",

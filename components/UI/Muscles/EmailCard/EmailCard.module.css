@@ -9,11 +9,11 @@
   height: 100%;
   padding: 1.5rem;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgb(var(--ink) / 0.07);
   background:
     radial-gradient(120% 80% at 100% 0%, rgba(208, 74, 29, 0.1), transparent 55%),
-    linear-gradient(180deg, #23262e 0%, #1c1e24 100%);
-  color: #fff;
+    linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  color: var(--text);
   text-decoration: none;
   overflow: hidden;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -28,7 +28,7 @@
   line-height: 1;
   letter-spacing: -0.04em;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+  -webkit-text-stroke: 1px rgb(var(--ink) / 0.08);
   transition: -webkit-text-stroke-color 0.3s ease;
   pointer-events: none;
 }
@@ -56,7 +56,7 @@
 
 .description {
   margin: 0;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(var(--ink) / 0.7);
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -68,7 +68,7 @@
   gap: 0.75rem;
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid rgb(var(--ink) / 0.07);
 }
 
 .address {
@@ -76,7 +76,7 @@
   align-items: center;
   gap: 8px;
   min-width: 0;
-  color: #f6a07a;
+  color: var(--accent-soft);
   font-size: 0.92rem;
   font-weight: 600;
 }
@@ -112,7 +112,7 @@
   .card:hover {
     transform: translateY(-5px);
     border-color: rgba(240, 101, 47, 0.45);
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 18px 38px rgb(var(--shade) / calc(0.35 * var(--shade-k)));
   }
 
   .card:hover .num {

@@ -1,7 +1,7 @@
 /* ===== WhyUs Section Styles ===== */
 .whyUsSection {
   width: 100%;
-  background: #1a1b1f;
+  background: var(--surface-1);
   padding: 2rem 0%;
   /* Match the parent container's 6% horizontal padding */
   display: flex;
@@ -38,7 +38,7 @@
 }
 
 .heading {
-  color: #fff;
+  color: var(--text);
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1.25rem;
@@ -47,7 +47,7 @@
 }
 
 .subtitle {
-  color: #999;
+  color: var(--text-muted);
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 1.6;

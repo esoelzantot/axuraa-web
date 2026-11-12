@@ -1,0 +1,108 @@
+/* Theme toggle: round button, sun ⇄ moon morph driven by <html data-theme>. */
+.toggle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--ink) / 0.08);
+  background: rgb(var(--ink) / 0.03);
+  color: var(--accent-pale);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+/* Soft glow that blooms behind the icon on hover */
+.toggle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(240, 101, 47, 0.28), transparent 70%);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  overflow: visible;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2);
+}
+
+/* ── Dark theme: moon (big masked disc, rays tucked away) ── */
+.core {
+  transform-origin: 12px 12px;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2);
+}
+
+.bite {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rays {
+  transform-origin: 12px 12px;
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.5);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2), opacity 0.3s ease;
+}
+
+/* ── Light theme: sun (small disc, bite slides off, rays spin out) ── */
+:global(html[data-theme="light"]) .toggle {
+  color: #e0582a;
+}
+
+:global(html[data-theme="light"]) .icon {
+  transform: rotate(90deg);
+}
+
+:global(html[data-theme="light"]) .core {
+  transform: scale(0.55);
+}
+
+:global(html[data-theme="light"]) .bite {
+  transform: translate(10px, -10px);
+}
+
+:global(html[data-theme="light"]) .rays {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  transition-delay: 0.08s;
+}
+
+@media (hover: hover) {
+  .toggle:hover {
+    border-color: rgba(240, 101, 47, 0.45);
+    transform: translateY(-1px);
+  }
+
+  .toggle:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.toggle:active {
+  transform: scale(0.94);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid #f0652f;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .toggle::before,
+  .icon,
+  .core,
+  .bite,
+  .rays {
+    transition: none;
+  }
+}

@@ -1,6 +1,13 @@
 /* components/UI/SpecialCard/SpecialCard.module.css */
 
 .specialCard {
+  /* Orange surface: its content stays white in both themes */
+  --ink: 255 255 255;
+  --text: #ffffff;
+  --text-soft: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.85);
+  --accent-soft: #ffd4bf;
+  --accent-pale: #ffd4bf;
   position: relative;
   width: 80%;
   /* max-width: 1000px; */
@@ -38,7 +45,7 @@
   /* animation: float1 8s ease-in-out infinite; */
   opacity: 0.8;
   border-radius: 712.019rem;
-  background: var(--color-white-20, rgba(255, 255, 255, 0.20));
+  background: var(--color-white-20, rgb(var(--ink) / 0.20));
   filter: blur(2.286rem);
 }
 
@@ -81,20 +88,20 @@
 }
 
 .title {
-  /* background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+  /* background: linear-gradient(90deg, #d04a1d 0%, var(--text) 100%);
    */
-   background: #fffdfd;
+   background: var(--text);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700 !important;
   font-size: 3.5rem !important;
   margin-bottom: 1.5rem !important;
-  text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.1);
+  text-shadow: 0 0.125rem 1.25rem rgb(var(--shade) / calc(0.1 * var(--shade-k)));
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgb(var(--ink) / 0.95);
   font-weight: 300 !important;
   font-size: 1.25rem !important;
   line-height: 1.6 !important;
@@ -123,15 +130,15 @@
 }
 
 .primaryButton {
-  background-color: white;
+  background-color: var(--text);
   color: #c75437;
-  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.25rem 1.25rem rgb(var(--shade) / calc(0.15 * var(--shade-k)));
 }
 
 .primaryButton:hover {
   /* transform: translateY(3%); */
   box-shadow: 0 0.375rem 1.5625rem rgba(0, 0, 0, 0.2);
-  background-color: #dddddd;
+  background-color: var(--text-soft);
 }
 
 .primaryButton:active {
@@ -140,10 +147,10 @@
 
 .secondaryButton {
   border-radius: 0.8545rem;
-  border: var(--stroke-weight-1, 0.0712rem) solid rgba(255, 255, 255, 0.20);
+  border: var(--stroke-weight-1, 0.0712rem) solid rgb(var(--ink) / 0.20);
   background: rgba(144, 37, 1, 0.50);
   backdrop-filter: blur(0.1424rem);
-  color: #ffffff; /* Ensure text is white */
+  color: #fff;
 }
 
 .secondaryButton:hover {

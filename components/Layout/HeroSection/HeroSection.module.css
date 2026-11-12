@@ -77,18 +77,18 @@
   height: auto;
   border-radius: 624.9375rem;
   padding: 0.375rem 1rem;
-  border-color: #1f2937;
+  border-color: var(--surface-2);
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #2d3748;
-  color: #ffffff;
+  background: var(--surface-3);
+  color: var(--text);
   transition: all 0.3s ease;
 }
 
 .badgeContant {
   text-align: start;
-  color: var(--color-azure-84, #d1d5db);
+  color: var(--color-azure-84, var(--text-soft));
   font-size: 0.75rem;
   font-style: normal;
   font-weight: 600;

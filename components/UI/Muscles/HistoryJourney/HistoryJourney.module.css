@@ -73,7 +73,7 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   max-width: 43.75rem;
-  background: linear-gradient(90deg, #d04a1d 0%, #fffdfd 100%);
+  background: linear-gradient(90deg, #d04a1d 0%, var(--hero-grad-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
