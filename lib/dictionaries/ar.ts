@@ -5,6 +5,7 @@ export const ar: Dictionary = {
   common: {
     brand: "Axuraa",
     logoAlt: "شعار Axuraa",
+    loading: "جارٍ التحميل…",
     startProject: "ابدأ مشروعك",
     viewOurWork: "شاهد أعمالنا",
     learnMore: "اعرف المزيد",

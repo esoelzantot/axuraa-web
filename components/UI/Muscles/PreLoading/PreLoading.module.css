@@ -1,0 +1,247 @@
+/*
+  Axuraa logo loader.
+  Timeline: arms fly in (0 → ~1.1s), then the spark loops every 1.6s
+  (0.2s per arm × 8 arms). The orbit arc turns at the same speed and its
+  delay is tuned so its head sits on the arm that is currently white.
+*/
+.loader {
+  --size: 120px;
+  --brand: #d04a1d;
+  --brand-light: #f0652f;
+  --cycle: 1.6s;
+  --step: 0.2s;
+  --sweep-start: 0.9s;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+}
+
+.mark {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: var(--brand);
+  filter: drop-shadow(0 6px 18px rgba(208, 74, 29, 0.35));
+}
+
+/* ── Arms: fly in from outside and lock into the mark ── */
+.arm {
+  transform-origin: 0 0;
+  animation: lp-arm-in 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.15) both;
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+/* ── Spark: each arm lights up white, pushes out, settles back ── */
+.spark {
+  color: var(--brand);
+  transform-origin: 0 0;
+  animation: lp-spark var(--cycle) ease-in-out infinite;
+  animation-delay: calc(var(--sweep-start) + (var(--i) - 1) * var(--step));
+}
+
+/* ── Soft breathing glow behind the mark ── */
+.halo {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 101, 47, 0.38), transparent 68%);
+  filter: blur(10px);
+  animation: lp-breathe var(--cycle) ease-in-out infinite;
+}
+
+/* ── Orbit: faint ring + an arc that follows the spark ── */
+.track,
+.orbit {
+  position: absolute;
+  inset: -16%;
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+}
+
+.track {
+  background: rgba(255, 255, 255, 0.06);
+  animation: lp-fade 0.5s ease 0.4s both;
+}
+
+.orbit {
+  background: conic-gradient(from 0deg, transparent 0 68%, rgba(240, 101, 47, 0.15) 76%, var(--brand-light) 96%, #fff 100%);
+  animation:
+    lp-fade 0.5s ease 0.6s both,
+    lp-spin var(--cycle) linear 0.828s infinite;
+}
+
+/* ── Wordmark + indeterminate progress line ── */
+.word {
+  display: flex;
+  gap: 0.42em;
+  margin: 0;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.word span {
+  display: inline-block;
+  animation: lp-letter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(0.55s + var(--i) * 70ms);
+}
+
+/* Middle letters pick up the brand colour */
+.word span:nth-child(2),
+.word span:nth-child(5) {
+  color: var(--brand-light);
+}
+
+.bar {
+  position: relative;
+  width: 140px;
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  animation: lp-fade 0.5s ease 0.9s both;
+}
+
+.bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--brand-light), #fff);
+  animation: lp-bar var(--cycle) cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Keyframes ── */
+@keyframes lp-arm-in {
+  from {
+    opacity: 0;
+    transform: translateY(-48px) scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lp-spark {
+  0% {
+    color: var(--brand);
+    transform: translateY(0);
+  }
+  8% {
+    color: #fff;
+    transform: translateY(-10px);
+  }
+  28% {
+    color: #f6a07a;
+    transform: translateY(-3px);
+  }
+  45%,
+  100% {
+    color: var(--brand);
+    transform: translateY(0);
+  }
+}
+
+@keyframes lp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lp-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes lp-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes lp-letter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+}
+
+@keyframes lp-bar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+/* Reduced motion: the static logo (white arm in place) with a gentle glow pulse */
+@media (prefers-reduced-motion: reduce) {
+  .arm,
+  .spark,
+  .orbit,
+  .track,
+  .word span,
+  .bar,
+  .bar::after {
+    animation: none;
+  }
+
+  .orbit {
+    display: none;
+  }
+
+  .accent {
+    color: #fff;
+  }
+
+  .halo {
+    animation: lp-pulse 2s ease-in-out infinite;
+  }
+
+  .bar::after {
+    width: 100%;
+    opacity: 0.6;
+  }
+}
+
+@keyframes lp-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
