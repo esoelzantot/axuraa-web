@@ -1,13 +1,98 @@
 :root {
-  --background: #191b1f;
-  --foreground: #ededed;
   /* Height of the fixed header; used for anchor offsets and page top spacing */
   --header-height: 72px;
   /* Shared page layout: one horizontal gutter + content width for every page.
      Hero sections stay full-bleed; section content uses these. */
   --page-gutter: clamp(1rem, 4vw, 2.5rem);
   --content-max: 70rem; /* 1120px — the design's content width */
+}
+
+/* =========================================================
+   Theme tokens
+   The theme is set on <html data-theme> before first paint
+   (see components/Layout/Theme). Component CSS uses only these
+   tokens for neutrals; brand oranges are shared by both themes.
+   - surfaces:  --bg, --surface-0 (sunken) … --surface-3 (raised)
+   - text:      --text, --text-soft, --text-muted, --text-faint
+   - overlays:  rgb(var(--ink) / a)   (white on dark, ink on light)
+   - shadows:   rgb(var(--shade) / calc(a * var(--shade-k)))
+   - accents:   --accent-soft / --accent-pale (orange text tints)
+   ========================================================= */
+:root,
+:root[data-theme="dark"] {
   color-scheme: dark;
+  --bg: #191b1f;
+  --bg-rgb: 25 27 31;
+  --surface-0: #16181c;
+  --surface-1: #1c1e24;
+  --surface-2: #23262e;
+  --surface-3: #2c2f37;
+  --ink: 255 255 255;
+  --text: #ffffff;
+  --text-soft: #d1d5db;
+  --text-muted: #9ca3af;
+  --text-faint: #6b7280;
+  --accent-soft: #f6a07a;
+  --accent-pale: #ffd4bf;
+  --hero-grad-end: #fffdfd;
+  --shade: 0 0 0;
+  --shade-k: 1;
+  --background: var(--bg);
+  --foreground: #ededed;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f4f1;
+  --bg-rgb: 246 244 241;
+  --surface-0: #ece8e3;
+  --surface-1: #faf9f7;
+  --surface-2: #ffffff;
+  --surface-3: #e6e1db;
+  --ink: 24 26 31;
+  --text: #15171c;
+  --text-soft: #343a44;
+  --text-muted: #5b616c;
+  --text-faint: #8a909a;
+  --accent-soft: #c2410c;
+  --accent-pale: #e0582a;
+  --hero-grad-end: #7c2d12;
+  --shade: 92 52 28;
+  --shade-k: 0.32;
+  --background: var(--bg);
+  --foreground: var(--text);
+}
+
+/* Theme switch: the new theme is revealed as a circle growing from the toggle
+   (View Transitions API); browsers without it get a short colour cross-fade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 0.75s cubic-bezier(0.7, 0, 0.25, 1);
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 0%));
+  }
+  to {
+    clip-path: circle(var(--theme-r, 150vmax) at var(--theme-x, 50%) var(--theme-y, 0%));
+  }
+}
+
+html.theme-fading,
+html.theme-fading *,
+html.theme-fading *::before,
+html.theme-fading *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    fill 0.35s ease !important;
 }
 
 @media (max-width: 1023.98px) {

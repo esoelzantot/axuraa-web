@@ -49,6 +49,11 @@ export const ar: Dictionary = {
     emailUs: "راسلنا",
   },
 
+  theme: {
+    toggle: "التبديل بين الوضع الفاتح والداكن",
+    light: "فاتح",
+    dark: "داكن",
+  },
   language: {
     label: "اللغة",
     switchTo: (name: string) => `تغيير اللغة إلى ${name}`,

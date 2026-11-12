@@ -69,7 +69,7 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
             component="h2"
             className={`${styles.title} ${styles.mainTitle}`}
           >
-            <span style={{ color: "#FFFFFF" }}>{title1}</span>
+            <span style={{ color: "var(--text)" }}>{title1}</span>
             <span
               style={{
                 color: "#D04A1D",

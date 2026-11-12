@@ -11,6 +11,7 @@ import LanguageTransition from "@/components/Layout/LanguageTransition/LanguageT
 import { Locale, SUPPORTED_LOCALES, isSupportedLocale, localeDir } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionaries";
 import { SITE_NAME } from "@/lib/site";
+import { THEME_COLORS, themeInitScript } from "@/components/Layout/Theme/theme";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -70,7 +71,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!isSupportedLocale(locale)) notFound();
 
   return (
-    <html lang={locale} dir={localeDir(locale)} className={styles.html}>
+    // data-theme is set before paint by the inline script, so React must not
+    // treat that attribute as a hydration mismatch.
+    <html lang={locale} dir={localeDir(locale)} className={styles.html} suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content={THEME_COLORS.dark} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={`${roboto.variable} ${plexArabic.variable} ${styles.body}`}>
         <RevealObserver />
         <div className={styles.wrapper}>

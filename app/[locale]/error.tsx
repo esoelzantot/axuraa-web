@@ -27,11 +27,11 @@ export default function Error({
         gap: "1rem",
         padding: "8rem 1.5rem 4rem",
         textAlign: "center",
-        color: "#ffffff",
+        color: "var(--text)",
       }}
     >
       <h1 style={{ fontSize: "clamp(1.75rem, 4vw, 2.5rem)", margin: 0 }}>{t.error.title}</h1>
-      <p style={{ color: "#9CA3AF", maxWidth: 480 }}>
+      <p style={{ color: "var(--text-muted)", maxWidth: 480 }}>
         {t.error.text}
       </p>
       <button

@@ -12,6 +12,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import LanguageSwitcher from "@/components/UI/Atoms/LanguageSwitcher/LanguageSwitcher";
+import ThemeToggle from "@/components/Layout/Theme/ThemeToggle";
 import styles from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -110,7 +111,15 @@ const Header = () => {
           <Image
             src="/assets/logo2.svg"
             alt={t.common.logoAlt}
-            className={styles.logoImage}
+            className={`${styles.logoImage} ${styles.logoForDark}`}
+            width={150}
+            height={60}
+            priority
+          />
+          <Image
+            src="/assets/logo2-light.svg"
+            alt=""
+            className={`${styles.logoImage} ${styles.logoForLight}`}
             width={150}
             height={60}
             priority
@@ -134,7 +143,15 @@ const Header = () => {
               <Image
                 src="/assets/logo2.svg"
                 alt={t.common.logoAlt}
-                className={styles.logoImage}
+                className={`${styles.logoImage} ${styles.logoForDark}`}
+                width={120}
+                height={48}
+                priority
+              />
+              <Image
+                src="/assets/logo2-light.svg"
+                alt=""
+                className={`${styles.logoImage} ${styles.logoForLight}`}
                 width={120}
                 height={48}
                 priority
@@ -343,8 +360,11 @@ const Header = () => {
         </nav>
 
         <div className={styles.desktopLanguageBtn}>
+          <ThemeToggle />
           {SUPPORTED_LOCALES.length > 1 && <LanguageSwitcher />}
         </div>
+
+        <ThemeToggle className={styles.mobileThemeToggle} />
 
         <button
           className={styles.menuToggle}

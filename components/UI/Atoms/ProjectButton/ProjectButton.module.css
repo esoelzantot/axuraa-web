@@ -22,20 +22,20 @@
   transform: translateY(-1px);
 }
 .button_secondary {
-  background: #F3F4F6;
-  color: #1F2937;
+  background: var(--text);
+  color: var(--surface-2);
 }
 .button_secondary:hover {
-  background: #E5E7EB;
+  background: var(--text-soft);
   transform: translateY(-1px);
 }
 .button_outline {
   background: transparent;
-  border: 1px solid #D1D5DB;
-  color: #4B5563;
+  border: 1px solid var(--text-soft);
+  color: var(--text-faint);
 }
 .button_outline:hover {
-  background: #F9FAFB;
+  background: var(--text);
   transform: translateY(-1px);
 }
 /* Disabled State */

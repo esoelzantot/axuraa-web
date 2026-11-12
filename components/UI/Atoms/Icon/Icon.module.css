@@ -61,12 +61,12 @@
 /* Hover effect - only apply when not disabled */
 .iconContainer:not(.noHover):not(.parentHover):hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgb(var(--shade) / calc(0.15 * var(--shade-k)));
   background-color: var(--color-primary-solid, #d04a1d);
 }
 
 .iconContainer:not(.noHover):not(.parentHover):hover .iconWrapper {
-  color: var(--color-white-solid, #FFF);
+  color: var(--color-white-solid, #fff);
 }
 
 .iconContainer:not(.noHover):not(.parentHover):hover .iconWrapper svg {

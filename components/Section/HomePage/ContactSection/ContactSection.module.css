@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   gap: 2.4306rem;
-  background: #191b1f;
+  background: var(--bg);
 }
 
 .heroDots {
@@ -32,7 +32,7 @@
 }
 
 .title {
-  color: var(--Gray-Chateau, #ffffff);
+  color: var(--Gray-Chateau, var(--text));
   font-size: 1.352rem;
   font-style: normal;
   font-weight: 400;
@@ -45,7 +45,7 @@
 }
 
 .subtitle {
-  color: var(--Gray-Chateau, #8a8a8a);
+  color: var(--Gray-Chateau, var(--text-muted));
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
 }

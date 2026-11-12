@@ -16,8 +16,8 @@
   border-radius: 28px;
   background:
     radial-gradient(70% 55% at 50% 42%, rgba(208, 74, 29, 0.16), transparent 70%),
-    linear-gradient(180deg, #23262e 0%, #1b1d22 100%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  box-shadow: 0 4px 12px rgb(var(--shade) / calc(0.12 * var(--shade-k)));
   overflow: hidden;
   transition: transform 0.4s ease;
 }
@@ -30,7 +30,7 @@
   z-index: 1;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(160deg, rgba(240, 101, 47, 0.55), rgba(255, 255, 255, 0.06) 45%, rgba(208, 74, 29, 0.35));
+  background: linear-gradient(160deg, rgba(240, 101, 47, 0.55), rgb(var(--ink) / 0.06) 45%, rgba(208, 74, 29, 0.35));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -42,7 +42,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1.3px);
+  background-image: radial-gradient(rgb(var(--ink) / 0.06) 1px, transparent 1.3px);
   background-size: 18px 18px;
   -webkit-mask: radial-gradient(circle at 50% 42%, #000 0%, transparent 70%);
   mask: radial-gradient(circle at 50% 42%, #000 0%, transparent 70%);
@@ -118,7 +118,7 @@
 
 .title {
   margin: 0;
-  color: #fff;
+  color: var(--text);
   font-size: clamp(1.7rem, 1.25rem + 1.5vw, 2.4rem);
   font-weight: 800;
   line-height: 1.15;
@@ -126,7 +126,7 @@
 }
 
 .accent {
-  background: linear-gradient(90deg, #f0652f 0%, #ffd4bf 50%, #f0652f 100%);
+  background: linear-gradient(90deg, #f0652f 0%, var(--accent-pale) 50%, #f0652f 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -142,7 +142,7 @@
 
 .subtitle {
   margin: 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgb(var(--ink) / 0.62);
   font-size: 1.02rem;
   line-height: 1.6;
 }

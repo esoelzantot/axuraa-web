@@ -12,8 +12,8 @@
   padding: 0 7px 0 24px;
   border: none;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
+  background: rgb(var(--ink) / 0.04);
+  color: var(--text);
   font-size: 16px;
   font-weight: 600;
   line-height: 1.2;

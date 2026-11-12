@@ -38,7 +38,7 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
 
       <div className={styles.servicesContainer} data-reveal-stagger>
         {services.length === 0 && (
-          <p style={{ color: "#fff", textAlign: "center" }}>
+          <p style={{ color: "var(--text)", textAlign: "center" }}>
             {t.common.noServices}
           </p>
         )}

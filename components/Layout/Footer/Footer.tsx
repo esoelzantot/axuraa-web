@@ -49,12 +49,20 @@ const Footer = async ({ locale }: { locale: Locale }) => {
             {/* Brand & Social */}
             <div className={styles.brandSection} data-reveal="up">
               <div className={styles.brand}>
+                {/* One logo per theme: the light one has dark ink where the dark one is white */}
                 <Image
                   src="/assets/axuraa-logo.png"
                   alt={t.common.logoAlt}
                   width={71}
                   height={71}
-                  className={styles.logo}
+                  className={`${styles.logo} ${styles.logoForDark}`}
+                />
+                <Image
+                  src="/assets/axuraa-logo-light.png"
+                  alt=""
+                  width={71}
+                  height={71}
+                  className={`${styles.logo} ${styles.logoForLight}`}
                 />
                 <p className={styles.brantlogo}>AXURAA</p>
               </div>

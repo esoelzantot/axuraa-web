@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   gap: clamp(1rem, 2vw, 1.25rem);
-  background: #191b1f;
+  background: var(--bg);
 }
 
 /* 4 columns on desktop -> 2 on tablet -> 1 on phones (cards switch to a row layout) */

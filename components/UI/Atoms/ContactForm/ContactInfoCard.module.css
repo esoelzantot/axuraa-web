@@ -9,11 +9,11 @@
   min-width: 0;
   padding: 1rem 1.125rem;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgb(var(--ink) / 0.07);
   background:
     radial-gradient(120% 100% at 0% 0%, rgba(208, 74, 29, 0.12), transparent 60%),
-    linear-gradient(180deg, #23262e 0%, #1c1e24 100%);
-  color: #fff;
+    linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  color: var(--text);
   text-align: start;
   text-decoration: none;
   overflow: hidden;
@@ -49,7 +49,7 @@
 }
 
 .label {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgb(var(--ink) / 0.55);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -57,7 +57,7 @@
 }
 
 .value {
-  color: #fff;
+  color: var(--text);
   font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
   font-weight: 700;
   line-height: 1.3;

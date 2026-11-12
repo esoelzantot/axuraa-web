@@ -52,6 +52,11 @@ export const en = {
     emailUs: "Email us",
   },
 
+  theme: {
+    toggle: "Switch between light and dark theme",
+    light: "Light",
+    dark: "Dark",
+  },
   language: {
     label: "Language",
     switchTo: (name: string) => `Switch language to ${name}`,

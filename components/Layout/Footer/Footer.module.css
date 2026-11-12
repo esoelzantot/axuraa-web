@@ -9,8 +9,8 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  color: #e0e0e0;
-  background: #15171b;
+  color: var(--text-soft);
+  background: var(--surface-0);
 }
 
 /* Gradient hairline on top */
@@ -83,7 +83,7 @@
   font-size: clamp(1.5rem, 2.2vw, 1.9rem);
   font-weight: 800;
   letter-spacing: 0.04em;
-  background: linear-gradient(90deg, #ffffff 40%, #ffd4bf 100%);
+  background: linear-gradient(90deg, var(--text) 40%, var(--accent-pale) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -91,7 +91,7 @@
 
 .description {
   margin: 0;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgb(var(--ink) / 0.68);
   font-size: clamp(15px, 1.1vw, 16.5px);
   line-height: 1.7;
 }
@@ -136,7 +136,7 @@
 
 .socialLink:hover .socialIcon,
 .socialLink:focus-visible .socialIcon {
-  background-color: #fff;
+  background-color: var(--text);
 }
 
 /* Link columns */
@@ -161,7 +161,7 @@
   align-items: center;
   gap: 10px;
   margin: 0 0 18px;
-  color: #fff;
+  color: var(--text);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -192,7 +192,7 @@
   display: inline-flex;
   align-items: center;
   padding: 6px 0;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgb(var(--ink) / 0.68);
   font-size: clamp(14.5px, 1vw, 16px);
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -213,7 +213,7 @@
 
 .link:hover,
 .link:focus-visible {
-  color: #fff;
+  color: var(--text);
   padding-left: 16px;
 }
 
@@ -265,7 +265,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgb(var(--ink) / 0.12), transparent);
 }
 
 .bottomContent {
@@ -278,7 +278,7 @@
 
 .bottomContentTitle {
   margin: 0;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(var(--ink) / 0.5);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -293,8 +293,8 @@
 .legalLink {
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgb(var(--ink) / 0.08);
+  color: rgb(var(--ink) / 0.65);
   font-size: 13.5px;
   line-height: 1.4;
   transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
@@ -302,7 +302,7 @@
 
 .legalLink:hover,
 .legalLink:focus-visible {
-  color: #fff;
+  color: var(--text);
   border-color: rgba(240, 101, 47, 0.5);
   background: rgba(208, 74, 29, 0.12);
 }
@@ -373,4 +373,22 @@
   .legalLink {
     transition: none;
   }
+}
+
+/* One logo per theme */
+.logoForLight {
+  display: none;
+}
+
+:global(html[data-theme="light"]) .logoForDark {
+  display: none;
+}
+
+:global(html[data-theme="light"]) .logoForLight {
+  display: block;
+}
+
+/* Light theme: the bottom bar is a soft warm band instead of a dark strip */
+:global(html[data-theme="light"]) .footerBottom {
+  background: rgb(var(--ink) / 0.04);
 }

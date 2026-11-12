@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    background: #191B1F;
+    background: var(--bg);
     position: relative;
 }
 
@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     min-height: 50vh;
-    color: #fff;
+    color: var(--text);
     font-size: 18px;
     font-weight: 500;
 }

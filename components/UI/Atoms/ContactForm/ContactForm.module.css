@@ -15,8 +15,8 @@
   border-radius: 28px;
   background:
     radial-gradient(90% 60% at 100% 0%, rgba(208, 74, 29, 0.14), transparent 60%),
-    linear-gradient(180deg, #22252c 0%, #1b1d22 100%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 100%);
+  box-shadow: 0 4px 12px rgb(var(--shade) / calc(0.12 * var(--shade-k)));
   box-sizing: border-box;
 }
 
@@ -28,7 +28,7 @@
   z-index: 2;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(150deg, rgba(240, 101, 47, 0.55), rgba(255, 255, 255, 0.06) 40%, rgba(208, 74, 29, 0.3));
+  background: linear-gradient(150deg, rgba(240, 101, 47, 0.55), rgb(var(--ink) / 0.06) 40%, rgba(208, 74, 29, 0.3));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -54,7 +54,7 @@
   z-index: -1;
   inset: 0;
   border-radius: inherit;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.3px);
+  background-image: radial-gradient(rgb(var(--ink) / 0.05) 1px, transparent 1.3px);
   background-size: 16px 16px;
   -webkit-mask: radial-gradient(circle at 100% 0%, #000 0%, transparent 45%);
   mask: radial-gradient(circle at 100% 0%, #000 0%, transparent 45%);
@@ -77,7 +77,7 @@
 }
 
 .label {
-  color: rgba(255, 255, 255, 0.82);
+  color: rgb(var(--ink) / 0.82);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -93,20 +93,20 @@
   min-height: 54px;
   padding: 0 1rem;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.035);
-  color: #fff;
+  border: 1px solid rgb(var(--ink) / 0.08);
+  background: rgb(var(--ink) / 0.035);
+  color: var(--text);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .control:hover {
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgb(var(--ink) / 0.16);
 }
 
 .control:focus-within,
 .controlOpen {
   border-color: rgba(240, 101, 47, 0.75);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(var(--ink) / 0.05);
   box-shadow: 0 0 0 4px rgba(208, 74, 29, 0.16);
 }
 
@@ -118,7 +118,7 @@
 
 .inputIcon {
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgb(var(--ink) / 0.4);
   transition: color 0.25s ease;
 }
 
@@ -136,13 +136,13 @@
   border: none;
   outline: none;
   background: transparent;
-  color: #fff;
+  color: var(--text);
   font: inherit;
   font-size: 0.98rem;
 }
 
 .inputField::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgb(var(--ink) / 0.35);
 }
 
 .inputField:disabled {
@@ -152,9 +152,9 @@
 
 /* Autofill keeps the dark look */
 .inputField:-webkit-autofill {
-  -webkit-text-fill-color: #fff;
-  -webkit-box-shadow: 0 0 0 100px #26292f inset;
-  caret-color: #fff;
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 100px var(--surface-2) inset;
+  caret-color: var(--text);
 }
 
 .textareaControl {
@@ -183,8 +183,8 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: 4px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgb(var(--ink) / 0.08);
+  background: rgb(var(--ink) / 0.035);
 }
 
 .segmentThumb {
@@ -221,7 +221,7 @@
   gap: 8px;
   min-height: 40px;
   border-radius: 10px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgb(var(--ink) / 0.6);
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
@@ -229,7 +229,7 @@
 }
 
 .segment:has(.radioInput:checked) {
-  color: #fff;
+  color: var(--text);
 }
 
 .segment:has(.radioInput:focus-visible) {
@@ -269,12 +269,12 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: #fff;
+  color: var(--text);
   font-size: 0.98rem;
 }
 
 .placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgb(var(--ink) / 0.35);
 }
 
 .countBadge {
@@ -292,7 +292,7 @@
 
 .selectArrow {
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(var(--ink) / 0.5);
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -313,8 +313,8 @@
   padding: 8px;
   border-radius: 18px;
   border: 1px solid rgba(240, 101, 47, 0.3);
-  background: #1e2026;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  background: var(--surface-1);
+  box-shadow: 0 18px 40px rgb(var(--shade) / calc(0.45 * var(--shade-k)));
   animation: dropdown-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -334,20 +334,20 @@
   padding: 0 12px;
   border-radius: 12px;
   border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(var(--ink) / 0.8);
   font-size: 0.92rem;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdownItem:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(var(--ink) / 0.04);
 }
 
 .dropdownItemChecked {
   border-color: rgba(240, 101, 47, 0.35);
   background: rgba(208, 74, 29, 0.12);
-  color: #fff;
+  color: var(--text);
 }
 
 .dropdownItem:has(.checkboxInput:focus-visible) {
@@ -370,7 +370,7 @@
   width: 20px;
   height: 20px;
   border-radius: 6px;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border: 1.5px solid rgb(var(--ink) / 0.25);
   color: transparent;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
@@ -387,6 +387,13 @@
 
 /* ---------- Send button ---------- */
 .submitButton {
+  /* Orange surface: its content stays white in both themes */
+  --ink: 255 255 255;
+  --text: #ffffff;
+  --text-soft: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.85);
+  --accent-soft: #ffd4bf;
+  --accent-pale: #ffd4bf;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -419,7 +426,7 @@
   left: -60%;
   width: 45%;
   height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  background: linear-gradient(100deg, transparent, rgb(var(--ink) / 0.28), transparent);
   transform: skewX(-20deg);
   transition: left 0.7s ease;
 }
@@ -437,8 +444,8 @@
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  background: rgb(var(--ink) / 0.18);
+  box-shadow: inset 0 0 0 1px rgb(var(--ink) / 0.25);
   overflow: hidden;
   transition: background 0.3s ease, color 0.3s ease;
 }
@@ -460,7 +467,7 @@
 @media (hover: hover) {
   .submitButton:not(:disabled):hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(208, 74, 29, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    box-shadow: 0 10px 24px rgba(208, 74, 29, 0.34), inset 0 1px 0 rgb(var(--ink) / 0.18);
   }
 
   .submitButton:not(:disabled):hover::before {
@@ -468,7 +475,7 @@
   }
 
   .submitButton:not(:disabled):hover .submitIcon {
-    background: #fff;
+    background: var(--text);
     color: #c4441a;
   }
 
@@ -501,7 +508,7 @@
 }
 
 .submitButton:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--text);
   outline-offset: 3px;
 }
 
