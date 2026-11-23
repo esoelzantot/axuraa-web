@@ -3,7 +3,7 @@
  * Override with NEXT_PUBLIC_API_URL (e.g. in .env.local) — must include `/api/v1`.
  */
 export const API_BASE = (
-  process.env.NEXT_PUBLIC_API_URL || "https://back-end-axuraa.fly.dev/api/v1"
+  process.env.NEXT_PUBLIC_API_URL || "https://axuraa-api.fly.dev/api/v1"
 ).replace(/\/+$/, "");
 
 const enc = encodeURIComponent;

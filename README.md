@@ -24,7 +24,7 @@ Open [http://localhost:3000](http://localhost:3000).
 Copy `.env.example` to `.env.local` to point the site at another backend:
 
 ```
-NEXT_PUBLIC_API_URL=https://back-end-axuraa.fly.dev/api/v1
+NEXT_PUBLIC_API_URL=https://axuraa-api.fly.dev/api/v1
 ```
 
 ## Project layout
