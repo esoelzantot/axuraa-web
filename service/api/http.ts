@@ -24,7 +24,13 @@ interface RequestOptions {
 const errorMessage = (json: unknown, fallback: string): string => {
   if (json && typeof json === "object") {
     const j = json as { message?: unknown; errors?: unknown };
-    if (Array.isArray(j.errors) && j.errors.length) return j.errors.join(", ");
+    if (Array.isArray(j.errors) && j.errors.length) {
+      // The backend sends `{ field, message }` objects; older responses used strings
+      const messages = j.errors
+        .map((e) => (typeof e === "string" ? e : (e as { message?: unknown } | null)?.message))
+        .filter((m): m is string => typeof m === "string" && m !== "");
+      if (messages.length) return messages.join(", ");
+    }
     if (typeof j.message === "string" && j.message) return j.message;
   }
   return fallback;
