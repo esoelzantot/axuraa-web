@@ -1,9 +1,11 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight, FolderOpen, Layers, Code, MessageCircle } from "lucide-react";
 import styles from "./EmptyState.module.css";
 import { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 const ICONS = { services: Code, solutions: Layers, projects: FolderOpen, feedback: MessageCircle };
 
@@ -21,7 +23,7 @@ interface EmptyStateProps {
  * eight arms around the section's icon, with a light travelling over them.
  */
 const EmptyState = ({ kind, locale, as: Heading = "h3", onClearFilter }: EmptyStateProps) => {
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   const copy = onClearFilter ? t.empty.filter : t.empty[kind];
   const Icon = ICONS[kind];
 
