@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowUpRight, BadgeDollarSign, Headphones, Info, Mail, type LucideIcon } from "lucide-react";
+import { isIconUrl } from "@/lib/icons";
 import styles from "./EmailCard.module.css";
 
 interface EmailCardProps {
@@ -37,7 +38,12 @@ const EmailCard: React.FC<EmailCardProps> = ({
         </span>
       )}
       <span className={styles.tile} aria-hidden="true">
-        <Icon size={24} strokeWidth={1.75} />
+        {isIconUrl(icon) ? (
+          // eslint-disable-next-line @next/next/no-img-element -- small icon from the CMS (any host)
+          <img src={icon} alt="" width={26} height={26} style={{ objectFit: "contain" }} />
+        ) : (
+          <Icon size={24} strokeWidth={1.75} />
+        )}
       </span>
       <h3 className={styles.title}>{name}</h3>
       {description && <p className={styles.description}>{description}</p>}

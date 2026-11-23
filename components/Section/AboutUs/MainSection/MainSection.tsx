@@ -7,6 +7,7 @@ import { RatingItem } from "@/types/HomePage/ratingTypes";
 import { TrackRecordData } from "@/service/TrackRecord/trackrecord";
 import { Locale } from "@/lib/i18n";
 import { cmsText, getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 // Fallback counters (used when the CMS returns nothing); labels come from the dictionary.
 const STATIC_STATS: Omit<RatingItem, "label">[] = [
@@ -22,7 +23,7 @@ interface Props {
 }
 
 const MainSection = ({ trackRecord, locale }: Props) => {
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   const ratingItems: RatingItem[] =
     trackRecord?.records?.map((record) => ({
       id: record.id,
@@ -30,7 +31,7 @@ const MainSection = ({ trackRecord, locale }: Props) => {
       label: cmsText(record.label, locale),
       icon: record.icon || "/assets/RatingIcon.svg",
       suffix: record.suffix || "",
-    })) ?? STATIC_STATS.map((item, i) => ({ ...item, label: t.about.stats[i] })); // ← fallback if null
+    })) ?? STATIC_STATS.map((item, i) => ({ ...item, label: t.about.stats[i] ?? getDictionary(locale).about.stats[i] })); // ← fallback if null
 
   return (
     <div className={styles.mainSection}>

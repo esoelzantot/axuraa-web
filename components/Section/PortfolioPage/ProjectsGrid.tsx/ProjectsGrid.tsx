@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import styles from "./ProjectsGrid.module.css";
 import ProjectCard from "@/components/UI/Muscles/ProjectCard/ProjectCard";
 import React from "react";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 interface Project {
   id: string;
@@ -32,10 +32,11 @@ const item = {
 };
 
 const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, locale }) => {
+  const { t } = useDictionary();
   if (!projects.length) {
     return (
       <div className={styles.noProjects}>
-        {getDictionary(locale).common.noProjectsForFilter}
+        {t.common.noProjectsForFilter}
       </div>
     );
   }

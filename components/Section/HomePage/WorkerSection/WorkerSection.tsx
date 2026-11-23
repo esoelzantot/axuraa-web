@@ -19,11 +19,11 @@ const WorkerSection: React.FC<WorkerSectionProps> = ({
 }) => {
   const items = clients.slice(0, 6).map((client) => ({
     id: client._id,
-    name: client.name,
-    role: client.company_name || cmsText(client.country, locale),
+    name: localize(client.name, locale),
+    role: localize(client.company_name, locale) || cmsText(localize(client.country, locale), locale),
     // Prefer the client's first testimonial, fall back to their description.
     testimonial:
-      localize(client.testimonials?.[0]?.message, locale) || client.description || "",
+      localize(client.testimonials?.[0]?.message, locale) || localize(client.description, locale),
     avatar: client.image_url || "/assets/axuraa.png",
     rating: client.testimonials?.[0]?.rating,
   }));

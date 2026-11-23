@@ -14,7 +14,8 @@ import { getAllClients } from "@/service/Clients/Clients";
 import { getHomePartners } from "@/service/partners/partners";
 import { getHomeTrackRecord, toRatingItems } from "@/service/TrackRecord/trackrecord";
 import { Locale } from "@/lib/i18n";
-import { cmsText, getDictionary } from "@/lib/dictionaries";
+import { cmsText } from "@/lib/dictionaries";
+import { loadDictionary } from "@/lib/dictionaries/server";
 
 /**
  * Home page (`/[locale]`), rendered on the server.
@@ -22,17 +23,17 @@ import { cmsText, getDictionary } from "@/lib/dictionaries";
  * cached by the data cache) instead of each section fetching in the browser.
  */
 const Homepage = async ({ locale }: { locale: Locale }) => {
-  const [contact, services, projects, clients, partners, trackRecord] = await Promise.all([
+  const [contact, services, projects, clients, partners, trackRecord, t] = await Promise.all([
     getContactInformation(locale),
     getAllServices(locale),
     getAllProjects(locale),
-    getAllClients(),
-    getHomePartners(),
+    getAllClients(locale),
+    getHomePartners(locale),
     getHomeTrackRecord(locale),
+    loadDictionary(locale),
   ]);
 
   const serviceList = services.data ?? [];
-  const t = getDictionary(locale);
   // Track-record labels only come back in English from the CMS; translate the known ones.
   const ratingItems = toRatingItems(trackRecord.data?.records).map((item) => ({
     ...item,

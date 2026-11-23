@@ -181,9 +181,9 @@ const ChatBot: React.FC = () => {
       {showSuggestions && (
         <div ref={suggestionsRef} className={styles.messageDivider}>
           <div className={styles.dividerGrid}>
-            {c.suggestions.map((text) => (
+            {c.suggestions.map((text, i) => (
               <button
-                key={text}
+                key={i}
                 type="button"
                 className={styles.dividerButton}
                 onClick={() => send(text)}

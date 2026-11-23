@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getDictionary } from "@/lib/dictionaries";
+import { loadDictionary } from "@/lib/dictionaries/server";
 import { getAllServices, filterServices } from "@/service/Services/services";
 import ServicesPage from "@/components/pages/Services/ServicesPage";
 import { Locale } from "@/lib/i18n";
@@ -8,7 +8,7 @@ export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  return getDictionary(locale as Locale).meta.services;
+  return (await loadDictionary(locale as Locale)).meta.services;
 }
 
 export default async function ServiceIndexPage({ params }: { params: Promise<{ locale: string }> }) {

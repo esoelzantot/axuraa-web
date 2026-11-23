@@ -22,7 +22,7 @@ import SectionHead from "@/components/Layout/SectionHead/SectionHead";
 import ServiceIcon from "@/components/UI/Atoms/ServiceIcon/ServiceIcon";
 import { ServiceItem } from "@/service/serviceId/serviceId";
 import { Locale, localize as getStr } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 interface Props {
   service: ServiceItem;
@@ -36,7 +36,7 @@ const POPULAR_PACKAGE = 1;
 
 const ServicePage: React.FC<Props> = ({ service, locale }) => {
   const contactHref = `/${locale}/contact#contact-form`;
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   const d = t.serviceDetail;
 
   const features =
@@ -63,8 +63,22 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
           })) ?? [],
       })) ?? [];
 
-  const technologies = service.technologies_used?.map((t) => t.name) ?? [];
+  const technologies = service.technologies_used?.map((tech) => getStr(tech.name, locale)).filter(Boolean) ?? [];
   const units = (service.what_we_do?.units ?? []).map((u) => getStr(u, locale)).filter(Boolean);
+
+  // This service's own packages, otherwise the site's general ones
+  const ownPackages = (service.packages ?? [])
+    .map((p) => ({
+      title: getStr(p.title, locale),
+      description: getStr(p.description, locale),
+      price: getStr(p.price, locale),
+      features: (p.features ?? []).map((f) => getStr(f, locale)).filter(Boolean),
+      popular: p.is_popular === true,
+    }))
+    .filter((p) => p.title);
+  const packages = ownPackages.length
+    ? ownPackages
+    : d.packages.map((p, i) => ({ ...p, price: "", popular: i === POPULAR_PACKAGE }));
 
   return (
     <div className={styles.page}>
@@ -175,7 +189,7 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             {d.steps.map(({ title, description }, i) => {
               const Icon = STEP_ICONS[i] ?? Rocket;
               return (
-              <li key={title} className={styles.step}>
+              <li key={i} className={styles.step}>
                 <span className={styles.stepMarker}>
                   <span className={styles.stepIcon} aria-hidden="true">
                     <Icon size={22} />
@@ -281,27 +295,34 @@ const ServicePage: React.FC<Props> = ({ service, locale }) => {
             id="sp-packages"
             eyebrow={d.packagesEyebrow}
             title={d.packagesTitle}
-            intro={d.packagesIntro}
+            intro={getStr(service.description_packages, locale) || d.packagesIntro}
           />
-          <div className={styles.packages} data-reveal-stagger>
-            {d.packages.map((pkg, pkgIndex) => (
+          <div
+            className={styles.packages}
+            style={{ ["--columns" as string]: Math.min(packages.length, 3) }}
+            data-reveal-stagger
+          >
+            {packages.map((pkg, i) => (
               <article
-                key={pkg.title}
-                className={`${styles.pkg} ${pkgIndex === POPULAR_PACKAGE ? styles.pkgPopular : ""}`}
+                key={i}
+                className={`${styles.pkg} ${pkg.popular ? styles.pkgPopular : ""}`}
               >
-                {pkgIndex === POPULAR_PACKAGE && <span className={styles.popular}>{t.common.mostPopular}</span>}
+                {pkg.popular && <span className={styles.popular}>{t.common.mostPopular}</span>}
                 <h3 className={styles.pkgTitle}>{pkg.title}</h3>
-                <p className={styles.pkgText}>{pkg.description}</p>
-                <ul className={styles.pkgList}>
-                  {pkg.features.map((feature) => (
-                    <li key={feature}>
-                      <span className={styles.unitCheck} aria-hidden="true">
-                        <Check size={13} strokeWidth={2.75} />
-                      </span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                {pkg.price && <p className={styles.pkgPrice}>{pkg.price}</p>}
+                {pkg.description && <p className={styles.pkgText}>{pkg.description}</p>}
+                {pkg.features.length > 0 && (
+                  <ul className={styles.pkgList}>
+                    {pkg.features.map((feature, featureIndex) => (
+                      <li key={featureIndex}>
+                        <span className={styles.unitCheck} aria-hidden="true">
+                          <Check size={13} strokeWidth={2.75} />
+                        </span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <Link href={contactHref} className={styles.pkgBtn}>
                   {t.common.getStarted} <ArrowRight size={18} aria-hidden="true" />
                 </Link>

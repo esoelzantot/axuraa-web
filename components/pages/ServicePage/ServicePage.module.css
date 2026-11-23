@@ -588,9 +588,12 @@
 /* ================= Packages ================= */
 .packages {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* One or two packages keep the card width of three and sit in the middle */
+  grid-template-columns: repeat(var(--columns, 3), minmax(0, 1fr));
   gap: clamp(1rem, 2vw, 1.5rem);
   align-items: stretch;
+  max-width: calc(100% * var(--columns, 3) / 3);
+  margin-inline: auto;
 }
 
 .pkg {
@@ -635,6 +638,15 @@
   margin: 0;
   font-size: 1.25rem;
   font-weight: 800;
+}
+
+.pkgPrice {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .pkgText {

@@ -10,6 +10,7 @@ import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import AnimatedBackground from "@/components/UI/Muscles/AinmatedBackground/AnimatedBackground";
 import { useRouter } from "next/navigation";
 import useDictionary from "@/hooks/useDictionary";
+import { isIconUrl } from "@/lib/icons";
 import { getHomePartners, PartnerItem } from "@/service/partners/partners";
 
 interface HeroSectionProps {
@@ -63,11 +64,18 @@ const ICON_MAPPING: Record<string, string> = {
   "velocity.svg": "/assets/VelocityIcon.svg",
 };
 
+/** Logo of a partner: an http(s) URL, a path on this site, or a file name in /assets. */
+const logoSrc = (icon: string): string => {
+  const known = ICON_MAPPING[icon.toLowerCase()];
+  if (known) return known;
+  // "//host/…" is neither a local path nor an http(s) URL; next/image rejects it
+  if (isIconUrl(icon) || (icon.startsWith("/") && !icon.startsWith("//"))) return icon;
+  // Anything else that is not a file name shows the partner's name alone
+  return /^[\w.-]+\.\w+$/.test(icon) ? `/assets/${icon}` : "";
+};
+
 const toCompany = (partner: PartnerItem) => {
-  const rawIcon = partner.icon || partner.logo || "";
-  const src =
-    ICON_MAPPING[rawIcon.toLowerCase()] ||
-    (rawIcon.startsWith("http") || rawIcon.startsWith("/") ? rawIcon : `/assets/${rawIcon}`);
+  const src = logoSrc((partner.icon || partner.logo || "").trim());
   const website = partner.website?.trim();
   return {
     src,
@@ -128,7 +136,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   useEffect(() => {
     if (!needsPartners) return;
     let cancelled = false;
-    getHomePartners().then((result) => {
+    getHomePartners(locale).then((result) => {
       if (cancelled) return;
       setFetchedPartners(
         result.success && result.data?.partners.length ? result.data.partners : FALLBACK_PARTNERS,
@@ -137,7 +145,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [needsPartners]);
+  }, [needsPartners, locale]);
 
   const partners = partnersProp?.length ? partnersProp : (fetchedPartners ?? []);
   const companiesToShow = partners.map(toCompany);
@@ -290,22 +298,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </Typography>
 
             <div className={styles.companiesGrid}>
-              {companiesToShow.map((company) => (
+              {companiesToShow.map((company, i) => (
                 <a
-                  key={company.name}
+                  key={`${company.name}-${i}`}
                   href={company.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.companyLogo}
                 >
-                  <Image
-                    src={company.src}
-                    alt={company.alt}
-                    width={company.width}
-                    height={24}
-                    // Remote logos may come from any host the backend chooses.
-                    unoptimized={company.src.startsWith("http")}
-                  />
+                  {company.src && (
+                    <Image
+                      src={company.src}
+                      alt={company.alt}
+                      width={company.width}
+                      height={24}
+                      // Remote logos may come from any host the backend chooses.
+                      unoptimized={isIconUrl(company.src)}
+                    />
+                  )}
                   <Typography
                     variant="body1"
                     component="span"

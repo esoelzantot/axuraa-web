@@ -377,5 +377,12 @@ const LEGAL: Record<Locale, { privacy: LegalDoc; terms: LegalDoc }> = {
   ar: { privacy: privacyAr, terms: termsAr },
 };
 
+/** One of every kind of block: the shapes an edited legal page may use. */
+export const LEGAL_SHAPE: LegalDoc = {
+  title: "",
+  intro: "",
+  sections: [{ title: "", blocks: [p(""), h3(""), list(""), email("")] }],
+};
+
 /** Legal page content (server-only module: keeps long texts out of client bundles). */
 export const getLegalDoc = (doc: "privacy" | "terms", locale: Locale): LegalDoc => LEGAL[locale]?.[doc] ?? LEGAL.en[doc];

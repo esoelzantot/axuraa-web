@@ -4,7 +4,7 @@
 import React from "react";
 import styles from "./ServicesPage.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
 import { ServiceItem } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ServicesPage: React.FC<Props> = ({ services, locale }) => {
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   return (
     <div className={styles.servicesPage}>
       <HeroSection

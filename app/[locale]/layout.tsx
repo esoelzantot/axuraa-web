@@ -8,8 +8,9 @@ import Footer from "@/components/Layout/Footer/Footer";
 import ChatBot from "@/components/UI/Atoms/ChatBot/ChatBot";
 import RevealObserver from "@/components/Layout/Reveal/RevealObserver";
 import LanguageTransition from "@/components/Layout/LanguageTransition/LanguageTransition";
+import DictionaryProvider from "@/components/Layout/DictionaryProvider/DictionaryProvider";
 import { Locale, SUPPORTED_LOCALES, isSupportedLocale, localeDir } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import { loadClientOverrides, loadDictionary } from "@/lib/dictionaries/server";
 import { SITE_NAME } from "@/lib/site";
 import { THEME_COLORS, themeInitScript } from "@/components/Layout/Theme/theme";
 
@@ -39,7 +40,7 @@ type Props = {
 export async function generateMetadata({ params }: Omit<Props, "children">): Promise<Metadata> {
   const { locale } = await params;
   if (!isSupportedLocale(locale)) return {};
-  const t = getDictionary(locale);
+  const t = await loadDictionary(locale);
   return {
     title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
     description: t.meta.siteDescription,
@@ -69,6 +70,7 @@ export const viewport: Viewport = {
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!isSupportedLocale(locale)) notFound();
+  const overrides = await loadClientOverrides(locale);
 
   return (
     // data-theme is set before paint by the inline script, so React must not
@@ -80,13 +82,15 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
       <body className={`${roboto.variable} ${plexArabic.variable} ${styles.body}`}>
         <RevealObserver />
-        <div className={styles.wrapper}>
-          <Header />
-          <main className={styles.main}>{children}</main>
-          <Footer locale={locale as Locale} />
-        </div>
-        <ChatBot />
-        <LanguageTransition />
+        <DictionaryProvider overrides={overrides}>
+          <div className={styles.wrapper}>
+            <Header />
+            <main className={styles.main}>{children}</main>
+            <Footer locale={locale as Locale} />
+          </div>
+          <ChatBot />
+          <LanguageTransition />
+        </DictionaryProvider>
       </body>
     </html>
   );

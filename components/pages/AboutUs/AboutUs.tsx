@@ -24,10 +24,10 @@ const AboutUs = ({ historyData, teamMembers, trackRecord, locale }: Props) => {
   return (
     <div className={styles.container}>
       <MainSection trackRecord={trackRecord} locale={locale} />
-      <MissionVisionSection locale={locale} />
+      <MissionVisionSection />
       <HistorySection journeyData={historyData ?? undefined} locale={locale} />
-      <WhyUs locale={locale} />
-      <OurTeamSection teamMembers={teamMembers ?? undefined} locale={locale} />
+      <WhyUs />
+      <OurTeamSection teamMembers={teamMembers ?? undefined} />
       <SpecialCard />
     </div>
   );
