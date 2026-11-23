@@ -4,6 +4,7 @@ import Badge from "@/components/UI/Atoms/Badge/Badge";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import ProjectCard from "@/components/UI/Muscles/ProjectCard/ProjectCard";
 import SeeAll from "@/components/UI/Atoms/SeeAll/SeeAll";
+import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import { ProjectSectionProps } from "@/types/HomePage/projectsTypes";
 import { transformProjects } from "@/lib/transformProjectsFormServices";
 
@@ -30,23 +31,29 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
         subtitle={subtitle}
         titleLayout="column"
       />
-      <SeeAll href={`/${locale}/portfolio`}>{seeAllText}</SeeAll>
-      <div className={styles.ProjectGrid} data-reveal-stagger>
-        {items.map((project, index) => (
-          <ProjectCard
-            key={project.id}
-            id={project.id}
-            title={project.title}
-            category={project.category}
-            categories={project.categories}
-            percentage={project.percentage}
-            description={project.description}
-            imageUrl={project.imageUrl}
-            index={index}
-            locale={locale}
-          />
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <EmptyState kind="projects" locale={locale} />
+      ) : (
+        <>
+          <SeeAll href={`/${locale}/portfolio`}>{seeAllText}</SeeAll>
+          <div className={styles.ProjectGrid} data-reveal-stagger>
+            {items.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                id={project.id}
+                title={project.title}
+                category={project.category}
+                categories={project.categories}
+                percentage={project.percentage}
+                description={project.description}
+                imageUrl={project.imageUrl}
+                index={index}
+                locale={locale}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 };

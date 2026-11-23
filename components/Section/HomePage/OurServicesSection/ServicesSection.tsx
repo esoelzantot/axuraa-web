@@ -5,6 +5,7 @@ import HomeServiceCard from "@/components/UI/Atoms/HomeServiceCard/HomeServiceCa
 import Badge from "@/components/UI/Atoms/Badge/Badge";
 import SeeAllCard from "@/components/UI/Atoms/HomeServiceCard/SeeAllCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
+import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import { ServiceItem, filterServices } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionaries";
@@ -36,33 +37,37 @@ const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
         titleLayout="column"
       />
 
-      <div className={styles.servicesGrid} data-reveal-stagger>
-        {cards.map((card, index) => {
-          const content = (
-            <HomeServiceCard
-              title={card.title}
-              description={card.description}
-              icon={card.icon}
-              index={index}
-              corner="bottom-right"
-              interactive={Boolean(card.id)}
-            />
-          );
-          return card.id ? (
-            <Link key={card.id} href={`/${locale}/service/${card.id}`} style={linkStyle}>
-              {content}
-            </Link>
-          ) : (
-            <div key={card.title}>{content}</div>
-          );
-        })}
-        <SeeAllCard
-          title={t.seeAllTitle}
-          description={t.seeAllDescription}
-          href={`/${locale}/service`}
-          corner="bottom-right"
-        />
-      </div>
+      {cards.length === 0 ? (
+        <EmptyState kind="services" locale={locale} />
+      ) : (
+        <div className={styles.servicesGrid} data-reveal-stagger>
+          {cards.map((card, index) => {
+            const content = (
+              <HomeServiceCard
+                title={card.title}
+                description={card.description}
+                icon={card.icon}
+                index={index}
+                corner="bottom-right"
+                interactive={Boolean(card.id)}
+              />
+            );
+            return card.id ? (
+              <Link key={card.id} href={`/${locale}/service/${card.id}`} style={linkStyle}>
+                {content}
+              </Link>
+            ) : (
+              <div key={card.title}>{content}</div>
+            );
+          })}
+          <SeeAllCard
+            title={t.seeAllTitle}
+            description={t.seeAllDescription}
+            href={`/${locale}/service`}
+            corner="bottom-right"
+          />
+        </div>
+      )}
     </section>
   );
 };

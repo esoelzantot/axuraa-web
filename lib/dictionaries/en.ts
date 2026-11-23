@@ -32,9 +32,15 @@ export const en = {
     categories: "Categories",
     phone: "Phone",
     email: "Email",
-    noServices: "No services available.",
-    noProjects: "No projects found.",
-    noProjectsForFilter: "No projects found for this filter.",
+  },
+
+  empty: {
+    showAll: "Show all projects",
+    services: { title: "No services right now", text: "Tell us what you need and we'll help." },
+    solutions: { title: "No solutions right now", text: "Tell us how you work and we'll suggest a fit." },
+    projects: { title: "No projects right now", text: "Yours could be the first one here." },
+    feedback: { title: "No feedback right now", text: "Client reviews will appear here." },
+    filter: { title: "Nothing in this category", text: "Try another one or see all projects." },
   },
 
   nav: {
