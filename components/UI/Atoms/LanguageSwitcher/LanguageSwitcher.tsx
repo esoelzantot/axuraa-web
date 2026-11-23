@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import styles from "./LanguageSwitcher.module.css";
-import { LOCALE_COOKIE, Locale, SUPPORTED_LOCALES, localeFromPath, pathForLocale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import { LOCALE_COOKIE, Locale, SUPPORTED_LOCALES, pathForLocale } from "@/lib/i18n";
+import useDictionary from "@/hooks/useDictionary";
 import { requestLanguageSwitch } from "@/components/Layout/LanguageTransition/LanguageTransition";
 
 interface LanguageSwitcherProps {
@@ -27,8 +27,7 @@ const rememberLocale = (locale: Locale) => {
  */
 const LanguageSwitcher = ({ variant = "compact", className = "", onSwitch }: LanguageSwitcherProps) => {
   const pathname = usePathname() || "/";
-  const current = localeFromPath(pathname);
-  const t = getDictionary(current);
+  const { t, locale: current, dictionaryFor } = useDictionary();
   const activeIndex = SUPPORTED_LOCALES.indexOf(current);
 
   return (
@@ -42,7 +41,7 @@ const LanguageSwitcher = ({ variant = "compact", className = "", onSwitch }: Lan
       <span className={styles.track}>
         <span className={styles.thumb} aria-hidden="true" />
         {SUPPORTED_LOCALES.map((locale) => {
-          const names = getDictionary(locale).language;
+          const names = dictionaryFor(locale).language;
           const isActive = locale === current;
           return (
             <Link

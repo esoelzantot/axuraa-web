@@ -1,5 +1,6 @@
 import { ENDPOINTS } from "../api/APIs";
 import { http, unwrap } from "../api/http";
+import { isIconUrl } from "@/lib/icons";
 import { Locale } from "@/lib/i18n";
 import { RatingItem } from "@/types/HomePage/ratingTypes";
 
@@ -28,7 +29,7 @@ export const toRatingItems = (records: TrackRecordItem[] | undefined): RatingIte
     id: record.id,
     value: record.value,
     label: record.label,
-    icon: "/assets/RatingIcon.svg",
+    icon: isIconUrl(record.icon) ? record.icon : "/assets/RatingIcon.svg",
     showIcon: true,
     suffix: record.suffix ?? (record.value >= 1000 ? "+" : record.value === 100 ? "%" : ""),
   }));

@@ -3,7 +3,8 @@ import React from "react";
 import styles from "./HistoryJourney.module.css";
 import Typography from "@/components/UI/Atoms/Typography/Typography";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
-import { cmsText, getDictionary } from "@/lib/dictionaries";
+import { cmsText } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 import Step from "@/components/UI/Atoms/Step/Step";
 import {
   HistoryJourneyProps,
@@ -11,7 +12,7 @@ import {
 } from "@/types/AboutUsPage/History/JourneyTypes";
 
 const HistoryJourney: React.FC<HistoryJourneyProps> = ({ data, locale }) => {
-  const h = getDictionary(locale).about.history;
+  const h = useDictionary().t.about.history;
   // CMS history (English-only today; known strings are translated) or the static fallback.
   const journeyData: HistoryJourneyData = data
     ? {

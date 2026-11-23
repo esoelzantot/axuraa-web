@@ -35,7 +35,7 @@ const SocialMediaCard: React.FC<SocialMediaCardProps> = ({ Icon, label, link }) 
       <span className={styles.tile} aria-hidden="true">
         {typeof Icon === "string" ? (
           // eslint-disable-next-line @next/next/no-img-element -- small icon from the CMS
-          <img src={Icon} alt="" width={26} height={26} />
+          <img src={Icon} alt="" width={26} height={26} style={{ objectFit: "contain" }} />
         ) : (
           <Icon width={26} height={26} />
         )}

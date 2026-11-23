@@ -5,12 +5,10 @@ import TeamCard from "@/components/UI/Muscles/TeamCard/TeamCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import { TeamMember } from "@/service/TeamMembers/TeamMembers";
-import { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 interface TeamSectionProps {
   teamMembers?: TeamMember[];
-  locale: Locale;
 }
 
 function processTeamMembers(members: TeamMember[], founderSuffix: string): TeamMember[] {
@@ -34,8 +32,8 @@ function processTeamMembers(members: TeamMember[], founderSuffix: string): TeamM
     });
 }
 
-const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [], locale }) => {
-  const t = getDictionary(locale).about.team;
+const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
+  const t = useDictionary().t.about.team;
   const displayedMembers = processTeamMembers(teamMembers, t.founderSuffix);
 
   // Don't render the section at all if no members

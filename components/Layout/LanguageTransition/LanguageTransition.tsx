@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "./LanguageTransition.module.css";
 import { Locale, isSupportedLocale, localeFromPath } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 /** Event the language switcher fires; this component runs the transition and the navigation. */
 export const LANGUAGE_SWITCH_EVENT = "axuraa:language-switch";
@@ -32,6 +32,7 @@ export const requestLanguageSwitch = (detail: LanguageSwitchDetail) =>
  */
 const LanguageTransition = () => {
   const router = useRouter();
+  const { dictionaryFor } = useDictionary();
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
   const [target, setTarget] = useState<{ locale: Locale; x: number; y: number } | null>(null);
@@ -102,7 +103,7 @@ const LanguageTransition = () => {
 
   if (phase === "idle" || !target) return null;
 
-  const t = getDictionary(target.locale);
+  const t = dictionaryFor(target.locale);
   return (
     <div
       className={`${styles.overlay} ${styles[phase]}`}

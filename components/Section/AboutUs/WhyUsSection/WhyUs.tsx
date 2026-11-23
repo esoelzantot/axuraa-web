@@ -4,15 +4,14 @@ import Card from "@/components/UI/Muscles/ValueCard/ValueCard";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import StatusBadge from "@/components/UI/Atoms/StatusBadge/StatusBadge";
 import { Handshake, Lightbulb, Rocket, ShieldCheck, type LucideIcon } from "lucide-react";
-import { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 // Icons for the four values, in dictionary order.
 const VALUE_ICONS: LucideIcon[] = [Lightbulb, ShieldCheck, Handshake, Rocket];
 const VALUE_IMAGES = ["/assets/psychology.svg", "/assets/shield.svg", "/assets/group.svg", "/assets/rocket.svg"];
 
-const WhyUs: React.FC<{ locale: Locale }> = ({ locale }) => {
-  const w = getDictionary(locale).about.why;
+const WhyUs: React.FC = () => {
+  const w = useDictionary().t.about.why;
 
   return (
     <section className={styles.whyUsSection} aria-labelledby="why-us-heading">

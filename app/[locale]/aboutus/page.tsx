@@ -4,13 +4,13 @@ import { getActiveTeamMembers } from "@/service/TeamMembers/TeamMembers";
 import { getHomeTrackRecord } from "@/service/TrackRecord/trackrecord";
 import AboutUs from "@/components/pages/AboutUs/AboutUs";
 import { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import { loadDictionary } from "@/lib/dictionaries/server";
 
 export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  return getDictionary(locale as Locale).meta.about;
+  return (await loadDictionary(locale as Locale)).meta.about;
 }
 
 export default async function AboutUsPage({ params }: { params: Promise<{ locale: string }> }) {

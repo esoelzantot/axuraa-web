@@ -29,6 +29,7 @@ export const ENDPOINTS = {
   },
   General: {
     contactInformation: `${API_BASE}/site/contact`, // GET
+    siteContent: `${API_BASE}/site/content`, // GET
   },
   TeamMembers: {
     getAll: `${API_BASE}/team-members`, // GET

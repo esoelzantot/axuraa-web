@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/pages/Legal/LegalPage";
 import { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
-import { getLegalDoc } from "@/lib/dictionaries/legal";
+import { loadDictionary, loadLegalDoc } from "@/lib/dictionaries/server";
+
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  return getDictionary(locale as Locale).meta.privacy;
+  return (await loadDictionary(locale as Locale)).meta.privacy;
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  return <LegalPage doc={getLegalDoc("privacy", locale as Locale)} />;
+  return <LegalPage doc={await loadLegalDoc("privacy", locale as Locale)} />;
 }

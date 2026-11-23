@@ -9,6 +9,7 @@ import { SocialMediaPlatform } from "@/types/Generals/socialTypes";
 import ContactSection from "@/components/Section/HomePage/ContactSection/ContactSection";
 import EmailSection from "@/components/Section/ContactUs/EmailSection/EmailSection";
 import { ContactEmail, SocialLink } from "@/service/Contact/contactinformation";
+import { isIconUrl } from "@/lib/icons";
 import useDictionary from "@/hooks/useDictionary";
 import { cmsText } from "@/lib/dictionaries";
 
@@ -108,7 +109,8 @@ const Contact = ({ contactData }: Props) => {
     ? contactData.socialLinks.map((link: SocialLink) => ({
         name: link.name,
         link: link.url,
-        icon: ICON_MAP[link.name] ?? FacebookIcon,
+        // An uploaded icon wins over the built-in one
+        icon: isIconUrl(link.icon) ? link.icon : (ICON_MAP[link.name] ?? FacebookIcon),
       }))
     : FALLBACK_PLATFORMS;
 

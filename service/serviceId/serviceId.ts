@@ -4,7 +4,7 @@ import { Locale, Localized } from "@/lib/i18n";
 
 export interface Technology {
   _id?: string;
-  name: string;
+  name: Localized;
   icon?: string;
 }
 
@@ -37,6 +37,14 @@ export interface ServiceProject {
   priority: number;
 }
 
+export interface ServicePackage {
+  title: Localized;
+  description?: Localized | null;
+  price?: Localized | null;
+  features?: Localized[];
+  is_popular?: boolean;
+}
+
 export interface ServiceItem {
   _id: string;
   icon?: string;
@@ -50,8 +58,11 @@ export interface ServiceItem {
   technologies_used?: Technology[];
   features?: ServiceFeature[];
   projects?: ServiceProject[];
-  description_features?: Localized;
-  description_stories?: Localized;
+  /** Section intros and packages; older backends do not send them. */
+  description_features?: Localized | null;
+  description_stories?: Localized | null;
+  description_packages?: Localized | null;
+  packages?: ServicePackage[];
   type?: string;
   is_active?: boolean;
 }

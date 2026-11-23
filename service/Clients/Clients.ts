@@ -1,6 +1,6 @@
 import { ENDPOINTS } from "../api/APIs";
 import { http } from "../api/http";
-import { Localized } from "@/lib/i18n";
+import { Locale, Localized } from "@/lib/i18n";
 
 export interface ClientProject {
   _id: string;
@@ -20,12 +20,12 @@ export interface ClientTestimonial {
 
 export interface ClientItem {
   _id: string;
-  name: string;
-  company_name: string | null;
+  name: Localized;
+  company_name: Localized | null;
   email: string;
   phone_number: string;
-  country: string;
-  description: string;
+  country: Localized;
+  description: Localized;
   social_media: string[];
   image_url: string | null;
   project_count: number;
@@ -42,9 +42,9 @@ export interface ClientsApiResult {
   error?: string;
 }
 
-export const getAllClients = async (): Promise<ClientsApiResult> => {
+export const getAllClients = async (lang: Locale = "en"): Promise<ClientsApiResult> => {
   const res = await http<{ status?: string; message?: string; data?: ClientItem[] }>(
-    ENDPOINTS.Clients.getAll,
+    `${ENDPOINTS.Clients.getAll}?lang=${lang}`,
   );
   if (!res.ok) return { success: false, error: res.error };
   if (!Array.isArray(res.json.data)) {
