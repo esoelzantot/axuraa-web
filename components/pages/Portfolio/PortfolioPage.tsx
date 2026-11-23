@@ -7,6 +7,7 @@ import useDictionary from "@/hooks/useDictionary";
 import ProjectsGrid from "@/components/Section/PortfolioPage/ProjectsGrid.tsx/ProjectsGrid";
 import styles from "./PortfolioPage.module.css";
 import ProjectPageButtons from "@/components/Molecules/ProjectPageButtons/ProjectPageButtons";
+import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import { ProjectItem } from "@/service/Projects/projects";
 import { ServiceItem } from "@/service/Services/services";
 import { transformProjects } from "@/lib/transformProjectsFormServices";
@@ -62,15 +63,23 @@ const PortfolioPage = ({ projects, services, locale }: Props) => {
       />
 
       <div className={styles.projectsSection}>
-        <ProjectPageButtons
-          activeFilter={activeFilter}
-          onFilterChange={setActiveFilter}
-          filters={filters}
-          label={t.common.filterProjects}
-        />
+        {/* Nothing to filter when there are no projects at all */}
+        {allProjects.length > 0 && (
+          <ProjectPageButtons
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
+            filters={filters}
+            label={t.common.filterProjects}
+          />
+        )}
         <div className={styles.container}>
           {filteredProjects.length === 0 ? (
-            <div className={styles.sectionError}>{t.common.noProjects}</div>
+            <EmptyState
+              kind="projects"
+              locale={locale}
+              as="h2"
+              onClearFilter={activeFilter === ALL ? undefined : () => setActiveFilter(ALL)}
+            />
           ) : (
             <ProjectsGrid projects={filteredProjects} locale={locale} />
           )}

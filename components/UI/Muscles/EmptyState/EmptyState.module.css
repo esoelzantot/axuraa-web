@@ -1,0 +1,103 @@
+/* Empty state: logo-arm mark, one title, one line, one action. No panel. */
+.empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: start;
+  width: 100%;
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+  text-align: center;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 116px;
+  height: 116px;
+  margin-bottom: 1.25rem;
+  color: #e0582a;
+}
+
+.mark > * {
+  grid-area: 1 / 1;
+}
+
+.arm {
+  opacity: 0.2;
+  animation: es-sweep 2.4s linear infinite;
+  animation-delay: calc(var(--i) * 0.3s);
+}
+
+.icon {
+  color: var(--text);
+}
+
+.title {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.text {
+  max-width: 42ch;
+  margin: 0.4rem 0 0;
+  color: rgb(var(--ink) / 0.65);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 1.25rem;
+  padding: 0 22px;
+  border: 1px solid rgba(240, 101, 47, 0.5);
+  border-radius: 999px;
+  background: none;
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+@media (hover: hover) {
+  .action:hover {
+    border-color: #d04a1d;
+    background: #d04a1d;
+    color: #fff;
+  }
+}
+
+.action:focus-visible {
+  outline: 2px solid #f0652f;
+  outline-offset: 3px;
+}
+
+@keyframes es-sweep {
+  0% {
+    opacity: 1;
+  }
+  45%,
+  100% {
+    opacity: 0.2;
+  }
+}
+
+/* Static mark with one lit arm, like the logo */
+@media (prefers-reduced-motion: reduce) {
+  .arm {
+    animation: none;
+    opacity: calc(0.2 + 0.8 * max(0, 1 - max(var(--i) - 1, 1 - var(--i))));
+  }
+
+  .action {
+    transition: none;
+  }
+}

@@ -50,22 +50,6 @@
     text-align: center;
 }
 
-.sectionError {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
-    padding: 3rem 1rem;
-    grid-column: 1 / -1; /* Span all columns */
-    color: #EF4444;
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    border-radius: 8px;
-}
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -184,4 +168,9 @@
 
 .BusinessContainer > * {
   min-width: 0;
+}
+
+/* Empty list: the grid only needs the height of the empty state */
+.BusinessContainer:has(> [role="status"]) {
+  min-height: 0;
 }

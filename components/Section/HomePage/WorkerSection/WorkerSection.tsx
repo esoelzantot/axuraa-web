@@ -4,6 +4,7 @@ import Badge from "@/components/UI/Atoms/Badge/Badge";
 import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import DevolpercCard from "@/components/UI/Atoms/DevoleperCard/DevolpercCard";
 import { HorizontalScroll } from "@/components/UI/Atoms/ScrollComponents/ScrollComponents";
+import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import { WorkerSectionProps } from "@/types/HomePage/workerTypes";
 import { localize } from "@/lib/i18n";
 import { cmsText } from "@/lib/dictionaries";
@@ -28,24 +29,26 @@ const WorkerSection: React.FC<WorkerSectionProps> = ({
     rating: client.testimonials?.[0]?.rating,
   }));
 
-  if (items.length === 0) return null;
-
   return (
     <section className={styles.WorkerSection}>
       <Badge text={badgeText} show={true} />
       <SectionHeader title1={title1} title2={title2} subtitle={subtitle} titleLayout="column" />
-      <HorizontalScroll className={styles.WorkerGrid}>
-        {items.map((client) => (
-          <DevolpercCard
-            key={client.id}
-            testimonial={client.testimonial}
-            authorName={client.name}
-            authorRole={client.role}
-            avatarSrc={client.avatar}
-            rating={client.rating}
-          />
-        ))}
-      </HorizontalScroll>
+      {items.length === 0 ? (
+        <EmptyState kind="feedback" locale={locale} />
+      ) : (
+        <HorizontalScroll className={styles.WorkerGrid}>
+          {items.map((client) => (
+            <DevolpercCard
+              key={client.id}
+              testimonial={client.testimonial}
+              authorName={client.name}
+              authorRole={client.role}
+              avatarSrc={client.avatar}
+              rating={client.rating}
+            />
+          ))}
+        </HorizontalScroll>
+      )}
     </section>
   );
 };

@@ -6,6 +6,7 @@ import styles from "./BusinessSolutions.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
 import useDictionary from "@/hooks/useDictionary";
 import type { Locale } from "@/lib/i18n";
+import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
 
 interface ServiceCardData {
@@ -46,7 +47,7 @@ const BusinessSolutions = ({ services, locale }: Props) => {
 
       <div className={styles.BusinessContainer} data-reveal-stagger>
         {services.length === 0 ? (
-          <div className={styles.sectionError}>{t.common.noServices}</div>
+          <EmptyState kind="solutions" locale={locale} as="h2" />
         ) : (
           services.map((service, index) => (
             <ServiceCard

@@ -6,6 +6,7 @@ import styles from "./ServicesPage.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
 import useDictionary from "@/hooks/useDictionary";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
+import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import { ServiceItem } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
 
@@ -38,9 +39,7 @@ const ServicesPage: React.FC<Props> = ({ services, locale }) => {
 
       <div className={styles.servicesContainer} data-reveal-stagger>
         {services.length === 0 && (
-          <p style={{ color: "var(--text)", textAlign: "center" }}>
-            {t.common.noServices}
-          </p>
+          <EmptyState kind="services" locale={locale} as="h2" />
         )}
 
         {services.map((service, index) => {

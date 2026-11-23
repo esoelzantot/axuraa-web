@@ -32,15 +32,6 @@
   z-index: 2;
 }
 
-.noProjects {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-faint);
-  font-size: 1.2rem;
-  grid-column: 1 / -1;
-  width: 100%;
-}
-
 /* ===== Responsive Design ===== */
 /* Large screens */
 @media (min-width: 1200px) {

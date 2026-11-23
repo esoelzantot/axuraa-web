@@ -153,3 +153,8 @@
 .servicesContainer > * {
   min-width: 0;
 }
+
+/* Empty list: the grid only needs the height of the empty state */
+.servicesContainer:has(> [role="status"]) {
+  min-height: 0;
+}

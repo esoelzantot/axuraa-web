@@ -40,7 +40,6 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ projects, locale }) => {
       </div>
     );
   }
-
   return (
     <motion.div
       className={styles.projectsGridContainer}
