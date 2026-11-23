@@ -1,5 +1,6 @@
 import { ENDPOINTS } from "../api/APIs";
 import { http, unwrap } from "../api/http";
+import type { Locale } from "@/lib/i18n";
 
 export interface PartnerItem {
   id: number;
@@ -20,8 +21,8 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-export const getHomePartners = async (): Promise<ApiResponse<PartnersResponse>> => {
-  const res = await http(ENDPOINTS.Home.partners);
+export const getHomePartners = async (lang: Locale = "en"): Promise<ApiResponse<PartnersResponse>> => {
+  const res = await http(`${ENDPOINTS.Home.partners}?lang=${lang}`);
   if (!res.ok) return { success: false, error: res.error };
   const data = unwrap<PartnersResponse>(res.json);
   if (!Array.isArray(data?.partners)) {

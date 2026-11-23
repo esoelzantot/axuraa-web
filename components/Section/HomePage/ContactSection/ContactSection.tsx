@@ -12,6 +12,7 @@ import { ContactSectionProps } from "@/types/HomePage/contactTypes";
 import { SocialLink } from "@/service/Contact/contactinformation";
 import type { ContactData } from "@/components/pages/Contact/Contact";
 import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from "@/lib/site";
+import { isIconUrl } from "@/lib/icons";
 import useDictionary from "@/hooks/useDictionary";
 
 const ICON_MAP: Record<string, string> = {
@@ -42,7 +43,9 @@ const ContactSection: React.FC<ExtendedContactSectionProps> = ({
   const socialIcons = contactData?.socialLinks?.length
     ? contactData.socialLinks.map((link: SocialLink, i: number) => ({
         id: i + 1,
+        // An uploaded icon wins over the built-in one
         icon:
+          (isIconUrl(link.icon) && link.icon) ||
           ICON_MAP[link.name.toLowerCase()] ||
           link.icon ||
           "/assets/Vector.svg",

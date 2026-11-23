@@ -4,7 +4,7 @@ import styles from "./Footer.module.css";
 import LocalizedLink from "@/components/UI/Atoms/LocalizedLink/LocalizedLink";
 import { getAllServices, filterServices } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import { loadDictionary } from "@/lib/dictionaries/server";
 import { SOCIAL_LINKS } from "@/lib/site";
 
 const COMPANY_LINKS = [
@@ -33,8 +33,7 @@ const ColumnTitle = ({ title }: { title: string }) => (
  */
 const Footer = async ({ locale }: { locale: Locale }) => {
   const currentYear = new Date().getFullYear();
-  const t = getDictionary(locale);
-  const { data: services } = await getAllServices(locale);
+  const [t, { data: services }] = await Promise.all([loadDictionary(locale), getAllServices(locale)]);
 
   const serviceLinks = filterServices(services, "service");
   const solutionLinks = filterServices(services, "solution");

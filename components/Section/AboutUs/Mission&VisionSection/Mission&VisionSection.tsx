@@ -1,11 +1,10 @@
 import React from "react";
 import MVCard from "@/components/UI/Muscles/Mission&VisionCards/M&VCard";
 import styles from "./Mission&VisionSection.module.css";
-import { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
-const MissionVisionSection: React.FC<{ locale: Locale }> = ({ locale }) => {
-  const { mission, vision } = getDictionary(locale).about;
+const MissionVisionSection: React.FC = () => {
+  const { mission, vision } = useDictionary().t.about;
 
   return (
     <section className={styles.section}>

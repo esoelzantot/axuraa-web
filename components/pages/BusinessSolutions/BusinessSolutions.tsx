@@ -4,7 +4,7 @@
 import React from "react";
 import styles from "./BusinessSolutions.module.css";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 import type { Locale } from "@/lib/i18n";
 import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import ServiceCard from "@/components/Molecules/ServiceCard/ServiceCard";
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const BusinessSolutions = ({ services, locale }: Props) => {
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   return (
     <div className={styles.BusinessPage}>
       <HeroSection

@@ -20,7 +20,7 @@ import {
 import styles from "./CaseStudyPage.module.css";
 import { ProjectItem, Testimonial } from "@/service/Projects/projects";
 import { Locale, localize } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 
 interface CaseStudyPageProps {
   project: ProjectItem;
@@ -46,7 +46,7 @@ const QUOTES_PREVIEW = 2;
 
 const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ project, locale }) => {
   const [showAllQuotes, setShowAllQuotes] = useState(false);
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   const c = t.caseStudy;
   // All data transformation happens here — no fetching, no loading states
   const caseStudy = {

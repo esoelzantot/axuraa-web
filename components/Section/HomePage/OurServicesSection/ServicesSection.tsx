@@ -8,7 +8,7 @@ import SectionHeader from "@/components/Layout/SectionHeader/SectionHeader";
 import EmptyState from "@/components/UI/Muscles/EmptyState/EmptyState";
 import { ServiceItem, filterServices } from "@/service/Services/services";
 import { Locale, localize } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionaries";
+import { loadDictionary } from "@/lib/dictionaries/server";
 
 interface ServicesSectionProps {
   services: ServiceItem[];
@@ -17,8 +17,8 @@ interface ServicesSectionProps {
 
 const linkStyle: React.CSSProperties = { display: "block", height: "100%", color: "inherit", textDecoration: "none" };
 
-const ServicesSection = ({ services, locale }: ServicesSectionProps) => {
-  const t = getDictionary(locale).home.services;
+const ServicesSection = async ({ services, locale }: ServicesSectionProps) => {
+  const t = (await loadDictionary(locale)).home.services;
   const items = filterServices(services, "service").slice(0, 3);
   const cards = items.map((s) => ({
         id: s._id as string | null,

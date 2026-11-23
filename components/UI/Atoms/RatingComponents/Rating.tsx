@@ -13,6 +13,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { isIconUrl } from "@/lib/icons";
 import styles from "./Rating.module.css";
 import { RatingProps } from "@/types/HomePage/ratingTypes";
 
@@ -91,7 +92,12 @@ const Rating: React.FC<RatingProps> = ({ items, duration = 3000, maxValue = 50 }
           <div key={item.id} className={styles.card} style={{ transitionDelay: `${index * 0.12}s` }}>
             {item.showIcon && (
               <span className={styles.iconBox} aria-hidden="true">
-                <Icon size={24} strokeWidth={1.75} />
+                {isIconUrl(item.icon) ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- small icon from the CMS (any host)
+                  <img src={item.icon} alt="" width={26} height={26} style={{ objectFit: "contain" }} />
+                ) : (
+                  <Icon size={24} strokeWidth={1.75} />
+                )}
               </span>
             )}
             <div className={styles.number}>

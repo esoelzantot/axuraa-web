@@ -3,7 +3,7 @@
 
 import React, { useMemo, useState } from "react";
 import HeroSection from "@/components/Layout/HeroSection/HeroSection";
-import { getDictionary } from "@/lib/dictionaries";
+import useDictionary from "@/hooks/useDictionary";
 import ProjectsGrid from "@/components/Section/PortfolioPage/ProjectsGrid.tsx/ProjectsGrid";
 import styles from "./PortfolioPage.module.css";
 import ProjectPageButtons from "@/components/Molecules/ProjectPageButtons/ProjectPageButtons";
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const PortfolioPage = ({ projects, services, locale }: Props) => {
-  const t = getDictionary(locale);
+  const { t } = useDictionary();
   const ALL = t.common.all;
   const [activeFilter, setActiveFilter] = useState(ALL);
 

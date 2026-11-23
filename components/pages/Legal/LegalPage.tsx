@@ -18,8 +18,8 @@ const LegalPage = ({ doc }: { doc: LegalDoc }) => (
       <h1 className={styles.mainTitle}>{doc.title}</h1>
       <p className={styles.introText}>{doc.intro}</p>
 
-      {doc.sections.map((section) => (
-        <section key={section.title} className={styles.section}>
+      {doc.sections.map((section, s) => (
+        <section key={s} className={styles.section}>
           <h2 className={styles.sectionTitle}>{section.title}</h2>
           {section.blocks.map((block, i) => {
             switch (block.type) {
@@ -38,8 +38,8 @@ const LegalPage = ({ doc }: { doc: LegalDoc }) => (
               case "list":
                 return (
                   <ul key={i} className={styles.list}>
-                    {block.items.map((item) => (
-                      <li key={item} className={styles.listItem}>
+                    {block.items.map((item, j) => (
+                      <li key={j} className={styles.listItem}>
                         <BulletIcon />
                         <span className={styles.itemText}>{item}</span>
                       </li>
