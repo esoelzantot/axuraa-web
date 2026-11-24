@@ -240,6 +240,11 @@
   }
 }
 
+.offlineDot {
+  background: #f59e0b;
+  animation: none;
+}
+
 .headerInfo {
   flex: 1;
   min-width: 0;
@@ -288,7 +293,18 @@
 .closeButton:hover {
   background: rgba(208, 74, 29, 0.2);
   color: var(--text);
+}
+
+.closeSpin:hover {
   transform: rotate(90deg);
+}
+
+.closeButton:focus-visible,
+.sendButton:focus-visible,
+.dividerButton:focus-visible,
+.action:focus-visible {
+  outline: 2px solid #f0652f;
+  outline-offset: 2px;
 }
 
 /* ---------- Messages ---------- */
@@ -368,6 +384,73 @@
   font-size: 0.9rem;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+.messageText + .messageText,
+.messageText + .messageList,
+.messageList + .messageText {
+  margin-top: 8px;
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding-inline-start: 18px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  list-style: disc;
+}
+
+.messageList li::marker {
+  color: #f0652f;
+}
+
+.inlineLink {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #f0652f;
+  text-underline-offset: 3px;
+}
+
+.botMessage .errorMessage {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Buttons under an answer */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid rgba(240, 101, 47, 0.4);
+  border-radius: 999px;
+  background: rgba(208, 74, 29, 0.08);
+  color: var(--accent-pale);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.action:hover {
+  background: linear-gradient(135deg, #e0582a, #b83a12);
+  color: #fff;
+}
+
+[dir="rtl"] .action svg {
+  transform: scaleX(-1);
 }
 
 .messageTime {
@@ -466,7 +549,7 @@
 .inputContainer {
   flex-shrink: 0;
   margin: 0;
-  padding: 10px 12px 14px;
+  padding: 10px 12px max(14px, env(safe-area-inset-bottom));
   background: var(--surface-0);
 }
 
@@ -544,6 +627,13 @@
 
   .toggleTip {
     display: none;
+  }
+}
+
+/* iOS zooms into fields with text under 16px */
+@media (hover: none) {
+  .messageInput {
+    font-size: 16px;
   }
 }
 
