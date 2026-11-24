@@ -1,4 +1,4 @@
-/* Empty state: logo-arm mark, one title, one line, one action. No panel. */
+/* Empty state: a scene for the section, one title, one line, one action. No panel. */
 .empty {
   grid-column: 1 / -1;
   display: flex;
@@ -10,27 +10,98 @@
   text-align: center;
 }
 
-.mark {
-  display: grid;
-  place-items: center;
-  width: 116px;
-  height: 116px;
-  margin-bottom: 1.25rem;
-  color: #e0582a;
+/* ── Scene ── */
+.scene {
+  width: min(100%, 300px);
+  height: auto;
+  margin-bottom: 1rem;
+  overflow: visible;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Soft stage light behind the drawing */
+  background: radial-gradient(closest-side, rgba(224, 88, 42, 0.16), transparent);
 }
 
-.mark > * {
-  grid-area: 1 / 1;
+.solid {
+  fill: var(--surface-2);
+  stroke: rgb(var(--ink) / 0.32);
 }
 
-.arm {
-  opacity: 0.2;
-  animation: es-sweep 2.4s linear infinite;
-  animation-delay: calc(var(--i) * 0.3s);
+.shade {
+  fill: var(--surface-0);
+  stroke: rgb(var(--ink) / 0.32);
 }
 
-.icon {
-  color: var(--text);
+.frame {
+  fill: var(--surface-2);
+  stroke: #e0582a;
+}
+
+.line {
+  stroke: rgb(var(--ink) / 0.32);
+}
+
+.soft {
+  stroke: rgb(var(--ink) / 0.2);
+}
+
+.softFill {
+  fill: rgb(var(--ink) / 0.2);
+}
+
+.accent {
+  stroke: #e0582a;
+  stroke-width: 2.2;
+}
+
+.accentFill {
+  fill: #e0582a;
+}
+
+.accentSoft {
+  fill: rgba(224, 88, 42, 0.2);
+  stroke: #e0582a;
+}
+
+.node {
+  fill: var(--bg);
+  stroke: #e0582a;
+}
+
+.ghost {
+  fill: rgba(224, 88, 42, 0.05);
+  stroke: rgba(224, 88, 42, 0.6);
+  stroke-dasharray: 4 5;
+}
+
+.cubeTop {
+  fill: #f0652f;
+}
+
+.cubeLeft {
+  fill: #d04a1d;
+}
+
+.cubeRight {
+  fill: #a8350f;
+}
+
+.star {
+  stroke: rgba(224, 88, 42, 0.6);
+}
+
+.heart {
+  fill: #fff;
+}
+
+.drift {
+  animation: es-drift 6s ease-in-out infinite;
+}
+
+.sway {
+  transform-origin: 130px 22px;
+  animation: es-sway 7s ease-in-out infinite;
 }
 
 .title {
@@ -80,21 +151,26 @@
   outline-offset: 3px;
 }
 
-@keyframes es-sweep {
-  0% {
-    opacity: 1;
-  }
-  45%,
-  100% {
-    opacity: 0.2;
+@keyframes es-drift {
+  50% {
+    transform: translateY(-6px);
   }
 }
 
-/* Static mark with one lit arm, like the logo */
+@keyframes es-sway {
+  0%,
+  100% {
+    transform: rotate(-1.6deg);
+  }
+  50% {
+    transform: rotate(1.6deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .arm {
+  .drift,
+  .sway {
     animation: none;
-    opacity: calc(0.2 + 0.8 * max(0, 1 - max(var(--i) - 1, 1 - var(--i))));
   }
 
   .action {
