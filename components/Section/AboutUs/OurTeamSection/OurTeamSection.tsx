@@ -15,16 +15,16 @@ function processTeamMembers(members: TeamMember[], founderSuffix: string): TeamM
   return members
     .filter((m) => m.is_displayed_in_website)
     .map((member) => {
+      const title = member.role_id?.title ?? "";
       const isFounder =
-        member.role_id.title.toLowerCase().includes("ceo") ||
-        member.bio.toLowerCase().includes("founder");
+        title.toLowerCase().includes("ceo") || (member.bio ?? "").toLowerCase().includes("founder");
 
-      if (isFounder && !member.role_id.title.includes("Founder")) {
+      if (isFounder && !title.includes("Founder")) {
         return {
           ...member,
           role_id: {
             ...member.role_id,
-            title: `${member.role_id.title}${founderSuffix}`,
+            title: `${title}${founderSuffix}`,
           },
         };
       }
@@ -57,7 +57,7 @@ const TeamSection: React.FC<TeamSectionProps> = ({ teamMembers = [] }) => {
               key={member._id}
               index={i}
               name={member.name}
-              role={member.role_id.title || member.role_id.description || ""}
+              role={member.role_id?.title || member.role_id?.description || ""}
               imageUrl={member.image_url}
               description={member.bio}
             />

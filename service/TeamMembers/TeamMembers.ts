@@ -30,6 +30,23 @@ export interface TeamMember {
   id: string;
 }
 
+/**
+ * The dashboard leaves optional fields empty as `null` (e.g. a member saved
+ * without a bio). Fill them with safe values so the UI never reads `null`.
+ */
+const normalizeMember = (member: TeamMember): TeamMember => ({
+  ...member,
+  name: member.name ?? "",
+  bio: member.bio ?? "",
+  image_url: member.image_url ?? "",
+  technologies_used: member.technologies_used ?? [],
+  role_id: {
+    ...(member.role_id ?? {}),
+    title: member.role_id?.title ?? "",
+    description: member.role_id?.description ?? "",
+  } as TeamMemberRole,
+});
+
 type TeamMembersResult = { success: boolean; data?: TeamMember[]; error?: string };
 
 export const getAllTeamMembers = async (lang: Locale = "en"): Promise<TeamMembersResult> => {
@@ -40,7 +57,7 @@ export const getAllTeamMembers = async (lang: Locale = "en"): Promise<TeamMember
   if (res.json.status !== "success" || !Array.isArray(res.json.data)) {
     return { success: false, error: res.json.message || "Failed to fetch team members" };
   }
-  return { success: true, data: res.json.data };
+  return { success: true, data: res.json.data.map(normalizeMember) };
 };
 
 /** Active members only. */
