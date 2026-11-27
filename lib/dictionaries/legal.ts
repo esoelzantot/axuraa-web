@@ -386,3 +386,45 @@ export const LEGAL_SHAPE: LegalDoc = {
 
 /** Legal page content (server-only module: keeps long texts out of client bundles). */
 export const getLegalDoc = (doc: "privacy" | "terms", locale: Locale): LegalDoc => LEGAL[locale]?.[doc] ?? LEGAL.en[doc];
+
+/* ============================ Page labels ============================ */
+export interface LegalUi {
+  eyebrow: string;
+  docsNav: string;
+  onThisPage: string;
+  sections: (n: number) => string;
+  readTime: (minutes: number) => string;
+  questionsTitle: string;
+  questionsText: string;
+  contactUs: string;
+  names: Record<"privacy" | "terms", string>;
+}
+
+const LEGAL_UI: Record<Locale, LegalUi> = {
+  en: {
+    eyebrow: "Legal",
+    docsNav: "Legal documents",
+    onThisPage: "On this page",
+    sections: (n) => `${n} sections`,
+    readTime: (m) => `${m} min read`,
+    questionsTitle: "Still have questions?",
+    questionsText: "We're happy to explain anything on this page in plain words.",
+    contactUs: "Contact us",
+    names: { privacy: "Privacy Policy", terms: "Terms of Service" },
+  },
+  ar: {
+    eyebrow: "قانوني",
+    docsNav: "المستندات القانونية",
+    onThisPage: "في هذه الصفحة",
+    sections: (n) => (n === 1 ? "قسم واحد" : n === 2 ? "قسمان" : n <= 10 ? `${n} أقسام` : `${n} قسمًا`),
+    readTime: (m) =>
+      m === 1 ? "قراءة دقيقة واحدة" : m === 2 ? "قراءة دقيقتين" : m <= 10 ? `قراءة ${m} دقائق` : `قراءة ${m} دقيقة`,
+    questionsTitle: "لديك أي أسئلة؟",
+    questionsText: "يسعدنا توضيح أي نقطة في هذه الصفحة بكلمات بسيطة.",
+    contactUs: "تواصل معنا",
+    names: { privacy: "سياسة الخصوصية", terms: "شروط الخدمة" },
+  },
+};
+
+/** Labels around the legal text (the text itself comes from `getLegalDoc`). */
+export const getLegalUi = (locale: Locale): LegalUi => LEGAL_UI[locale] ?? LEGAL_UI.en;
