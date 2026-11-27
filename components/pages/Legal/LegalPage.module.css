@@ -1,107 +1,580 @@
-.pageContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  background-color: var(--bg);
-  color: var(--text);
-  padding: 150px 20px 100px 20px;
-}
-
-.contentWrapper {
+/*
+  Legal pages (Privacy / Terms): a document built for reading and trust.
+  Hero + emblem -> document switch -> sticky contents beside numbered sections
+  -> "still have questions" card. All neutrals are theme tokens.
+*/
+.page {
+  --gap: clamp(1.5rem, 4vw, 3rem);
   width: 100%;
-  max-width: 1120px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  max-width: calc(var(--content-max, 70rem) + 2 * var(--page-gutter, 1rem));
+  margin: 0 auto;
+  padding: calc(var(--header-height, 72px) + clamp(2rem, 5vw, 3.5rem)) var(--page-gutter, 1rem) clamp(3rem, 7vw, 5rem);
+  color: var(--text);
 }
 
-.mainTitle {
-  font-size: 42px;
+/* ── Hero ── */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--gap);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border-radius: 24px;
+  border: 1px solid rgb(var(--ink) / 0.08);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface-1));
+  overflow: hidden;
+}
+
+.heroGlow {
+  position: absolute;
+  inset: -40% -10% auto auto;
+  z-index: -1;
+  width: 60%;
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(224, 88, 42, 0.2), transparent);
+}
+
+[dir="rtl"] .heroGlow {
+  inset: -40% auto auto -10%;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(208, 74, 29, 0.12);
+  color: var(--accent-soft);
+  font-size: 0.75rem;
   font-weight: 700;
-  text-align: center;
-  margin-bottom: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f0652f;
+}
+
+.title {
+  margin: 0.9rem 0 0;
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
   background: linear-gradient(90deg, #d04a1d 0%, var(--hero-grad-end) 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
-.introText {
-  color: var(--text-soft);
-  font-size: 16px;
+[dir="rtl"] .title {
+  background-image: linear-gradient(270deg, #d04a1d 0%, var(--hero-grad-end) 100%);
+}
+
+.intro {
+  max-width: 62ch;
+  margin: 1rem 0 0;
+  color: rgb(var(--ink) / 0.72);
+  font-size: clamp(0.98rem, 0.92rem + 0.25vw, 1.08rem);
   line-height: 1.8;
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--ink) / 0.1);
+  color: rgb(var(--ink) / 0.7);
+  font-size: 0.85rem;
+}
+
+.meta svg {
+  color: #e0582a;
+}
+
+/* Emblem */
+.emblem {
+  width: clamp(120px, 16vw, 180px);
+  height: auto;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: lg-float 7s ease-in-out infinite;
+}
+
+.emSoft {
+  fill: rgba(224, 88, 42, 0.08);
+  stroke: rgba(224, 88, 42, 0.25);
+}
+
+.emLine {
+  fill: var(--surface-2);
+  stroke: rgb(var(--ink) / 0.35);
+}
+
+.emFaint {
+  stroke: rgb(var(--ink) / 0.22);
+}
+
+.emAccent {
+  stroke: #e0582a;
+  stroke-width: 2.6;
+}
+
+.emAccentFill {
+  fill: #e0582a;
+}
+
+.emSeal {
+  fill: #d04a1d;
+}
+
+.emSealMark {
+  stroke: #fff;
+  stroke-width: 3;
+}
+
+/* ── Document switch ── */
+.switch {
+  display: inline-flex;
+  gap: 4px;
+  margin: 1.5rem 0 0;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--ink) / 0.08);
+  background: rgb(var(--ink) / 0.03);
+}
+
+.switchItem {
+  padding: 9px 18px;
+  border-radius: 999px;
+  color: rgb(var(--ink) / 0.7);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+
+.switchItem:hover {
+  color: var(--text);
+}
+
+.switchActive {
+  background: linear-gradient(135deg, #e0582a, #b83a12);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(208, 74, 29, 0.25);
+}
+
+.switchActive:hover {
+  color: #fff;
+}
+
+/* ── Body: contents + text ── */
+.body {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+/* Table of contents */
+.toc {
+  position: sticky;
+  top: calc(var(--header-height, 72px) + 24px);
+  display: grid;
+  grid-template-columns: 2px minmax(0, 1fr);
+  column-gap: 14px;
+  max-height: calc(100vh - var(--header-height, 72px) - 48px);
+}
+
+.tocLabel {
+  grid-column: 1 / -1;
+  margin: 0 0 12px;
+  color: rgb(var(--ink) / 0.55);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tocProgress {
+  position: relative;
+  border-radius: 2px;
+  background: rgb(var(--ink) / 0.08);
+  overflow: hidden;
+}
+
+.tocProgress span {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #f0652f, #b83a12);
+  transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tocList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.tocLink {
+  display: flex;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  color: rgb(var(--ink) / 0.6);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.tocLink:hover {
+  color: var(--text);
+}
+
+.tocNum {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: rgb(var(--ink) / 0.35);
+}
+
+.tocActive {
+  background: rgba(208, 74, 29, 0.1);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.tocActive .tocNum {
+  color: #e0582a;
+}
+
+.tocToggle {
+  display: none;
+}
+
+/* Sections */
+.content {
+  min-width: 0;
 }
 
 .section {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-top: 1px solid rgb(var(--ink) / 0.08);
+  scroll-margin-top: calc(var(--header-height, 72px) + 20px);
+}
+
+.section:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.number {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(224, 88, 42, 0.7);
+}
+
+.sectionBody {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  background: var(--surface-2);
-  padding: 30px;
-  border-radius: 8px;
-  border: 1px solid var(--surface-3);
+  gap: 0.85rem;
+  min-width: 0;
 }
 
 .sectionTitle {
-  font-size: 24px;
-  font-weight: 600;
+  margin: 0;
   color: var(--text);
-  margin-bottom: 8px;
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .subTitle {
-  font-size: 18px;
-  font-weight: 500;
+  margin: 0.4rem 0 0;
   color: var(--text);
-  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .paragraph {
-  color: var(--text-soft);
-  font-size: 16px;
+  margin: 0;
+  color: rgb(var(--ink) / 0.75);
+  font-size: 1rem;
   line-height: 1.8;
 }
 
 .list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .listItem {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgb(var(--ink) / 0.07);
+  background: rgb(var(--ink) / 0.025);
+  color: rgb(var(--ink) / 0.82);
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
-.icon {
-  margin-top: 5px;
+.tick {
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 6px;
+  background: rgba(208, 74, 29, 0.14);
+  color: #e0582a;
 }
 
-.itemText {
-  color: var(--text-soft);
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.contactLink {
-  color: #d04a1d;
-  text-decoration: none;
+.mailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #e0582a;
   font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(224, 88, 42, 0.35);
 }
 
-.contactLink:hover {
-  text-decoration: underline;
+.mailLink:hover {
+  border-bottom-color: #e0582a;
 }
 
-/* Lists are real <ul>/<li> now */
-ul.list {
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
+/* Questions card */
+.ask {
+  /* Orange surface: its content stays white in both themes */
+  --ink: 255 255 255;
+  --text: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border-radius: 20px 20px 48px 20px;
+  background: linear-gradient(135deg, #e0582a 0%, #d04a1d 50%, #8f2a0a 100%);
+  box-shadow: 0 14px 30px rgba(208, 74, 29, 0.25);
+  color: #fff;
+}
+
+[dir="rtl"] .ask {
+  border-radius: 20px 20px 20px 48px;
+}
+
+.askTitle {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.askText {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.askActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.askMail,
+.askButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.askMail {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.askButton {
+  background: #fff;
+  color: #15171c;
+}
+
+@media (hover: hover) {
+  .askMail:hover,
+  .askButton:hover {
+    transform: translateY(-2px);
+  }
+
+  .askMail:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.page :focus-visible {
+  outline: 2px solid #f0652f;
+  outline-offset: 3px;
+}
+
+@keyframes lg-float {
+  50% {
+    transform: translateY(-6px) rotate(-1.5deg);
+  }
+}
+
+/* ── Tablet / phone: contents become a collapsible bar above the text ── */
+@media (max-width: 960px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .toc {
+    position: sticky;
+    z-index: 5;
+    display: block;
+    max-height: none;
+    border-radius: 16px;
+    border: 1px solid rgb(var(--ink) / 0.1);
+    background: var(--surface-2);
+    box-shadow: 0 6px 18px rgb(var(--shade) / calc(0.18 * var(--shade-k)));
+  }
+
+  .tocLabel,
+  .tocProgress {
+    display: none;
+  }
+
+  .tocToggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .tocCount {
+    margin-inline-start: auto;
+    color: #e0582a;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tocChevron {
+    transition: transform 0.25s ease;
+  }
+
+  .tocToggle[aria-expanded="true"] .tocChevron {
+    transform: rotate(180deg);
+  }
+
+  .tocList {
+    display: none;
+    max-height: 55vh;
+    padding: 0 8px 10px;
+  }
+
+  .tocOpen {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .emblem {
+    grid-row: 1;
+    width: 96px;
+  }
+
+  .switch {
+    display: flex;
+    width: 100%;
+  }
+
+  .switchItem {
+    flex: 1;
+    padding: 9px 10px;
+    text-align: center;
+  }
+
+  .section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .number {
+    font-size: 1.6rem;
+  }
+
+  .askActions,
+  .askActions > * {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emblem {
+    animation: none;
+  }
+
+  .tocProgress span,
+  .tocChevron,
+  .switchItem,
+  .askMail,
+  .askButton {
+    transition: none;
+  }
 }

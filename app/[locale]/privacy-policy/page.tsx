@@ -12,5 +12,5 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  return <LegalPage doc={await loadLegalDoc("privacy", locale as Locale)} />;
+  return <LegalPage kind="privacy" locale={locale as Locale} doc={await loadLegalDoc("privacy", locale as Locale)} />;
 }
